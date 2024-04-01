@@ -6,12 +6,13 @@ using System.Text;
 namespace Simple.Data.SqlTest
 {
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
     using Resources;
 
     [TestFixture]
     public class DeleteTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             DatabaseHelper.Reset();
@@ -23,7 +24,7 @@ namespace Simple.Data.SqlTest
             var db = DatabaseHelper.Open();
             db.DeleteTest.Insert(Id: 1);
             var count = db.DeleteTest.DeleteById(1);
-            Assert.AreEqual(1, count);
+            ClassicAssert.AreEqual(1, count);
         }
 
         [Test]
@@ -33,7 +34,7 @@ namespace Simple.Data.SqlTest
             db.DeleteTest.Insert(Id: 1);
             db.DeleteTest.Insert(Id: 2);
             var count = db.DeleteTest.DeleteAll();
-            Assert.AreEqual(2, count.ReturnValue);
+            ClassicAssert.AreEqual(2, count.ReturnValue);
         }
 
         [Test]
@@ -44,7 +45,7 @@ namespace Simple.Data.SqlTest
             tx.DeleteTest.Insert(Id: 1);
             var count = tx.DeleteTest.DeleteById(1);
             tx.Commit();
-            Assert.AreEqual(1, count);
+            ClassicAssert.AreEqual(1, count);
         }
 
         [Test]
@@ -56,7 +57,7 @@ namespace Simple.Data.SqlTest
             tx.DeleteTest.Insert(Id: 2);
             var count = tx.DeleteTest.DeleteAll();
             tx.Commit();
-            Assert.AreEqual(2, count.ReturnValue);
+            ClassicAssert.AreEqual(2, count.ReturnValue);
         }
     }
 }

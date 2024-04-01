@@ -1,10 +1,11 @@
 ﻿namespace Simple.Data.InMemoryTest
 {
     using System;
-	using System.Linq;
+    using System.Linq;
     using System.Collections.Generic;
     using System.Threading;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class InMemoryTests
@@ -18,9 +19,9 @@
             var db = Database.Open();
             db.Test.Insert(Id: 1, Name: "Alice");
             var record = db.Test.Get(1);
-            Assert.IsNotNull(record);
-            Assert.AreEqual(1, record.Id);
-            Assert.AreEqual("Alice", record.Name);
+            ClassicAssert.IsNotNull(record);
+            ClassicAssert.AreEqual(1, record.Id);
+            ClassicAssert.AreEqual("Alice", record.Name);
         }
 
         [Test]
@@ -30,9 +31,9 @@
             var db = Database.Open();
             db.Test.Insert(Id: 1, Name: "Alice");
             var record = db.Test.FindById(1);
-            Assert.IsNotNull(record);
-            Assert.AreEqual(1, record.Id);
-            Assert.AreEqual("Alice", record.Name);
+            ClassicAssert.IsNotNull(record);
+            ClassicAssert.AreEqual(1, record.Id);
+            ClassicAssert.AreEqual("Alice", record.Name);
         }
 
         [Test]
@@ -44,9 +45,9 @@
             db.Test.Insert(Id: 2, Name: "Bob");
             List<dynamic> records = db.Test.FindAllById(new[] { 1, 5 }).ToList();
             var record = records.Single();
-            Assert.IsNotNull(record);
-            Assert.AreEqual(1, record.Id);
-            Assert.AreEqual("Alice", record.Name);
+            ClassicAssert.IsNotNull(record);
+            ClassicAssert.AreEqual(1, record.Id);
+            ClassicAssert.AreEqual("Alice", record.Name);
         }
 
         [Test]
@@ -57,8 +58,8 @@
             db.Test.Insert(Id: 1, Name: "Alice");
             db.Test.Insert(Id: 2, Name: "Bob");
             List<dynamic> records = db.Test.FindAllByName(new[] { "Alice", "Bob" }).ToList();
-            Assert.IsNotNull(records);
-            Assert.AreEqual(2, records.Count);
+            ClassicAssert.IsNotNull(records);
+            ClassicAssert.AreEqual(2, records.Count);
         }
 
         [Test]
@@ -68,9 +69,9 @@
             var db = Database.Open();
             db.Test.Insert(Id: 1, Name: "Alice");
             var record = db.Test.FindByIdAndName(1, "Alice");
-            Assert.IsNotNull(record);
-            Assert.AreEqual(1, record.Id);
-            Assert.AreEqual("Alice", record.Name);
+            ClassicAssert.IsNotNull(record);
+            ClassicAssert.AreEqual(1, record.Id);
+            ClassicAssert.AreEqual("Alice", record.Name);
         }
 
         [Test]
@@ -80,9 +81,9 @@
             var db = Database.Open();
             db.Test.Insert(Id: 1, Name: "Alice");
             var record = db.Test.FindBy(Id: 1, Name: "Alice");
-            Assert.IsNotNull(record);
-            Assert.AreEqual(1, record.Id);
-            Assert.AreEqual("Alice", record.Name);
+            ClassicAssert.IsNotNull(record);
+            ClassicAssert.AreEqual(1, record.Id);
+            ClassicAssert.AreEqual("Alice", record.Name);
         }
 
         [Test]
@@ -93,8 +94,8 @@
             db.Test.Insert(Id: 1, Name: "Alice");
             db.Test.Insert(Id: 2, Name: "Bob");
             List<dynamic> records = db.Test.All().ToList();
-            Assert.IsNotNull(records);
-            Assert.AreEqual(2, records.Count);
+            ClassicAssert.IsNotNull(records);
+            ClassicAssert.AreEqual(2, records.Count);
         }
 
         [Test]
@@ -106,8 +107,8 @@
             db.MySchema.Test.Insert(Id: 2, Name: "Bob");
             db.MySchema.Test.Insert(Id: 2, Name: "Clive");
             List<dynamic> records = db.MySchema.Test.FindAll(db.MySchema.Test.Name.Like("A%")).ToList();
-            Assert.IsNotNull(records);
-            Assert.AreEqual(1, records.Count);
+            ClassicAssert.IsNotNull(records);
+            ClassicAssert.AreEqual(1, records.Count);
         }
 
         [Test]
@@ -119,8 +120,8 @@
             db.MySchema.Test.Insert(Id: 2, Name: "Bob");
             db.MySchema.Test.Insert(Id: 2, Name: "Clive");
             List<dynamic> records = db.MySchema.Test.FindAll(db.MySchema.Test.Name.NotLike("A%")).ToList();
-            Assert.IsNotNull(records);
-            Assert.AreEqual(2, records.Count);
+            ClassicAssert.IsNotNull(records);
+            ClassicAssert.AreEqual(2, records.Count);
         }
 
         [Test]
@@ -131,12 +132,12 @@
             db.Test.Insert(Id: 1, Name: "Alice");
             db.Test.Insert(Id: 2, Name: "Bob");
             List<IDictionary<string, object>> records = db.Test.All().Select(db.Test.Name).ToList<IDictionary<string, object>>();
-            Assert.IsNotNull(records);
-            Assert.AreEqual(2, records.Count);
-            Assert.False(records[0].ContainsKey("Id"));
-            Assert.True(records[0].ContainsKey("Name"));
-            Assert.False(records[1].ContainsKey("Id"));
-            Assert.True(records[1].ContainsKey("Name"));
+            ClassicAssert.IsNotNull(records);
+            ClassicAssert.AreEqual(2, records.Count);
+            ClassicAssert.False(records[0].ContainsKey("Id"));
+            ClassicAssert.True(records[0].ContainsKey("Name"));
+            ClassicAssert.False(records[1].ContainsKey("Id"));
+            ClassicAssert.True(records[1].ContainsKey("Name"));
         }
 
         [Test]
@@ -144,9 +145,9 @@
         {
             var db = CreateAggregateTestDb();
             var records = db.Test.All().Select(db.Test.Name, db.Test.Age.Average().As("AverageAge")).ToList();
-            Assert.AreEqual(2, records.Count);
-            Assert.AreEqual(25, records[0].AverageAge);
-            Assert.AreEqual(45, records[1].AverageAge);
+            ClassicAssert.AreEqual(2, records.Count);
+            ClassicAssert.AreEqual(25, records[0].AverageAge);
+            ClassicAssert.AreEqual(45, records[1].AverageAge);
         }
 
         [Test]
@@ -154,9 +155,9 @@
         {
             var db = CreateAggregateTestDb();
             var records = db.Test.All().Select(db.Test.Name, db.Test.Age.Sum().As("SumAge")).ToList();
-            Assert.AreEqual(2, records.Count);
-            Assert.AreEqual(50, records[0].SumAge);
-            Assert.AreEqual(90, records[1].SumAge);
+            ClassicAssert.AreEqual(2, records.Count);
+            ClassicAssert.AreEqual(50, records[0].SumAge);
+            ClassicAssert.AreEqual(90, records[1].SumAge);
         }
 
         [Test]
@@ -164,9 +165,9 @@
         {
             var db = CreateAggregateTestDb();
             var records = db.Test.All().Select(db.Test.Name, db.Test.Age.Min().As("MinAge")).ToList();
-            Assert.AreEqual(2, records.Count);
-            Assert.AreEqual(20, records[0].MinAge);
-            Assert.AreEqual(40, records[1].MinAge);
+            ClassicAssert.AreEqual(2, records.Count);
+            ClassicAssert.AreEqual(20, records[0].MinAge);
+            ClassicAssert.AreEqual(40, records[1].MinAge);
         }
 
         [Test]
@@ -174,9 +175,9 @@
         {
             var db = CreateAggregateTestDb();
             var records = db.Test.All().Select(db.Test.Name, db.Test.Age.Max().As("MaxAge")).ToList();
-            Assert.AreEqual(2, records.Count);
-            Assert.AreEqual(30, records[0].MaxAge);
-            Assert.AreEqual(50, records[1].MaxAge);
+            ClassicAssert.AreEqual(2, records.Count);
+            ClassicAssert.AreEqual(30, records[0].MaxAge);
+            ClassicAssert.AreEqual(50, records[1].MaxAge);
         }
 
         [Test]
@@ -184,8 +185,8 @@
         {
             var db = CreateAggregateTestDb();
             var records = db.Test.All().Select(db.Test.Name).Having(db.Test.Age.Sum() > 50).ToList();
-            Assert.AreEqual(1, records.Count);
-            Assert.AreEqual("Bob", records[0].Name);
+            ClassicAssert.AreEqual(1, records.Count);
+            ClassicAssert.AreEqual("Bob", records[0].Name);
         }
 
         private static dynamic CreateAggregateTestDb()
@@ -206,7 +207,7 @@
             var db = Database.Open();
             db.Test.Insert(Id: 1, Data: new byte[] { 0x1, 0x2, 0x3 });
             var record = db.Test.FindById(1);
-            Assert.AreEqual(0x1, record.Data[0]);
+            ClassicAssert.AreEqual(0x1, record.Data[0]);
         }
 
         [Test]
@@ -216,9 +217,9 @@
             var db = Database.Open();
             db.Test.Insert(Id: 1, Name: "Alice");
             int updated = db.Test.UpdateById(Id: 1, Name: "Allyce");
-            Assert.AreEqual(1, updated);
+            ClassicAssert.AreEqual(1, updated);
             var record = db.Test.FindById(1);
-            Assert.AreEqual("Allyce", record.Name);
+            ClassicAssert.AreEqual("Allyce", record.Name);
         }
 
         [Test]
@@ -231,9 +232,9 @@
             var alice = db.Test.Insert(Id: 1, Name: "Alice");
             var allyce = new { Id = 1, Name = "Allyce" };
             int updated = db.Test.Update(allyce);
-            Assert.AreEqual(1, updated);
+            ClassicAssert.AreEqual(1, updated);
             var record = db.Test.FindById(1);
-            Assert.AreEqual("Allyce", record.Name);
+            ClassicAssert.AreEqual("Allyce", record.Name);
         }
 
         [Test]
@@ -242,11 +243,11 @@
             Database.UseMockAdapter(new InMemoryAdapter());
             var db = Database.Open();
             db.Test.Insert(Id: 1, Name: "Alice");
-            Assert.AreEqual(1, db.Test.All().ToList().Count);
+            ClassicAssert.AreEqual(1, db.Test.All().ToList().Count);
             int deleted = db.Test.DeleteById(1);
-            Assert.AreEqual(1, deleted);
+            ClassicAssert.AreEqual(1, deleted);
             var record = db.Test.FindById(1);
-            Assert.IsNull(record);
+            ClassicAssert.IsNull(record);
         }
 
         [Test]
@@ -260,9 +261,9 @@
             }
 
             var records = db.Test.All().OrderByIdDescending().ToList();
-            Assert.AreEqual(9, records[0].Id);
+            ClassicAssert.AreEqual(9, records[0].Id);
         }
-	
+
         [Test]
         public void TestOrderByThenBy()
         {
@@ -275,12 +276,12 @@
             db.Test.Insert(Id: 1, Company: "A", Name: "Alice");
 
             var records = db.Test.All().OrderByCompany().ThenByName().ToList();
-            Assert.AreEqual("Alice", records[0].Name);
-            Assert.AreEqual("Bob", records[1].Name);
-            Assert.AreEqual("Alfred", records[2].Name);
-            Assert.AreEqual("Steve", records[3].Name);
+            ClassicAssert.AreEqual("Alice", records[0].Name);
+            ClassicAssert.AreEqual("Bob", records[1].Name);
+            ClassicAssert.AreEqual("Alfred", records[2].Name);
+            ClassicAssert.AreEqual("Steve", records[3].Name);
         }
-	
+
         [Test]
         public void TestOrderByMultiple()
         {
@@ -293,12 +294,12 @@
             db.Test.Insert(Id: 1, Company: "A", Name: "Alice");
 
             var records = db.Test.All().OrderBy(db.Test.Company, db.Test.Name).ToList();
-            Assert.AreEqual("Alice", records[0].Name);
-            Assert.AreEqual("Bob", records[1].Name);
-            Assert.AreEqual("Alfred", records[2].Name);
-            Assert.AreEqual("Steve", records[3].Name);
+            ClassicAssert.AreEqual("Alice", records[0].Name);
+            ClassicAssert.AreEqual("Bob", records[1].Name);
+            ClassicAssert.AreEqual("Alfred", records[2].Name);
+            ClassicAssert.AreEqual("Steve", records[3].Name);
         }
-	
+
         [Test]
         public void TestSkip()
         {
@@ -310,7 +311,7 @@
             }
 
             var records = db.Test.All().Skip(5).ToList();
-            Assert.AreEqual(5, records.Count);
+            ClassicAssert.AreEqual(5, records.Count);
         }
 
         [Test]
@@ -324,7 +325,7 @@
             }
 
             var records = db.Test.All().Take(5).ToList();
-            Assert.AreEqual(5, records.Count);
+            ClassicAssert.AreEqual(5, records.Count);
         }
 
         [Test]
@@ -338,8 +339,8 @@
             }
 
             var records = db.Test.All().OrderByIdDescending().Skip(1).Take(1).ToList();
-            Assert.AreEqual(1, records.Count);
-            Assert.AreEqual(8, records[0].Id);
+            ClassicAssert.AreEqual(1, records.Count);
+            ClassicAssert.AreEqual(8, records[0].Id);
         }
 
         [Test]
@@ -355,8 +356,8 @@
             db.Order.Insert(ID: 2, CustomerID: 2, Date: new DateTime(2001, 1, 1));
 
             var customers = db.Customer.FindAll(db.Customer.Orders.Date < new DateTime(1999, 12, 31)).ToList();
-            Assert.IsNotNull(customers);
-            Assert.AreEqual(1, customers.Count);
+            ClassicAssert.IsNotNull(customers);
+            ClassicAssert.AreEqual(1, customers.Count);
         }
 
         [Test]
@@ -372,8 +373,8 @@
             db.Order.Insert(ID: 2, CustomerID: 2, Date: new DateTime(2001, 1, 1));
 
             var customers = db.Customer.FindAll(db.Customer.Order.Date < new DateTime(1999, 12, 31)).ToList();
-            Assert.IsNotNull(customers);
-            Assert.AreEqual(1, customers.Count);
+            ClassicAssert.IsNotNull(customers);
+            ClassicAssert.AreEqual(1, customers.Count);
         }
 
         /// <summary>
@@ -392,8 +393,8 @@
             t1.Join();
             t2.Join();
 
-            Assert.AreEqual(1, r1);
-            Assert.AreEqual(2, r2);
+            ClassicAssert.AreEqual(1, r1);
+            ClassicAssert.AreEqual(2, r2);
         }
 
         [Test]
@@ -410,8 +411,8 @@
             db.Categories.Insert(Id: 2, UserId: 2, Name: "Category 2");
 
             var categories = db.Users.FindAll(db.User.Categories.Name == "Category 1").ToList();
-            Assert.NotNull(categories);
-            Assert.AreEqual(1, categories.Count);
+            ClassicAssert.NotNull(categories);
+            ClassicAssert.AreEqual(1, categories.Count);
         }
 
         [Test]
@@ -428,8 +429,8 @@
             db.Categories.Insert(Id: 2, UserId: 2, CategoryName: "Category 2");
 
             var categories = db.Users.FindAll(db.User.Categories.CategoryName == "Category 1").ToList();
-            Assert.NotNull(categories);
-            Assert.AreEqual(1, categories.Count);
+            ClassicAssert.NotNull(categories);
+            ClassicAssert.AreEqual(1, categories.Count);
         }
 
         [Test]
@@ -446,7 +447,7 @@
             var newId = db.Users.Insert(Name: "Marcus").Id;
 
             // Assert
-            Assert.AreEqual(1, newId);
+            ClassicAssert.AreEqual(1, newId);
         }
 
         [Test]
@@ -464,7 +465,7 @@
             var newId = db.Users.Insert(Name: "Per").Id;
 
             // Assert
-            Assert.AreEqual(2, newId);
+            ClassicAssert.AreEqual(2, newId);
         }
 
         [Test]
@@ -480,7 +481,7 @@
             Database.UseMockAdapter(adapter);
             var db = Database.Open();
             var firstId = db.Users.Insert(Name: "Marcus").Id;
-            Assert.AreEqual(1, firstId);
+            ClassicAssert.AreEqual(1, firstId);
         }
 
         [Test]
@@ -492,7 +493,7 @@
             db.Test.Insert(Id: 2, Name: "Bob");
 
             var count = db.Test.All().Count();
-            Assert.AreEqual(2, count);
+            ClassicAssert.AreEqual(2, count);
         }
 
         [Test]
@@ -503,7 +504,7 @@
             db.Test.Insert(Id: 1, Name: "Alice");
             db.Test.Insert(Id: 2, Name: "Bob");
 
-            Assert.IsTrue(db.Test.All().Exists());
+            ClassicAssert.IsTrue(db.Test.All().Exists());
         }
 
         [Test]
@@ -512,7 +513,7 @@
             Database.UseMockAdapter(new InMemoryAdapter());
             var db = Database.Open();
 
-            Assert.IsFalse(db.Test.All().Exists());
+            ClassicAssert.IsFalse(db.Test.All().Exists());
         }
 
         [Test]
@@ -530,7 +531,7 @@
             var adults = db.Users.GetCount(db.Users.Age >= 18);
 
             // Assert
-            Assert.AreEqual(2, adults);
+            ClassicAssert.AreEqual(2, adults);
         }
 
         [Test]
@@ -545,7 +546,7 @@
             var bobExists = db.Users.ExistsByName("Bob");
 
             // Assert
-            Assert.AreEqual(true, bobExists);
+            ClassicAssert.AreEqual(true, bobExists);
         }
 
         [Test]
@@ -560,9 +561,9 @@
             var bobExists = db.Users.ExistsByName("Bob");
 
             // Assert
-            Assert.AreEqual(false, bobExists);
+            ClassicAssert.AreEqual(false, bobExists);
         }
-        
+
         [Test]
         public void ExistsByNameParameterShouldReturnTrueForExistingData()
         {
@@ -575,7 +576,7 @@
             var bobExists = db.Users.ExistsBy(Name: "Bob");
 
             // Assert
-            Assert.AreEqual(true, bobExists);
+            ClassicAssert.AreEqual(true, bobExists);
         }
 
         [Test]
@@ -590,7 +591,7 @@
             var bobExists = db.Users.ExistsBy(Name: "Bob");
 
             // Assert
-            Assert.AreEqual(false, bobExists);
+            ClassicAssert.AreEqual(false, bobExists);
         }
 
         [Test]
@@ -601,7 +602,7 @@
             var db = Database.Open();
             ErrorCallback callback = (o, e) => true; // Continue processing
             db.Users.Insert(new[] { new { Id = 1, Name = "Alice", Age = 30 }, new { Id = 2, Name = "Bob", Age = 40 } }, callback);
-            Assert.AreEqual(2, db.Users.GetCount());
+            ClassicAssert.AreEqual(2, db.Users.GetCount());
         }
 
         [Test]
@@ -612,7 +613,7 @@
             var db = Database.Open();
             ErrorCallback callback = (o, e) => true; // Continue processing
             db.Users.Insert(new[] { new { Id = 1, Name = "Alice", Age = 30 }, new { Id = 2, Name = "Bob", Age = 40 } });
-            Assert.AreEqual(2, db.Users.GetCount());
+            ClassicAssert.AreEqual(2, db.Users.GetCount());
         }
 
         private static int ThreadTestHelper(int userId)
@@ -642,9 +643,9 @@
                 .Select(db.Orders.Name.As("OrderName"),
                         db.Orders.Customer.Name.As("CustomerName"))
                 .ToList();
-            Assert.IsNotNull(orders);
-            Assert.AreEqual(2, orders.Count());
-            Assert.AreEqual(2, orders.Count(x => x.CustomerName == "ACME"));
+            ClassicAssert.IsNotNull(orders);
+            ClassicAssert.AreEqual(2, orders.Count());
+            ClassicAssert.AreEqual(2, orders.Count(x => x.CustomerName == "ACME"));
         }
 
         [Test]
@@ -658,9 +659,9 @@
             {
                 tx.Test.Insert(Id: 1, Name: "Alice");
                 var record = tx.Test.Get(1);
-                Assert.IsNotNull(record);
-                Assert.AreEqual(1, record.Id);
-                Assert.AreEqual("Alice", record.Name);
+                ClassicAssert.IsNotNull(record);
+                ClassicAssert.AreEqual(1, record.Id);
+                ClassicAssert.AreEqual("Alice", record.Name);
             }
         }
 
@@ -668,12 +669,12 @@
         public void ProcedureShouldWork()
         {
             var adapter = new InMemoryAdapter();
-            adapter.AddFunction("Test", () => new Dictionary<string,object> { { "Foo", "Bar"}});
+            adapter.AddFunction("Test", () => new Dictionary<string, object> { { "Foo", "Bar" } });
             Database.UseMockAdapter(adapter);
             var db = Database.Open();
             foreach (var row in db.Test())
             {
-                Assert.AreEqual("Bar", row.Foo);
+                ClassicAssert.AreEqual("Bar", row.Foo);
             }
         }
 
@@ -681,12 +682,12 @@
         public void ProcedureWithParametersShouldWork()
         {
             var adapter = new InMemoryAdapter();
-            adapter.AddFunction<string,object,IDictionary<string,object>>("Test", (key, value) => new Dictionary<string, object> { { key, value } });
+            adapter.AddFunction<string, object, IDictionary<string, object>>("Test", (key, value) => new Dictionary<string, object> { { key, value } });
             Database.UseMockAdapter(adapter);
             var db = Database.Open();
             foreach (var row in db.Test("Foo", "Bar"))
             {
-                Assert.AreEqual("Bar", row.Foo);
+                ClassicAssert.AreEqual("Bar", row.Foo);
             }
         }
 
@@ -699,7 +700,7 @@
             var db = Database.Open();
             foreach (var row in db.Test())
             {
-                Assert.AreEqual("Bar", row.Foo);
+                ClassicAssert.AreEqual("Bar", row.Foo);
             }
         }
 
@@ -707,12 +708,12 @@
         public void ProcedureWithParametersReturningArrayShouldWork()
         {
             var adapter = new InMemoryAdapter();
-            adapter.AddFunction<string, object, IDictionary<string, object>[]>("Test", (key, value) => new IDictionary<string, object>[] {new Dictionary<string, object> { { key, value } }});
+            adapter.AddFunction<string, object, IDictionary<string, object>[]>("Test", (key, value) => new IDictionary<string, object>[] { new Dictionary<string, object> { { key, value } } });
             Database.UseMockAdapter(adapter);
             var db = Database.Open();
             foreach (var row in db.Test("Foo", "Bar"))
             {
-                Assert.AreEqual("Bar", row.Foo);
+                ClassicAssert.AreEqual("Bar", row.Foo);
             }
         }
 
@@ -742,23 +743,23 @@
             var db = Database.Open();
             db.Test.Upsert(Id: 1, SomeValue: "Testing");
             var record = db.Test.Get(1);
-            Assert.IsNotNull(record);
-            Assert.AreEqual("Testing", record.SomeValue);
+            ClassicAssert.IsNotNull(record);
+            ClassicAssert.AreEqual("Testing", record.SomeValue);
         }
 
         [Test]
         public void UpsertShouldUpdateExistingRecord()
         {
             var adapater = new InMemoryAdapter();
-            adapater.SetKeyColumn("Test","Id");
+            adapater.SetKeyColumn("Test", "Id");
             Database.UseMockAdapter(adapater);
             var db = Database.Open();
             db.Test.Upsert(Id: 1, SomeValue: "Testing");
             db.Test.Upsert(Id: 1, SomeValue: "Updated");
             List<dynamic> allRecords = db.Test.All().ToList();
-            Assert.IsNotNull(allRecords);
-            Assert.AreEqual(1,allRecords.Count);
-            Assert.AreEqual("Updated", allRecords.Single().SomeValue);
+            ClassicAssert.IsNotNull(allRecords);
+            ClassicAssert.AreEqual(1, allRecords.Count);
+            ClassicAssert.AreEqual("Updated", allRecords.Single().SomeValue);
         }
 
         [Test]
@@ -768,7 +769,7 @@
             Database.UseMockAdapter(adapter);
             var db = Database.Open();
             var exception = Assert.Throws<InvalidOperationException>(() => db.Test.Upsert(Id: 1, HasTowel: true));
-            Assert.AreEqual("No key columns defined for table \"Test\"", exception.Message);
+            ClassicAssert.AreEqual("No key columns defined for table \"Test\"", exception.Message);
         }
 
         [Test]
@@ -788,7 +789,7 @@
                         .Cast<dynamic>();
             // Assert
             dynamic detail = list.FirstOrDefault();
-            Assert.NotNull(detail);
+            ClassicAssert.NotNull(detail);
             Assert.That(detail.Id, Is.EqualTo(masterId));
             Assert.That(detail.Box, Is.EqualTo(999));
         }
@@ -816,7 +817,7 @@
                            .Select(db.Doors.Id, db.Events.Name)
                            .ToList();
 
-            Assert.AreEqual(3, actual.Count);
+            ClassicAssert.AreEqual(3, actual.Count);
         }
 
         [Test]
@@ -832,7 +833,7 @@
 
             var rowsUpdated = db.Test.Update(record, record1);
 
-            Assert.AreEqual(0, rowsUpdated);
+            ClassicAssert.AreEqual(0, rowsUpdated);
         }
     }
 }

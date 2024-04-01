@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.UnitTest
 {
@@ -21,7 +22,7 @@ namespace Simple.Data.UnitTest
                     {
                         Assert.Fail("Lists are of different lengths.");
                     }
-                    Assert.AreEqual(e1.Current, e2.Current);
+                    ClassicAssert.AreEqual(e1.Current, e2.Current);
                 }
             }
         }

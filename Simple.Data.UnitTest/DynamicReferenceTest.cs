@@ -1,11 +1,12 @@
 ﻿using Simple.Data;
 using NUnit.Framework;
 using System;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.UnitTest
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for DynamicTableOrColumnTest and is intended
     ///to contain all DynamicTableOrColumnTest Unit Tests
@@ -23,8 +24,8 @@ namespace Simple.Data.UnitTest
             ObjectReference column = table.Column;
 
             // Assert
-            Assert.AreEqual("Column", column.GetName());
-            Assert.AreEqual("Table", column.GetOwner().GetName());
+            ClassicAssert.AreEqual("Column", column.GetName());
+            ClassicAssert.AreEqual("Table", column.GetOwner().GetName());
         }
 
         [Test]
@@ -37,9 +38,9 @@ namespace Simple.Data.UnitTest
             ObjectReference column = table.Table2.Column;
 
             // Assert
-            Assert.AreEqual("Column", column.GetName());
-            Assert.AreEqual("Table2", column.GetOwner().GetName());
-            Assert.AreEqual("Table1", column.GetOwner().GetOwner().GetName());
+            ClassicAssert.AreEqual("Column", column.GetName());
+            ClassicAssert.AreEqual("Table2", column.GetOwner().GetName());
+            ClassicAssert.AreEqual("Table1", column.GetOwner().GetOwner().GetName());
         }
 
         /// <summary>
@@ -56,9 +57,9 @@ namespace Simple.Data.UnitTest
             string[] names = column.GetAllObjectNames();
 
             // Assert
-            Assert.AreEqual("One", names[0]);
-            Assert.AreEqual("Two", names[1]);
-            Assert.AreEqual("Column", names[2]);
+            ClassicAssert.AreEqual("One", names[0]);
+            ClassicAssert.AreEqual("Two", names[1]);
+            ClassicAssert.AreEqual("Column", names[2]);
         }
 
         [Test]
@@ -68,17 +69,17 @@ namespace Simple.Data.UnitTest
             var actual = ObjectReference.FromString("One.Two.Three");
 
             // Assert
-            Assert.AreEqual("Three", actual.GetName());
-            Assert.AreEqual("Two", actual.GetOwner().GetName());
-            Assert.AreEqual("One", actual.GetOwner().GetOwner().GetName());
-            Assert.IsNull(actual.GetOwner().GetOwner().GetOwner());
+            ClassicAssert.AreEqual("Three", actual.GetName());
+            ClassicAssert.AreEqual("Two", actual.GetOwner().GetName());
+            ClassicAssert.AreEqual("One", actual.GetOwner().GetOwner().GetName());
+            ClassicAssert.IsNull(actual.GetOwner().GetOwner().GetOwner());
         }
 
         private static void DoAsserts<T>(SimpleExpression expression, ObjectReference column, T rightOperand, SimpleExpressionType expressionType)
         {
-            Assert.AreEqual(column, expression.LeftOperand);
-            Assert.AreEqual(rightOperand, expression.RightOperand);
-            Assert.AreEqual(expressionType, expression.Type);
+            ClassicAssert.AreEqual(column, expression.LeftOperand);
+            ClassicAssert.AreEqual(rightOperand, expression.RightOperand);
+            ClassicAssert.AreEqual(expressionType, expression.Type);
         }
 
         [Test]

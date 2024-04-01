@@ -4,13 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.SqlTest
 {
     [TestFixture]
     public class OrderDetailTests
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             DatabaseHelper.Reset();
@@ -20,28 +21,28 @@ namespace Simple.Data.SqlTest
         public void TestOrderDetail()
         {
             var db = DatabaseHelper.Open();
-            var order = db.Orders.FindByOrderDate(new DateTime(2010,10,10));
-            Assert.IsNotNull(order);
+            var order = db.Orders.FindByOrderDate(new DateTime(2010, 10, 10));
+            ClassicAssert.IsNotNull(order);
 
             var orderItem = order.OrderItems.FirstOrDefault();
             var item = orderItem.Item;
-            Assert.IsNotNull(item);
-            Assert.AreEqual("Widget", item.Name);
+            ClassicAssert.IsNotNull(item);
+            ClassicAssert.AreEqual("Widget", item.Name);
         }
-        
+
         [Test]
         public void TestOrderDetailFromList()
         {
             var db = DatabaseHelper.Open();
-            var orders = db.Orders.FindAllByOrderDate(new DateTime(2010,10,10));
-            Assert.IsNotNull(orders);
+            var orders = db.Orders.FindAllByOrderDate(new DateTime(2010, 10, 10));
+            ClassicAssert.IsNotNull(orders);
 
             foreach (var order in orders)
             {
                 var orderItem = order.OrderItems.FirstOrDefault();
                 var item = orderItem.Item;
-                Assert.IsNotNull(item);
-                Assert.AreEqual("Widget", item.Name);
+                ClassicAssert.IsNotNull(item);
+                ClassicAssert.AreEqual("Widget", item.Name);
             }
         }
 
@@ -53,11 +54,11 @@ namespace Simple.Data.SqlTest
             Customer customer = row;
             customer.Orders.AddRange(row.Orders.Cast<Order>());
 
-            Assert.AreEqual("Test", customer.Name);
-            Assert.AreEqual(1, customer.Orders.Count);
-            Assert.AreEqual(1, customer.Orders.First().OrderId);
-            Assert.AreEqual(1, customer.Orders.First().CustomerId);
-            Assert.AreEqual(new DateTime(2010, 10, 10), customer.Orders.First().OrderDate);
+            ClassicAssert.AreEqual("Test", customer.Name);
+            ClassicAssert.AreEqual(1, customer.Orders.Count);
+            ClassicAssert.AreEqual(1, customer.Orders.First().OrderId);
+            ClassicAssert.AreEqual(1, customer.Orders.First().CustomerId);
+            ClassicAssert.AreEqual(new DateTime(2010, 10, 10), customer.Orders.First().OrderDate);
         }
     }
 

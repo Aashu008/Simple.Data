@@ -4,13 +4,14 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.SqlTest
 {
     [TestFixture]
     public class ConversionTests
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             DatabaseHelper.Reset();
@@ -22,7 +23,7 @@ namespace Simple.Data.SqlTest
             var weirdValue = new WeirdType(1);
             var db = DatabaseHelper.Open();
             var user = db.Users.FindById(weirdValue);
-            Assert.AreEqual(1, user.Id);
+            ClassicAssert.AreEqual(1, user.Id);
         }
 
         [Test]
@@ -31,8 +32,8 @@ namespace Simple.Data.SqlTest
             var weirdValue = new WeirdType(1);
             var db = DatabaseHelper.Open();
             var user = db.Users.QueryById(weirdValue).FirstOrDefault();
-            Assert.IsNotNull(user);
-            Assert.AreEqual(1, user.Id);
+            ClassicAssert.IsNotNull(user);
+            ClassicAssert.AreEqual(1, user.Id);
         }
 
         [Test]
@@ -46,10 +47,10 @@ namespace Simple.Data.SqlTest
 
             var db = DatabaseHelper.Open();
             var user = db.Users.Insert(expando);
-            Assert.IsInstanceOf<int>(user.Id);
-            Assert.AreEqual("Oddball", user.Name);
-            Assert.AreEqual("Fish", user.Password);
-            Assert.AreEqual(3, user.Age);
+            ClassicAssert.IsInstanceOf<int>(user.Id);
+            ClassicAssert.AreEqual("Oddball", user.Name);
+            ClassicAssert.AreEqual("Fish", user.Password);
+            ClassicAssert.AreEqual(3, user.Age);
         }
     }
 

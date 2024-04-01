@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class AdapterFactoryTest
@@ -12,18 +13,17 @@
             return new CachingAdapterFactory(new StubComposer());
         }
 
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void CreateWithAnonymousObjectWithoutConnectionStringThrowsArgumentException()
+        [TestCase(typeof(ArgumentException))]
+        public void CreateWithAnonymousObjectWithoutConnectionStringThrowsArgumentException(Type expectedException)
         {
-            CreateTarget().Create(new { X = "" });
+            Assert.Throws(expectedException, () => CreateTarget().Create(new { X = "" }));
         }
 
         [Test]
         public void CreateWithName()
         {
             var actual = CreateTarget().Create("Stub", null);
-            Assert.IsNotNull(actual);
+            ClassicAssert.IsNotNull(actual);
         }
     }
 
@@ -31,7 +31,7 @@
     {
         public override T Compose<T>()
         {
-            return (T) Create();
+            return (T)Create();
         }
 
         public override T Compose<T>(string contractName)

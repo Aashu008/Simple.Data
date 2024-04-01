@@ -4,6 +4,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class ConcreteCollectionTypeCreatorTest
@@ -18,15 +19,15 @@
         public void ListTest()
         {
             object result;
-            ConcreteCollectionTypeCreator.TryCreate(typeof (List<string>), Items(), out result);
-            Assert.IsNotNull(result);
+            ConcreteCollectionTypeCreator.TryCreate(typeof(List<string>), Items(), out result);
+            ClassicAssert.IsNotNull(result);
 
             var list = result as List<string>;
 
-            Assert.IsNotNull(list);
-            Assert.AreEqual(2, list.Count);
-            Assert.IsTrue(list.Contains("Foo"));
-            Assert.IsTrue(list.Contains("Bar"));
+            ClassicAssert.IsNotNull(list);
+            ClassicAssert.AreEqual(2, list.Count);
+            ClassicAssert.IsTrue(list.Contains("Foo"));
+            ClassicAssert.IsTrue(list.Contains("Bar"));
         }
 
         [Test]
@@ -34,14 +35,14 @@
         {
             object result;
             ConcreteCollectionTypeCreator.TryCreate(typeof(HashSet<string>), Items(), out result);
-            Assert.IsNotNull(result);
+            ClassicAssert.IsNotNull(result);
 
             var @set = result as HashSet<string>;
 
-            Assert.IsNotNull(@set);
-            Assert.AreEqual(2, @set.Count);
-            Assert.IsTrue(@set.Contains("Foo"));
-            Assert.IsTrue(@set.Contains("Bar"));
+            ClassicAssert.IsNotNull(@set);
+            ClassicAssert.AreEqual(2, @set.Count);
+            ClassicAssert.IsTrue(@set.Contains("Foo"));
+            ClassicAssert.IsTrue(@set.Contains("Bar"));
         }
 
         [Test]
@@ -49,14 +50,14 @@
         {
             object result;
             ConcreteCollectionTypeCreator.TryCreate(typeof(ArrayList), Items(), out result);
-            Assert.IsNotNull(result);
+            ClassicAssert.IsNotNull(result);
 
             var list = result as ArrayList;
 
-            Assert.IsNotNull(list);
-            Assert.AreEqual(2, list.Count);
-            Assert.IsTrue(list.Contains("Foo"));
-            Assert.IsTrue(list.Contains("Bar"));
+            ClassicAssert.IsNotNull(list);
+            ClassicAssert.AreEqual(2, list.Count);
+            ClassicAssert.IsTrue(list.Contains("Foo"));
+            ClassicAssert.IsTrue(list.Contains("Bar"));
         }
 
         [Test]
@@ -64,8 +65,8 @@
         {
             var testCreator = new TestCreator();
             object result;
-            Assert.IsTrue(testCreator.TestTryConvertElement(typeof(TestEnum), "Value", out result));
-            Assert.AreEqual(TestEnum.Value, result);
+            ClassicAssert.IsTrue(testCreator.TestTryConvertElement(typeof(TestEnum), "Value", out result));
+            ClassicAssert.AreEqual(TestEnum.Value, result);
         }
 
         [Test]
@@ -73,8 +74,8 @@
         {
             var testCreator = new TestCreator();
             object result;
-            Assert.IsTrue(testCreator.TestTryConvertElement(typeof(TestEnum), 1, out result));
-            Assert.AreEqual(TestEnum.Value, result);
+            ClassicAssert.IsTrue(testCreator.TestTryConvertElement(typeof(TestEnum), 1, out result));
+            ClassicAssert.AreEqual(TestEnum.Value, result);
         }
 
         [Test]
@@ -82,8 +83,8 @@
         {
             var testCreator = new TestCreator();
             object result;
-            Assert.IsTrue(testCreator.TestTryConvertElement(typeof(int?), 1, out result));
-            Assert.AreEqual(1, result);
+            ClassicAssert.IsTrue(testCreator.TestTryConvertElement(typeof(int?), 1, out result));
+            ClassicAssert.AreEqual(1, result);
         }
 
         enum TestEnum
@@ -97,7 +98,7 @@
     {
         public override bool IsCollectionType(Type type)
         {
-            return typeof (ICollection).IsAssignableFrom(type);
+            return typeof(ICollection).IsAssignableFrom(type);
         }
 
         public override bool TryCreate(Type type, IEnumerable items, out object result)

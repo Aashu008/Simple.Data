@@ -6,6 +6,7 @@ using System.Text;
 namespace Simple.Data.InMemoryTest
 {
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     class NameResolutionTest
@@ -21,10 +22,10 @@ namespace Simple.Data.InMemoryTest
             db.CUSTOMER.Insert(ID: 1, NAME: "ACME");
 
             var actual = db.Customers.FindById(1);
-            Assert.IsNotNull(actual);
-            Assert.AreEqual("ACME", actual.Name);
+            ClassicAssert.IsNotNull(actual);
+            ClassicAssert.AreEqual("ACME", actual.Name);
         }
-        
+
         [Test]
         public void UpdateTableNameResolvesCorrectlyWithHomogenisedStringComparer()
         {
@@ -37,9 +38,9 @@ namespace Simple.Data.InMemoryTest
 
             db.Customers.UpdateById(Id: 1, Name: "ACME Inc.");
             var actual = db.Customers.FindById(1);
-            Assert.IsNotNull(actual);
-            Assert.AreEqual("ACME Inc.", actual.Name);
-        }        
+            ClassicAssert.IsNotNull(actual);
+            ClassicAssert.AreEqual("ACME Inc.", actual.Name);
+        }
 
         [Test]
         public void DeleteTableNameResolvesCorrectlyWithHomogenisedStringComparer()
@@ -52,11 +53,11 @@ namespace Simple.Data.InMemoryTest
             db.CUSTOMER.Insert(ID: 1, NAME: "ACME");
 
             var actual = db.Customers.FindById(1);
-            Assert.IsNotNull(actual);
+            ClassicAssert.IsNotNull(actual);
 
             db.Customers.DeleteById(1);
             actual = db.Customers.FindById(1);
-            Assert.IsNull(actual);
+            ClassicAssert.IsNull(actual);
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Simple.Data.SqlCe40;
 using System.Linq;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.SqlCe40Test
 {
@@ -19,7 +20,7 @@ namespace Simple.Data.SqlCe40Test
             var pagedSql = new SqlCe40QueryPager().ApplyLimit(sql, 5);
             var modified = pagedSql.Select(x => Normalize.Replace(x, " ").ToLowerInvariant());
 
-            Assert.IsTrue(expected.SequenceEqual(modified));
+            ClassicAssert.IsTrue(expected.SequenceEqual(modified));
         }
 
         [Test]
@@ -31,7 +32,7 @@ namespace Simple.Data.SqlCe40Test
             var pagedSql = new SqlCe40QueryPager().ApplyLimit(sql, 5);
             var modified = pagedSql.Select(x => Normalize.Replace(x, " ").ToLowerInvariant());
 
-            Assert.IsTrue(expected.SequenceEqual(modified));
+            ClassicAssert.IsTrue(expected.SequenceEqual(modified));
         }
 
         [Test]
@@ -42,9 +43,9 @@ namespace Simple.Data.SqlCe40Test
                 "select a,b,c from d where a = 1 order by c offset 5 rows fetch next 10 rows only"};
 
             var pagedSql = new SqlCe40QueryPager().ApplyPaging(sql, new string[0], 5, 10);
-            var modified = pagedSql.Select(x=> Normalize.Replace(x, " ").ToLowerInvariant());
+            var modified = pagedSql.Select(x => Normalize.Replace(x, " ").ToLowerInvariant());
 
-            Assert.IsTrue(expected.SequenceEqual(modified));
+            ClassicAssert.IsTrue(expected.SequenceEqual(modified));
         }
 
         [Test]
@@ -57,7 +58,7 @@ namespace Simple.Data.SqlCe40Test
             var pagedSql = new SqlCe40QueryPager().ApplyPaging(sql, new string[0], 10, 20);
             var modified = pagedSql.Select(x => Normalize.Replace(x, " ").ToLowerInvariant());
 
-            Assert.IsTrue(expected.SequenceEqual(modified));
+            ClassicAssert.IsTrue(expected.SequenceEqual(modified));
         }
     }
 }

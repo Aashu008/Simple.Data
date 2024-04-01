@@ -3,6 +3,7 @@ namespace Simple.Data.SqlCe40Test
     using System;
     using System.Linq;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
     using Simple.Data.SqlCe40;
 
     [TestFixture]
@@ -17,7 +18,7 @@ namespace Simple.Data.SqlCe40Test
         [Test]
         public void ProceduresIsEmpty()
         {
-            Assert.AreEqual(0, new SqlCe40SchemaProvider(new SqlCe40ConnectionProvider()).GetStoredProcedures().Count());
+            ClassicAssert.AreEqual(0, new SqlCe40SchemaProvider(new SqlCe40ConnectionProvider()).GetStoredProcedures().Count());
         }
     }
 }

@@ -5,11 +5,12 @@ namespace Simple.Data.UnitTest
     using System.Globalization;
     using Extensions;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class PluralizationTest
     {
-        [TestFixtureSetUp]
+        [SetUp]
         public void FixtureSetup()
         {
             Database.SetPluralizer(new EntityPluralizer());
@@ -21,7 +22,7 @@ namespace Simple.Data.UnitTest
         [Test]
         public void IsPluralLowercaseUsersShouldReturnTrue()
         {
-            Assert.IsTrue("Users".IsPlural());
+            ClassicAssert.IsTrue("Users".IsPlural());
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace Simple.Data.UnitTest
         [Test]
         public void IsPluralUppercaseUsersShouldReturnTrue()
         {
-            Assert.IsTrue("USERS".IsPlural());
+            ClassicAssert.IsTrue("USERS".IsPlural());
         }
 
         /// <summary>
@@ -39,7 +40,7 @@ namespace Simple.Data.UnitTest
         [Test]
         public void IsPluralLowercaseUserShouldReturnFalse()
         {
-            Assert.IsFalse("User".IsPlural());
+            ClassicAssert.IsFalse("User".IsPlural());
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace Simple.Data.UnitTest
         [Test]
         public void IsPluralUppercaseUserShouldReturnFalse()
         {
-            Assert.IsFalse("USER".IsPlural());
+            ClassicAssert.IsFalse("USER".IsPlural());
         }
 
         /// <summary>
@@ -57,7 +58,7 @@ namespace Simple.Data.UnitTest
         [Test()]
         public void PluralizeUserShouldReturnUsers()
         {
-            Assert.AreEqual("Users", "User".Pluralize());
+            ClassicAssert.AreEqual("Users", "User".Pluralize());
         }
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace Simple.Data.UnitTest
         public void PluralizeUSERShouldReturnUSERS()
         // ReSharper restore InconsistentNaming
         {
-            Assert.AreEqual("USERS", "USER".Pluralize());
+            ClassicAssert.AreEqual("USERS", "USER".Pluralize());
         }
 
         /// <summary>
@@ -77,7 +78,7 @@ namespace Simple.Data.UnitTest
         [Test()]
         public void SingularizeUsersShouldReturnUser()
         {
-            Assert.AreEqual("User", "Users".Singularize());
+            ClassicAssert.AreEqual("User", "Users".Singularize());
         }
 
         /// <summary>
@@ -86,7 +87,7 @@ namespace Simple.Data.UnitTest
         [Test()]
         public void SingularizeUserShouldReturnUser()
         {
-            Assert.AreEqual("User", "User".Singularize());
+            ClassicAssert.AreEqual("User", "User".Singularize());
         }
 
         /// <summary>
@@ -97,19 +98,19 @@ namespace Simple.Data.UnitTest
         public void SingularizeUSERSShouldReturnUSER()
         // ReSharper restore InconsistentNaming
         {
-            Assert.AreEqual("USER", "USERS".Singularize());
+            ClassicAssert.AreEqual("USER", "USERS".Singularize());
         }
 
         [Test]
         public void PluralizeCompanyShouldReturnCompanies()
         {
-            Assert.AreEqual("Companies", "Company".Pluralize());
+            ClassicAssert.AreEqual("Companies", "Company".Pluralize());
         }
 
         [Test]
         public void SingularizeCompaniesShouldReturnCompany()
         {
-            Assert.AreEqual("Company", "Companies".Singularize());
+            ClassicAssert.AreEqual("Company", "Companies".Singularize());
         }
     }
 

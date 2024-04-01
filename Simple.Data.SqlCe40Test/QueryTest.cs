@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.SqlCe40Test
 {
@@ -19,7 +20,7 @@ namespace Simple.Data.SqlCe40Test
             int index = 1;
             foreach (var row in query)
             {
-                Assert.AreEqual(index, row.Id);
+                ClassicAssert.AreEqual(index, row.Id);
                 index++;
             }
         }
@@ -33,11 +34,11 @@ namespace Simple.Data.SqlCe40Test
             int index = 1;
             foreach (var row in query)
             {
-                Assert.AreEqual(index, row.Id);
+                ClassicAssert.AreEqual(index, row.Id);
                 index++;
             }
-            Assert.IsTrue(count.HasValue);
-            Assert.AreEqual(100, count.Value);
+            ClassicAssert.IsTrue(count.HasValue);
+            ClassicAssert.AreEqual(100, count.Value);
         }
 
         [Test]
@@ -48,7 +49,7 @@ namespace Simple.Data.SqlCe40Test
             int index = 11;
             foreach (var row in query)
             {
-                Assert.AreEqual(index, row.Id);
+                ClassicAssert.AreEqual(index, row.Id);
                 index++;
             }
         }
@@ -61,7 +62,7 @@ namespace Simple.Data.SqlCe40Test
             int index = 100;
             foreach (var row in query)
             {
-                Assert.AreEqual(index, row.Id);
+                ClassicAssert.AreEqual(index, row.Id);
                 index--;
             }
         }

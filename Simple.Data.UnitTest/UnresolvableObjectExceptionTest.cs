@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Data.SqlClient;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     public class UnresolvableObjectExceptionTest
     {
@@ -11,23 +12,23 @@
         public void EmptyConstructor()
         {
             var actual = new UnresolvableObjectException();
-            Assert.IsNotNull(actual);
-            Assert.IsNullOrEmpty(actual.ObjectName);
+            ClassicAssert.IsNotNull(actual);
+            Assert.That(actual.ObjectName, Is.Null.Or.Empty);
         }
 
         [Test]
         public void SingleStringSetsObjectName()
         {
             var actual = new UnresolvableObjectException("Foo");
-            Assert.AreEqual("Foo", actual.ObjectName);
+            Assert.That("Foo", Is.EqualTo(actual.ObjectName));
         }
 
         [Test]
         public void TwoStringsSetsObjectNameAndMessage()
         {
             var actual = new UnresolvableObjectException("Foo", "Bar");
-            Assert.AreEqual("Foo", actual.ObjectName);
-            Assert.AreEqual("Bar", actual.Message);
+            Assert.That("Foo", Is.EqualTo(actual.ObjectName));
+            Assert.That("Bar", Is.EqualTo(actual.Message));
         }
 
         [Test]
@@ -35,9 +36,9 @@
         {
             var inner = new Exception();
             var actual = new UnresolvableObjectException("Foo", "Bar", inner);
-            Assert.AreEqual("Foo", actual.ObjectName);
-            Assert.AreEqual("Bar", actual.Message);
-            Assert.AreSame(inner, actual.InnerException);
+            Assert.That("Foo", Is.EqualTo(actual.ObjectName));
+            Assert.That("Bar", Is.EqualTo(actual.Message));
+            ClassicAssert.AreSame(inner, actual.InnerException);
         }
     }
 }

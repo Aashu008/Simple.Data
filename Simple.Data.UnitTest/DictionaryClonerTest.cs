@@ -2,6 +2,7 @@ namespace Simple.Data.UnitTest
 {
     using System.Collections.Generic;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class DictionaryClonerTest
@@ -13,8 +14,8 @@ namespace Simple.Data.UnitTest
 
             var original = new SortedDictionary<string, object>();
             var clone = target.CloneDictionary(original);
-            Assert.AreNotSame(original, clone);
-            Assert.IsInstanceOf<SortedDictionary<string,object>>(clone);
+            ClassicAssert.AreNotSame(original, clone);
+            ClassicAssert.IsInstanceOf<SortedDictionary<string, object>>(clone);
         }
 
         [Test]
@@ -26,12 +27,12 @@ namespace Simple.Data.UnitTest
 
             var clone = target.CloneDictionary(original);
 
-            Assert.IsTrue(clone.ContainsKey("Nested"));
+            ClassicAssert.IsTrue(clone.ContainsKey("Nested"));
             var nestedClone = clone["Nested"] as Dictionary<string, object>;
-            Assert.IsNotNull(nestedClone);
-            Assert.AreNotSame(nested, nestedClone);
-            Assert.IsTrue(nestedClone.ContainsKey("Answer"));
-            Assert.AreEqual(42, nestedClone["Answer"]);
+            ClassicAssert.IsNotNull(nestedClone);
+            ClassicAssert.AreNotSame(nested, nestedClone);
+            ClassicAssert.IsTrue(nestedClone.ContainsKey("Answer"));
+            ClassicAssert.AreEqual(42, nestedClone["Answer"]);
         }
 
         [Test]
@@ -43,12 +44,12 @@ namespace Simple.Data.UnitTest
 
             var clone = target.CloneDictionary(original);
 
-            Assert.IsTrue(clone.ContainsKey("Nested"));
+            ClassicAssert.IsTrue(clone.ContainsKey("Nested"));
             var nestedClone = clone["Nested"] as List<Dictionary<string, object>>;
-            Assert.IsNotNull(nestedClone);
-            Assert.AreNotSame(nested, nestedClone);
-            Assert.IsTrue(nestedClone.Count == 1);
-            Assert.AreEqual(42, nestedClone[0]["Answer"]);
+            ClassicAssert.IsNotNull(nestedClone);
+            ClassicAssert.AreNotSame(nested, nestedClone);
+            ClassicAssert.IsTrue(nestedClone.Count == 1);
+            ClassicAssert.AreEqual(42, nestedClone[0]["Answer"]);
         }
     }
 }

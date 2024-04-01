@@ -2,11 +2,12 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.UnitTest
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for DynamicRecordTest and is intended
     ///to contain all DynamicRecordTest Unit Tests
@@ -26,8 +27,8 @@ namespace Simple.Data.UnitTest
                                                        { "Age", 42 }
                                                    };
             dynamic target = new SimpleRecord(data);
-            Assert.AreEqual("Bob", target.Name);
-            Assert.AreEqual(42, target.Age);
+            ClassicAssert.AreEqual("Bob", target.Name);
+            ClassicAssert.AreEqual(42, target.Age);
         }
 
         /// <summary>
@@ -38,7 +39,7 @@ namespace Simple.Data.UnitTest
         {
             dynamic target = new SimpleRecord();
             target.Name = "Bob";
-            Assert.AreEqual("Bob", target.Name);
+            ClassicAssert.AreEqual("Bob", target.Name);
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace Simple.Data.UnitTest
         {
             dynamic target = new SimpleRecord();
             target.Name = "Bob";
-            Assert.AreEqual("Bob", target["Name"]);
+            ClassicAssert.AreEqual("Bob", target["Name"]);
         }
 
         [Test]
@@ -60,8 +61,8 @@ namespace Simple.Data.UnitTest
             target.Age = 42;
 
             User user = target;
-            Assert.AreEqual("Bob", user.Name);
-            Assert.AreEqual(42, user.Age);
+            ClassicAssert.AreEqual("Bob", user.Name);
+            ClassicAssert.AreEqual(42, user.Age);
         }
 
         [Test]
@@ -73,7 +74,7 @@ namespace Simple.Data.UnitTest
 
             User user1 = target;
             User user2 = target;
-            Assert.AreSame(user1, user2);
+            ClassicAssert.AreSame(user1, user2);
         }
 
         internal class User

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.SqlCe40Test
 {
@@ -14,7 +15,7 @@ namespace Simple.Data.SqlCe40Test
         private static readonly string DatabasePath = Path.Combine(
                     Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase.Substring(8)),
                     "Northwind.sdf");
-        
+
         [Test]
         public void LikeQueryShouldRunAfterAnotherQuery()
         {
@@ -42,7 +43,7 @@ namespace Simple.Data.SqlCe40Test
                 .Distinct()
                 .ToScalarList<string>();
 
-            Assert.AreEqual(countries.Distinct().Count(), countries.Count);
+            ClassicAssert.AreEqual(countries.Distinct().Count(), countries.Count);
         }
 
         [Test]

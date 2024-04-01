@@ -3,12 +3,13 @@ using NUnit.Framework;
 
 namespace Simple.Data.SqlTest
 {
+    using NUnit.Framework.Legacy;
     using System.Data;
 
     [TestFixture]
     public class ProcedureTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             DatabaseHelper.Reset();
@@ -20,7 +21,7 @@ namespace Simple.Data.SqlTest
             var db = DatabaseHelper.Open();
             var results = db.GetCustomers();
             var actual = results.First();
-            Assert.AreEqual(1, actual.CustomerId);
+            ClassicAssert.AreEqual(1, actual.CustomerId);
         }
 
         [Test]
@@ -28,7 +29,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var results = db.GetCustomerCount();
-            Assert.AreEqual(1, results.ReturnValue);
+            ClassicAssert.AreEqual(1, results.ReturnValue);
         }
 
         [Test]
@@ -37,7 +38,7 @@ namespace Simple.Data.SqlTest
             var db = DatabaseHelper.Open();
             var getCustomerCount = db.GetCustomerCount;
             var results = getCustomerCount();
-            Assert.AreEqual(1, results.ReturnValue);
+            ClassicAssert.AreEqual(1, results.ReturnValue);
         }
 
         [Test]
@@ -46,7 +47,7 @@ namespace Simple.Data.SqlTest
             var db = DatabaseHelper.Open();
             var getCustomerCount = db["GetCustomerCount"];
             var results = getCustomerCount();
-            Assert.AreEqual(1, results.ReturnValue);
+            ClassicAssert.AreEqual(1, results.ReturnValue);
         }
 
         [Test]
@@ -54,8 +55,8 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var actual = db.SchemaProc().FirstOrDefault();
-            Assert.IsNotNull(actual);
-            Assert.AreEqual("dbo.SchemaProc", actual.Actual);
+            ClassicAssert.IsNotNull(actual);
+            ClassicAssert.AreEqual("dbo.SchemaProc", actual.Actual);
         }
 
         [Test]
@@ -63,8 +64,8 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var actual = db.test.SchemaProc().FirstOrDefault();
-            Assert.IsNotNull(actual);
-            Assert.AreEqual("test.SchemaProc", actual.Actual);
+            ClassicAssert.IsNotNull(actual);
+            ClassicAssert.AreEqual("test.SchemaProc", actual.Actual);
         }
 
         [Test]
@@ -72,7 +73,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var actual = db.GetCustomerCountAsOutput();
-            Assert.AreEqual(42, actual.OutputValues["Count"]);
+            ClassicAssert.AreEqual(42, actual.OutputValues["Count"]);
         }
 
 #if DEBUG // Trace is only written for DEBUG build
@@ -84,9 +85,9 @@ namespace Simple.Data.SqlTest
             SimpleDataTraceSources.TraceSource.Listeners.Add(listener);
             var db = DatabaseHelper.Open();
             db.GetCustomerCount();
-            Assert.IsFalse(listener.Output.Contains("ExecuteNonQuery"));
+            ClassicAssert.IsFalse(listener.Output.Contains("ExecuteNonQuery"));
             db.GetCustomerCount();
-            Assert.IsTrue(listener.Output.Contains("ExecuteNonQuery"));
+            ClassicAssert.IsTrue(listener.Output.Contains("ExecuteNonQuery"));
             SimpleDataTraceSources.TraceSource.Listeners.Remove(listener);
         }
 #endif
@@ -97,49 +98,49 @@ namespace Simple.Data.SqlTest
             var db = DatabaseHelper.Open();
             var results = db.GetCustomerAndOrders(1);
             var customer = results.FirstOrDefault();
-            Assert.IsNotNull(customer);
-            Assert.AreEqual(1, customer.CustomerId);
-            Assert.IsTrue(results.NextResult());
+            ClassicAssert.IsNotNull(customer);
+            ClassicAssert.AreEqual(1, customer.CustomerId);
+            ClassicAssert.IsTrue(results.NextResult());
             var order = results.FirstOrDefault();
-            Assert.IsNotNull(order);
-            Assert.AreEqual(1, order.OrderId);
+            ClassicAssert.IsNotNull(order);
+            ClassicAssert.AreEqual(1, order.OrderId);
         }
 
-		[Test]
-		public void AddCustomerTest()
-		{
-			var db = DatabaseHelper.Open();
-			Customer customer;
-			customer = db.AddCustomer("Peter", "Address").FirstOrDefault();
-			Assert.IsNotNull(customer);
-			customer = db.Customers.FindByCustomerId(customer.CustomerId);
-			Assert.IsNotNull(customer);
-		}
+        [Test]
+        public void AddCustomerTest()
+        {
+            var db = DatabaseHelper.Open();
+            Customer customer;
+            customer = db.AddCustomer("Peter", "Address").FirstOrDefault();
+            ClassicAssert.IsNotNull(customer);
+            customer = db.Customers.FindByCustomerId(customer.CustomerId);
+            ClassicAssert.IsNotNull(customer);
+        }
 
-		[Test]
-		public void AddCustomerNullAddressTest()
-		{
-			var db = DatabaseHelper.Open();
-			Customer customer;
-			customer = db.AddCustomer("Peter", null).FirstOrDefault();
-			Assert.IsNotNull(customer);
-			customer = db.Customers.FindByCustomerId(customer.CustomerId);
-			Assert.IsNotNull(customer);
-		}
+        [Test]
+        public void AddCustomerNullAddressTest()
+        {
+            var db = DatabaseHelper.Open();
+            Customer customer;
+            customer = db.AddCustomer("Peter", null).FirstOrDefault();
+            ClassicAssert.IsNotNull(customer);
+            customer = db.Customers.FindByCustomerId(customer.CustomerId);
+            ClassicAssert.IsNotNull(customer);
+        }
 
-		[Test]
+        [Test]
         public void GetCustomerAndOrdersStillWorksAfterZeroRecordCallTest()
         {
             var db = DatabaseHelper.Open();
             db.GetCustomerAndOrders(1000);
             var results = db.GetCustomerAndOrders(1);
             var customer = results.FirstOrDefault();
-            Assert.IsNotNull(customer);
-            Assert.AreEqual(1, customer.CustomerId);
-            Assert.IsTrue(results.NextResult());
+            ClassicAssert.IsNotNull(customer);
+            ClassicAssert.AreEqual(1, customer.CustomerId);
+            ClassicAssert.IsTrue(results.NextResult());
             var order = results.FirstOrDefault();
-            Assert.IsNotNull(order);
-            Assert.AreEqual(1, order.OrderId);
+            ClassicAssert.IsNotNull(order);
+            ClassicAssert.AreEqual(1, order.OrderId);
         }
 
         [Test]
@@ -147,7 +148,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var results = db.VarcharAndReturnInt("The answer to everything");
-            Assert.AreEqual(42, results.ReturnValue);
+            ClassicAssert.AreEqual(42, results.ReturnValue);
         }
 
         [Test]
@@ -162,10 +163,10 @@ namespace Simple.Data.SqlTest
 
             var actual = db.ReturnStrings(dataTable).ToScalarList<string>();
 
-            Assert.AreEqual(3, actual.Count);
-            Assert.Contains("One", actual);
-            Assert.Contains("Two", actual);
-            Assert.Contains("Three", actual);
+            ClassicAssert.AreEqual(3, actual.Count);
+            ClassicAssert.Contains("One", actual);
+            ClassicAssert.Contains("Two", actual);
+            ClassicAssert.Contains("Three", actual);
         }
     }
 }

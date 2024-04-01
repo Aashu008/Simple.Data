@@ -6,6 +6,7 @@ using System.Text;
 namespace Simple.Data.InMemoryTest
 {
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class CanAssignArray
@@ -17,13 +18,13 @@ namespace Simple.Data.InMemoryTest
             adapter.SetKeyColumn("Test", "Id");
             Database.UseMockAdapter(adapter);
             var db = Database.Open();
-            db.Test.Insert(Id: 1, Names: new List<string> {"Alice", "Bob", "Charlie"});
+            db.Test.Insert(Id: 1, Names: new List<string> { "Alice", "Bob", "Charlie" });
             People record = db.Test.Get(1);
-            Assert.IsNotNull(record);
-            Assert.AreEqual(1, record.Id);
-            Assert.AreEqual("Alice", record.Names[0]);
-            Assert.AreEqual("Bob", record.Names[1]);
-            Assert.AreEqual("Charlie", record.Names[2]);
+            ClassicAssert.IsNotNull(record);
+            ClassicAssert.AreEqual(1, record.Id);
+            ClassicAssert.AreEqual("Alice", record.Names[0]);
+            ClassicAssert.AreEqual("Bob", record.Names[1]);
+            ClassicAssert.AreEqual("Charlie", record.Names[2]);
         }
     }
 

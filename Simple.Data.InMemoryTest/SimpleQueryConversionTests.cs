@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.InMemoryTest
 {
@@ -16,8 +17,8 @@ namespace Simple.Data.InMemoryTest
             db.Test.Insert(Id: 1, Name: "Alice");
             db.Test.Insert(Id: 2, Name: "Bob");
             List<Person> records = db.Test.All();
-            Assert.IsNotNull(records);
-            Assert.AreEqual(2, records.Count);
+            ClassicAssert.IsNotNull(records);
+            ClassicAssert.AreEqual(2, records.Count);
         }
 
         [Test]
@@ -28,10 +29,10 @@ namespace Simple.Data.InMemoryTest
             db.Test.Insert(Id: 1, Name: "Alice");
             db.Test.Insert(Id: 2, Name: "Bob");
             PersonCollection records = db.Test.All();
-            Assert.IsNotNull(records);
-            Assert.AreEqual(2, records.Count);
+            ClassicAssert.IsNotNull(records);
+            ClassicAssert.AreEqual(2, records.Count);
         }
-        
+
         [Test]
         public void ShouldCastToIEnumerableOfPerson()
         {
@@ -40,8 +41,8 @@ namespace Simple.Data.InMemoryTest
             db.Test.Insert(Id: 1, Name: "Alice");
             db.Test.Insert(Id: 2, Name: "Bob");
             IEnumerable<Person> records = db.Test.All();
-            Assert.IsNotNull(records);
-            Assert.AreEqual(2, records.Count());
+            ClassicAssert.IsNotNull(records);
+            ClassicAssert.AreEqual(2, records.Count());
         }
     }
 
@@ -53,6 +54,6 @@ namespace Simple.Data.InMemoryTest
 
     public class PersonCollection : Collection<Person>
     {
-        
+
     }
 }

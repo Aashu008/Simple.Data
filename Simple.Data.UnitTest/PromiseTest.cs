@@ -7,6 +7,7 @@ namespace Simple.Data.UnitTest
 {
     using System.Threading;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class PromiseTest
@@ -16,7 +17,7 @@ namespace Simple.Data.UnitTest
         {
             Action<int> setAction;
             var actual = Promise<int>.Create(out setAction);
-            Assert.IsFalse(actual.HasValue);
+            ClassicAssert.IsFalse(actual.HasValue);
         }
 
         [Test]
@@ -25,8 +26,8 @@ namespace Simple.Data.UnitTest
             Action<int> setAction;
             var actual = Promise<int>.Create(out setAction);
             setAction(42);
-            Assert.IsTrue(actual.HasValue);
-            Assert.AreEqual(42, actual.Value);
+            ClassicAssert.IsTrue(actual.HasValue);
+            ClassicAssert.AreEqual(42, actual.Value);
         }
 
         [Test]
@@ -35,7 +36,7 @@ namespace Simple.Data.UnitTest
             Action<int> setAction;
             var actual = Promise<int>.Create(out setAction);
             setAction(42);
-            Assert.AreEqual(42, actual);
+            Assert.That(42, Is.EqualTo(actual.Value));
         }
 
         [Test]
@@ -45,7 +46,7 @@ namespace Simple.Data.UnitTest
             var actual = Promise<int>.Create(out setAction);
             using (new Timer(_ => setAction(42), null, 100, Timeout.Infinite))
             {
-                Assert.AreEqual(42, actual.Value);
+                ClassicAssert.AreEqual(42, actual.Value);
             }
         }
     }

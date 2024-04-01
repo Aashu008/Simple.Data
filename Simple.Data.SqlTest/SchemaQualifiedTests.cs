@@ -6,11 +6,12 @@ using System.Text;
 namespace Simple.Data.SqlTest
 {
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     class SchemaQualifiedTests
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             DatabaseHelper.Reset();
@@ -22,8 +23,8 @@ namespace Simple.Data.SqlTest
             var db = DatabaseHelper.Open();
             var dboCount = db.dbo.SchemaTable.FindAllById(1).ToList().Count;
             var testCount = db.test.SchemaTable.FindAllById(1).ToList().Count;
-            Assert.AreEqual(1, dboCount);
-            Assert.AreEqual(0, testCount);
+            ClassicAssert.AreEqual(1, dboCount);
+            ClassicAssert.AreEqual(0, testCount);
         }
 
         [Test]
@@ -34,9 +35,9 @@ namespace Simple.Data.SqlTest
             var dboActual = db.dbo.SchemaTable.FindById(1);
             var testActual = db.test.SchemaTable.FindById(1);
 
-            Assert.IsNotNull(dboActual);
-            Assert.AreEqual("Pass", dboActual.Description);
-            Assert.IsNull(testActual);
+            ClassicAssert.IsNotNull(dboActual);
+            ClassicAssert.AreEqual("Pass", dboActual.Description);
+            ClassicAssert.IsNull(testActual);
         }
 
         [Test]
@@ -47,8 +48,8 @@ namespace Simple.Data.SqlTest
                            .Select(db.test.SchemaTable.Id,
                                    db.test.SchemaTable.Description)
                            .Single();
-            Assert.AreEqual(2, result.Id);
-            Assert.AreEqual("Pass", result.Description);
+            ClassicAssert.AreEqual(2, result.Id);
+            ClassicAssert.AreEqual("Pass", result.Description);
         }
 
         [Test]
@@ -59,8 +60,8 @@ namespace Simple.Data.SqlTest
                            .Select(db.test.SchemaTable.Id.As("This"),
                                    db.test.SchemaTable.Description.As("That"))
                            .Single();
-            Assert.AreEqual(2, result.This);
-            Assert.AreEqual("Pass", result.That);
+            ClassicAssert.AreEqual(2, result.This);
+            ClassicAssert.AreEqual("Pass", result.That);
         }
 
     }

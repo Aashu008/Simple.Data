@@ -1,6 +1,7 @@
 ﻿namespace Simple.Data.UnitTest
 {
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class DatabaseOpenerTest
@@ -11,7 +12,7 @@
             var database = new Database(null);
             DatabaseOpener.UseMockDatabase(database);
 
-            Assert.AreEqual(database, Database.Open());
+            ClassicAssert.AreEqual(database, Database.Open());
         }
 
         [Test]
@@ -20,7 +21,7 @@
             var database = new Database(null);
             DatabaseOpener.UseMockDatabase(database);
 
-            Assert.AreEqual(database, Database.OpenConnection("data source=."));
+            ClassicAssert.AreEqual(database, Database.OpenConnection("data source=."));
         }
 
         [Test]
@@ -29,7 +30,7 @@
             var database = new Database(null);
             DatabaseOpener.UseMockDatabase(database);
 
-            Assert.AreEqual(database, Database.OpenNamedConnection("Steve"));
+            ClassicAssert.AreEqual(database, Database.OpenNamedConnection("Steve"));
         }
 
         [Test]
@@ -38,7 +39,7 @@
             var database = new Database(null);
             DatabaseOpener.UseMockDatabase(database);
 
-            Assert.AreEqual(database, Database.OpenFile("any.sdb"));
+            ClassicAssert.AreEqual(database, Database.OpenFile("any.sdb"));
         }
 
         [Test]
@@ -47,7 +48,7 @@
             var database = new Database(null);
             DatabaseOpener.UseMockDatabase(() => database);
 
-            Assert.AreEqual(database, Database.Open());
+            ClassicAssert.AreEqual(database, Database.Open());
         }
 
         [Test]
@@ -56,7 +57,7 @@
             var database = new Database(null);
             DatabaseOpener.UseMockDatabase(() => database);
 
-            Assert.AreEqual(database, Database.OpenConnection("data source=."));
+            ClassicAssert.AreEqual(database, Database.OpenConnection("data source=."));
         }
 
         [Test]
@@ -65,7 +66,7 @@
             var database = new Database(null);
             DatabaseOpener.UseMockDatabase(() => database);
 
-            Assert.AreEqual(database, Database.OpenNamedConnection("Steve"));
+            ClassicAssert.AreEqual(database, Database.OpenNamedConnection("Steve"));
         }
 
         [Test]
@@ -74,7 +75,7 @@
             var database = new Database(null);
             DatabaseOpener.UseMockDatabase(() => database);
 
-            Assert.AreEqual(database, Database.OpenFile("any.sdb"));
+            ClassicAssert.AreEqual(database, Database.OpenFile("any.sdb"));
         }
     }
 }

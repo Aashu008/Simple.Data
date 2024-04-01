@@ -4,12 +4,13 @@ namespace Simple.Data.SqlTest
     using System.Dynamic;
     using System.Linq;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
     using Resources;
 
     [TestFixture]
     public class UpsertTests
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             DatabaseHelper.Reset();
@@ -23,9 +24,9 @@ namespace Simple.Data.SqlTest
             db.Users.UpsertById(Id: 1, Name: "Ford Prefect");
             var user = db.Users.Get(1);
 
-            Assert.IsNotNull(user);
-            Assert.AreEqual(1, user.Id);
-            Assert.AreEqual("Ford Prefect", user.Name);
+            ClassicAssert.IsNotNull(user);
+            ClassicAssert.AreEqual(1, user.Id);
+            ClassicAssert.AreEqual("Ford Prefect", user.Name);
         }
 
         [Test]
@@ -38,9 +39,9 @@ namespace Simple.Data.SqlTest
                 var user = tx.Users.Get(1);
                 tx.Commit();
 
-                Assert.IsNotNull(user);
-                Assert.AreEqual(1, user.Id);
-                Assert.AreEqual("Ford Prefect", user.Name);
+                ClassicAssert.IsNotNull(user);
+                ClassicAssert.AreEqual(1, user.Id);
+                ClassicAssert.AreEqual("Ford Prefect", user.Name);
             }
         }
 
@@ -51,11 +52,11 @@ namespace Simple.Data.SqlTest
 
             var user = db.Users.UpsertById(Id: 0, Name: "Ford Prefect", Password: "Foo", Age: 42);
 
-            Assert.IsNotNull(user);
-            Assert.AreNotEqual(0, user.Id);
-            Assert.AreEqual("Ford Prefect", user.Name);
-            Assert.AreEqual("Foo", user.Password);
-            Assert.AreEqual(42, user.Age);
+            ClassicAssert.IsNotNull(user);
+            ClassicAssert.AreNotEqual(0, user.Id);
+            ClassicAssert.AreEqual("Ford Prefect", user.Name);
+            ClassicAssert.AreEqual("Foo", user.Password);
+            ClassicAssert.AreEqual(42, user.Age);
         }
 
         [Test]
@@ -63,15 +64,15 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
 
-            var user = new User {Id = 2, Name = "Charlie", Password = "foobar", Age = 42};
+            var user = new User { Id = 2, Name = "Charlie", Password = "foobar", Age = 42 };
 
             var actual = db.Users.Upsert(user);
 
-            Assert.IsNotNull(user);
-            Assert.AreEqual(2, actual.Id);
-            Assert.AreEqual("Charlie", actual.Name);
-            Assert.AreEqual("foobar", actual.Password);
-            Assert.AreEqual(42, actual.Age);
+            ClassicAssert.IsNotNull(user);
+            ClassicAssert.AreEqual(2, actual.Id);
+            ClassicAssert.AreEqual("Charlie", actual.Name);
+            ClassicAssert.AreEqual("foobar", actual.Password);
+            ClassicAssert.AreEqual(42, actual.Age);
         }
 
         [Test]
@@ -79,15 +80,15 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
 
-            var user = new User {Id = 2, Name = "Charlie", Password = "foobar", Age = 42};
+            var user = new User { Id = 2, Name = "Charlie", Password = "foobar", Age = 42 };
 
             var actual = db.Users.UpsertById(user);
 
-            Assert.IsNotNull(user);
-            Assert.AreEqual(2, actual.Id);
-            Assert.AreEqual("Charlie", actual.Name);
-            Assert.AreEqual("foobar", actual.Password);
-            Assert.AreEqual(42, actual.Age);
+            ClassicAssert.IsNotNull(user);
+            ClassicAssert.AreEqual(2, actual.Id);
+            ClassicAssert.AreEqual("Charlie", actual.Name);
+            ClassicAssert.AreEqual("foobar", actual.Password);
+            ClassicAssert.AreEqual(42, actual.Age);
         }
 
         [Test]
@@ -103,16 +104,16 @@ namespace Simple.Data.SqlTest
 
             IList<User> actuals = db.Users.Upsert(users).ToList<User>();
 
-            Assert.AreEqual(2, actuals.Count);
-            Assert.AreEqual(1, actuals[0].Id);
-            Assert.AreEqual("Slartibartfast", actuals[0].Name);
-            Assert.AreEqual("bistromathics", actuals[0].Password);
-            Assert.AreEqual(777, actuals[0].Age);
+            ClassicAssert.AreEqual(2, actuals.Count);
+            ClassicAssert.AreEqual(1, actuals[0].Id);
+            ClassicAssert.AreEqual("Slartibartfast", actuals[0].Name);
+            ClassicAssert.AreEqual("bistromathics", actuals[0].Password);
+            ClassicAssert.AreEqual(777, actuals[0].Age);
 
-            Assert.AreEqual(2, actuals[1].Id);
-            Assert.AreEqual("Wowbagger", actuals[1].Name);
-            Assert.AreEqual("teatime", actuals[1].Password);
-            Assert.AreEqual(int.MaxValue, actuals[1].Age);
+            ClassicAssert.AreEqual(2, actuals[1].Id);
+            ClassicAssert.AreEqual("Wowbagger", actuals[1].Name);
+            ClassicAssert.AreEqual("teatime", actuals[1].Password);
+            ClassicAssert.AreEqual(int.MaxValue, actuals[1].Age);
         }
 
         [Test]
@@ -128,16 +129,16 @@ namespace Simple.Data.SqlTest
 
             IList<User> actuals = db.Users.Upsert(users).ToList<User>();
 
-            Assert.AreEqual(2, actuals.Count);
-            Assert.AreNotEqual(0, actuals[0].Id);
-            Assert.AreEqual("Slartibartfast", actuals[0].Name);
-            Assert.AreEqual("bistromathics", actuals[0].Password);
-            Assert.AreEqual(777, actuals[0].Age);
+            ClassicAssert.AreEqual(2, actuals.Count);
+            ClassicAssert.AreNotEqual(0, actuals[0].Id);
+            ClassicAssert.AreEqual("Slartibartfast", actuals[0].Name);
+            ClassicAssert.AreEqual("bistromathics", actuals[0].Password);
+            ClassicAssert.AreEqual(777, actuals[0].Age);
 
-            Assert.AreNotEqual(0, actuals[1].Id);
-            Assert.AreEqual("Wowbagger", actuals[1].Name);
-            Assert.AreEqual("teatime", actuals[1].Password);
-            Assert.AreEqual(int.MaxValue, actuals[1].Age);
+            ClassicAssert.AreNotEqual(0, actuals[1].Id);
+            ClassicAssert.AreEqual("Wowbagger", actuals[1].Name);
+            ClassicAssert.AreEqual("teatime", actuals[1].Password);
+            ClassicAssert.AreEqual(int.MaxValue, actuals[1].Age);
         }
 
         [Test]
@@ -153,16 +154,16 @@ namespace Simple.Data.SqlTest
 
             IList<User> actuals = db.Users.Upsert(users).ToList<User>();
 
-            Assert.AreEqual(2, actuals.Count);
-            Assert.AreEqual(1, actuals[0].Id);
-            Assert.AreEqual("Slartibartfast", actuals[0].Name);
-            Assert.AreEqual("bistromathics", actuals[0].Password);
-            Assert.AreEqual(777, actuals[0].Age);
+            ClassicAssert.AreEqual(2, actuals.Count);
+            ClassicAssert.AreEqual(1, actuals[0].Id);
+            ClassicAssert.AreEqual("Slartibartfast", actuals[0].Name);
+            ClassicAssert.AreEqual("bistromathics", actuals[0].Password);
+            ClassicAssert.AreEqual(777, actuals[0].Age);
 
-            Assert.AreNotEqual(0, actuals[1].Id);
-            Assert.AreEqual("Wowbagger", actuals[1].Name);
-            Assert.AreEqual("teatime", actuals[1].Password);
-            Assert.AreEqual(int.MaxValue, actuals[1].Age);
+            ClassicAssert.AreNotEqual(0, actuals[1].Id);
+            ClassicAssert.AreEqual("Wowbagger", actuals[1].Name);
+            ClassicAssert.AreEqual("teatime", actuals[1].Password);
+            ClassicAssert.AreEqual(int.MaxValue, actuals[1].Age);
         }
 
         [Test]
@@ -180,19 +181,19 @@ namespace Simple.Data.SqlTest
             db.Users.Upsert(users);
 
             var slartibartfast = db.Users.FindByName("Slartibartfast");
-            Assert.IsNotNull(slartibartfast);
-            Assert.AreNotEqual(0, slartibartfast.Id);
-            Assert.AreEqual("Slartibartfast", slartibartfast.Name);
-            Assert.AreEqual("bistromathics", slartibartfast.Password);
-            Assert.AreEqual(777, slartibartfast.Age);
+            ClassicAssert.IsNotNull(slartibartfast);
+            ClassicAssert.AreNotEqual(0, slartibartfast.Id);
+            ClassicAssert.AreEqual("Slartibartfast", slartibartfast.Name);
+            ClassicAssert.AreEqual("bistromathics", slartibartfast.Password);
+            ClassicAssert.AreEqual(777, slartibartfast.Age);
 
             var wowbagger = db.Users.FindByName("Wowbagger");
-            Assert.IsNotNull(wowbagger);
+            ClassicAssert.IsNotNull(wowbagger);
 
-            Assert.AreNotEqual(0, wowbagger.Id);
-            Assert.AreEqual("Wowbagger", wowbagger.Name);
-            Assert.AreEqual("teatime", wowbagger.Password);
-            Assert.AreEqual(int.MaxValue, wowbagger.Age);
+            ClassicAssert.AreNotEqual(0, wowbagger.Id);
+            ClassicAssert.AreEqual("Wowbagger", wowbagger.Name);
+            ClassicAssert.AreEqual("teatime", wowbagger.Password);
+            ClassicAssert.AreEqual(int.MaxValue, wowbagger.Age);
         }
 
         [Test]
@@ -207,10 +208,10 @@ namespace Simple.Data.SqlTest
 
             var actual = db.Users.Upsert(user);
 
-            Assert.IsNotNull(user);
-            Assert.AreEqual("Marvin", actual.Name);
-            Assert.AreEqual("diodes", actual.Password);
-            Assert.AreEqual(42000000, actual.Age);
+            ClassicAssert.IsNotNull(user);
+            ClassicAssert.AreEqual("Marvin", actual.Name);
+            ClassicAssert.AreEqual("diodes", actual.Password);
+            ClassicAssert.AreEqual(42000000, actual.Age);
         }
 
         [Test]
@@ -232,16 +233,16 @@ namespace Simple.Data.SqlTest
 
             IList<dynamic> actuals = db.Users.Upsert(users).ToList();
 
-            Assert.AreEqual(2, actuals.Count);
-            Assert.AreNotEqual(0, actuals[0].Id);
-            Assert.AreEqual("Slartibartfast", actuals[0].Name);
-            Assert.AreEqual("bistromathics", actuals[0].Password);
-            Assert.AreEqual(777, actuals[0].Age);
+            ClassicAssert.AreEqual(2, actuals.Count);
+            ClassicAssert.AreNotEqual(0, actuals[0].Id);
+            ClassicAssert.AreEqual("Slartibartfast", actuals[0].Name);
+            ClassicAssert.AreEqual("bistromathics", actuals[0].Password);
+            ClassicAssert.AreEqual(777, actuals[0].Age);
 
-            Assert.AreNotEqual(0, actuals[1].Id);
-            Assert.AreEqual("Wowbagger", actuals[1].Name);
-            Assert.AreEqual("teatime", actuals[1].Password);
-            Assert.AreEqual(int.MaxValue, actuals[1].Age);
+            ClassicAssert.AreNotEqual(0, actuals[1].Id);
+            ClassicAssert.AreEqual("Wowbagger", actuals[1].Name);
+            ClassicAssert.AreEqual("teatime", actuals[1].Password);
+            ClassicAssert.AreEqual(int.MaxValue, actuals[1].Age);
         }
 
         [Test]
@@ -269,19 +270,19 @@ namespace Simple.Data.SqlTest
 
             ErrorCallback onError = (o, exception) => passed = true;
 
-            IList<dynamic> actuals = db.Users.Upsert(users,onError).ToList();
+            IList<dynamic> actuals = db.Users.Upsert(users, onError).ToList();
 
-            Assert.IsTrue(passed, "Callback was not called.");
-            Assert.AreEqual(2, actuals.Count);
-            Assert.AreNotEqual(0, actuals[0].Id);
-            Assert.AreEqual("Slartibartfast", actuals[0].Name);
-            Assert.AreEqual("bistromathics", actuals[0].Password);
-            Assert.AreEqual(777, actuals[0].Age);
+            ClassicAssert.IsTrue(passed, "Callback was not called.");
+            ClassicAssert.AreEqual(2, actuals.Count);
+            ClassicAssert.AreNotEqual(0, actuals[0].Id);
+            ClassicAssert.AreEqual("Slartibartfast", actuals[0].Name);
+            ClassicAssert.AreEqual("bistromathics", actuals[0].Password);
+            ClassicAssert.AreEqual(777, actuals[0].Age);
 
-            Assert.AreNotEqual(0, actuals[1].Id);
-            Assert.AreEqual("Wowbagger", actuals[1].Name);
-            Assert.AreEqual("teatime", actuals[1].Password);
-            Assert.AreEqual(int.MaxValue, actuals[1].Age);
+            ClassicAssert.AreNotEqual(0, actuals[1].Id);
+            ClassicAssert.AreEqual("Wowbagger", actuals[1].Name);
+            ClassicAssert.AreEqual("teatime", actuals[1].Password);
+            ClassicAssert.AreEqual(int.MaxValue, actuals[1].Age);
         }
 
         [Test]
@@ -306,24 +307,24 @@ namespace Simple.Data.SqlTest
                 user3.Password = "teatime";
                 user3.Age = int.MaxValue;
 
-                var users = new[] {user1, user2, user3};
+                var users = new[] { user1, user2, user3 };
 
                 ErrorCallback onError = (o, exception) => passed = true;
 
                 actuals = tx.Users.Upsert(users, onError).ToList();
             }
 
-            Assert.IsTrue(passed, "Callback was not called.");
-            Assert.AreEqual(2, actuals.Count);
-            Assert.AreNotEqual(0, actuals[0].Id);
-            Assert.AreEqual("Slartibartfast", actuals[0].Name);
-            Assert.AreEqual("bistromathics", actuals[0].Password);
-            Assert.AreEqual(777, actuals[0].Age);
+            ClassicAssert.IsTrue(passed, "Callback was not called.");
+            ClassicAssert.AreEqual(2, actuals.Count);
+            ClassicAssert.AreNotEqual(0, actuals[0].Id);
+            ClassicAssert.AreEqual("Slartibartfast", actuals[0].Name);
+            ClassicAssert.AreEqual("bistromathics", actuals[0].Password);
+            ClassicAssert.AreEqual(777, actuals[0].Age);
 
-            Assert.AreNotEqual(0, actuals[1].Id);
-            Assert.AreEqual("Wowbagger", actuals[1].Name);
-            Assert.AreEqual("teatime", actuals[1].Password);
-            Assert.AreEqual(int.MaxValue, actuals[1].Age);
+            ClassicAssert.AreNotEqual(0, actuals[1].Id);
+            ClassicAssert.AreEqual("Wowbagger", actuals[1].Name);
+            ClassicAssert.AreEqual("teatime", actuals[1].Password);
+            ClassicAssert.AreEqual(int.MaxValue, actuals[1].Age);
         }
 
         [Test]
@@ -349,7 +350,7 @@ namespace Simple.Data.SqlTest
                 user3.Password = "teatime";
                 user3.Age = int.MaxValue;
 
-                var users = new[] {user1, user2, user3};
+                var users = new[] { user1, user2, user3 };
 
                 ErrorCallback onError = (o, exception) => passed = true;
 
@@ -358,17 +359,17 @@ namespace Simple.Data.SqlTest
                 tx.Commit();
             }
 
-            Assert.IsTrue(passed, "Callback was not called.");
-            Assert.AreEqual(2, actuals.Count);
-            Assert.AreNotEqual(0, actuals[0].Id);
-            Assert.AreEqual("Slartibartfast", actuals[0].Name);
-            Assert.AreEqual("bistromathics", actuals[0].Password);
-            Assert.AreEqual(777, actuals[0].Age);
+            ClassicAssert.IsTrue(passed, "Callback was not called.");
+            ClassicAssert.AreEqual(2, actuals.Count);
+            ClassicAssert.AreNotEqual(0, actuals[0].Id);
+            ClassicAssert.AreEqual("Slartibartfast", actuals[0].Name);
+            ClassicAssert.AreEqual("bistromathics", actuals[0].Password);
+            ClassicAssert.AreEqual(777, actuals[0].Age);
 
-            Assert.AreNotEqual(0, actuals[1].Id);
-            Assert.AreEqual("Wowbagger", actuals[1].Name);
-            Assert.AreEqual("teatime", actuals[1].Password);
-            Assert.AreEqual(int.MaxValue, actuals[1].Age);
+            ClassicAssert.AreNotEqual(0, actuals[1].Id);
+            ClassicAssert.AreEqual("Wowbagger", actuals[1].Name);
+            ClassicAssert.AreEqual("teatime", actuals[1].Password);
+            ClassicAssert.AreEqual(int.MaxValue, actuals[1].Age);
         }
 
         [Test]
@@ -380,7 +381,7 @@ namespace Simple.Data.SqlTest
                 var image = GetImage.Image;
                 db.Images.Upsert(Id: 1, TheImage: image);
                 var img = (DbImage)db.Images.FindById(1);
-                Assert.IsTrue(image.SequenceEqual(img.TheImage));
+                ClassicAssert.IsTrue(image.SequenceEqual(img.TheImage));
             }
             finally
             {
@@ -394,13 +395,13 @@ namespace Simple.Data.SqlTest
             var db = DatabaseHelper.Open();
             var image = GetImage.Image;
             var blob = new Blob
-                           {
-                               Id = 1,
-                               Data = image
-                           };
+            {
+                Id = 1,
+                Data = image
+            };
             db.Blobs.Upsert(blob);
             blob = db.Blobs.FindById(1);
-            Assert.IsTrue(image.SequenceEqual(blob.Data));
+            ClassicAssert.IsTrue(image.SequenceEqual(blob.Data));
         }
 
         [Test]
@@ -410,53 +411,53 @@ namespace Simple.Data.SqlTest
 
             var actual = db.Users.UpsertById(Id: 1);
 
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(1, actual.Id);
-            Assert.IsNotNull(actual.Name);
+            ClassicAssert.IsNotNull(actual);
+            ClassicAssert.AreEqual(1, actual.Id);
+            ClassicAssert.IsNotNull(actual.Name);
         }
 
         [Test]
         public void TestUpsertUserBySecondaryField()
         {
-          var db = DatabaseHelper.Open();
+            var db = DatabaseHelper.Open();
 
-          var id = db.Users.UpsertByName(new User() { Age = 20, Name = "Black sheep", Password = "Bah" }).Id;
-          User actual = db.Users.FindById(id);
+            var id = db.Users.UpsertByName(new User() { Age = 20, Name = "Black sheep", Password = "Bah" }).Id;
+            User actual = db.Users.FindById(id);
 
-          Assert.AreEqual(id, actual.Id);
-          Assert.AreEqual("Black sheep", actual.Name);
-          Assert.AreEqual("Bah", actual.Password);
-          Assert.AreEqual(20, actual.Age);
+            ClassicAssert.AreEqual(id, actual.Id);
+            ClassicAssert.AreEqual("Black sheep", actual.Name);
+            ClassicAssert.AreEqual("Bah", actual.Password);
+            ClassicAssert.AreEqual(20, actual.Age);
         }
 
         [Test]
         public void TestUpsertUserByTwoSecondaryFields()
         {
-          var db = DatabaseHelper.Open();
+            var db = DatabaseHelper.Open();
 
-          var id = db.Users.UpsertByNameAndPassword(new User() { Age = 20, Name = "Black sheep", Password = "Bah" }).Id;
-          User actual = db.Users.FindById(id);
+            var id = db.Users.UpsertByNameAndPassword(new User() { Age = 20, Name = "Black sheep", Password = "Bah" }).Id;
+            User actual = db.Users.FindById(id);
 
-          Assert.AreEqual(id, actual.Id);
-          Assert.AreEqual("Black sheep", actual.Name);
-          Assert.AreEqual("Bah", actual.Password);
-          Assert.AreEqual(20, actual.Age);
+            ClassicAssert.AreEqual(id, actual.Id);
+            ClassicAssert.AreEqual("Black sheep", actual.Name);
+            ClassicAssert.AreEqual("Bah", actual.Password);
+            ClassicAssert.AreEqual(20, actual.Age);
         }
 
         [Test]
         public void TestUpsertExisting()
         {
-          var db = DatabaseHelper.Open();
+            var db = DatabaseHelper.Open();
 
-          var id = db.Users.UpsertByNameAndPassword(new User() { Age = 20, Name = "Black sheep", Password = "Bah" }).Id;
-          db.Users.UpsertById(new User() { Id = id, Age = 12, Name = "Dog", Password = "Bark" });
+            var id = db.Users.UpsertByNameAndPassword(new User() { Age = 20, Name = "Black sheep", Password = "Bah" }).Id;
+            db.Users.UpsertById(new User() { Id = id, Age = 12, Name = "Dog", Password = "Bark" });
 
-          User actual = db.Users.FindById(id);
+            User actual = db.Users.FindById(id);
 
-          Assert.AreEqual(id, actual.Id);
-          Assert.AreEqual("Dog", actual.Name);
-          Assert.AreEqual("Bark", actual.Password);
-          Assert.AreEqual(12, actual.Age);
+            ClassicAssert.AreEqual(id, actual.Id);
+            ClassicAssert.AreEqual("Dog", actual.Name);
+            ClassicAssert.AreEqual("Bark", actual.Password);
+            ClassicAssert.AreEqual(12, actual.Age);
         }
     }
 }

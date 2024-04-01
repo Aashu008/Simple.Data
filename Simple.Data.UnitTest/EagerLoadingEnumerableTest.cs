@@ -4,6 +4,7 @@
     using System.Linq;
     using Ado;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class EagerLoadingEnumerableTest
@@ -17,14 +18,14 @@
                                {"__with1__bar__quux", "Quux1"}
                            };
 
-            var test = new EagerLoadingEnumerable(new[] {dict}).ToList();
-            Assert.AreEqual(1, test.Count);
+            var test = new EagerLoadingEnumerable(new[] { dict }).ToList();
+            ClassicAssert.AreEqual(1, test.Count);
             var actual = test[0];
 
-            Assert.AreEqual("Foo1", actual["foo"]);
+            ClassicAssert.AreEqual("Foo1", actual["foo"]);
             var bar = actual["bar"] as IDictionary<string, object>;
-            Assert.NotNull(bar);
-            Assert.AreEqual("Quux1", bar["quux"]);
+            ClassicAssert.NotNull(bar);
+            ClassicAssert.AreEqual("Quux1", bar["quux"]);
         }
 
         [Test]
@@ -41,16 +42,16 @@
                             };
 
             var test = new EagerLoadingEnumerable(dicts).ToList();
-            Assert.AreEqual(1, test.Count);
+            ClassicAssert.AreEqual(1, test.Count);
             var actual = test[0];
 
-            Assert.AreEqual("Foo1", actual["foo"]);
+            ClassicAssert.AreEqual("Foo1", actual["foo"]);
             var bar = actual["bar"] as IDictionary<string, object>;
-            Assert.NotNull(bar);
-            Assert.AreEqual("Quux1", bar["quux"]);
+            ClassicAssert.NotNull(bar);
+            ClassicAssert.AreEqual("Quux1", bar["quux"]);
             var wibble = actual["wibble"] as IDictionary<string, object>;
-            Assert.NotNull(wibble);
-            Assert.AreEqual("Wobble1", wibble["wobble"]);
+            ClassicAssert.NotNull(wibble);
+            ClassicAssert.AreEqual("Wobble1", wibble["wobble"]);
         }
 
         [Test]
@@ -85,18 +86,18 @@
                             };
 
             var test = new EagerLoadingEnumerable(dicts).ToList();
-            Assert.AreEqual(1, test.Count);
+            ClassicAssert.AreEqual(1, test.Count);
             var actual = test[0];
 
-            Assert.AreEqual("Foo1", actual["foo"]);
+            ClassicAssert.AreEqual("Foo1", actual["foo"]);
             var bar = actual["bar"] as IList<IDictionary<string, object>>;
-            Assert.NotNull(bar);
-            Assert.AreEqual("Quux1", bar[0]["quux"]);
-            Assert.AreEqual("Quux2", bar[1]["quux"]);
+            ClassicAssert.NotNull(bar);
+            ClassicAssert.AreEqual("Quux1", bar[0]["quux"]);
+            ClassicAssert.AreEqual("Quux2", bar[1]["quux"]);
             var wibble = actual["wibble"] as IList<IDictionary<string, object>>;
-            Assert.NotNull(wibble);
-            Assert.AreEqual("Wobble1", wibble[0]["wobble"]);
-            Assert.AreEqual("Wobble2", wibble[1]["wobble"]);
+            ClassicAssert.NotNull(wibble);
+            ClassicAssert.AreEqual("Wobble1", wibble[0]["wobble"]);
+            ClassicAssert.AreEqual("Wobble2", wibble[1]["wobble"]);
         }
     }
 }

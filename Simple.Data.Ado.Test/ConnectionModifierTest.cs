@@ -3,6 +3,7 @@ using NUnit.Framework;
 
 namespace Simple.Data.Ado.Test
 {
+    using NUnit.Framework.Legacy;
     using System;
 
     [TestFixture]
@@ -13,7 +14,7 @@ namespace Simple.Data.Ado.Test
         {
             var adapter = new AdoAdapter(new StubConnectionProvider());
             adapter.SetConnectionModifier(c => new FooConnection(c));
-            Assert.IsInstanceOf<FooConnection>(adapter.CreateConnection());
+            ClassicAssert.IsInstanceOf<FooConnection>(adapter.CreateConnection());
         }
 
         [Test]
@@ -21,9 +22,9 @@ namespace Simple.Data.Ado.Test
         {
             var adapter = new AdoAdapter(new StubConnectionProvider());
             adapter.SetConnectionModifier(c => new FooConnection(c));
-            Assert.IsInstanceOf<FooConnection>(adapter.CreateConnection());
+            ClassicAssert.IsInstanceOf<FooConnection>(adapter.CreateConnection());
             adapter.ClearConnectionModifier();
-            Assert.IsNotInstanceOf<FooConnection>(adapter.CreateConnection());
+            ClassicAssert.IsNotInstanceOf<FooConnection>(adapter.CreateConnection());
         }
 
         [Test]
@@ -35,9 +36,9 @@ namespace Simple.Data.Ado.Test
             var adapter = new AdoAdapter(new StubConnectionProvider());
             var connection = adapter.CreateConnection();
             AdoAdapter.ConnectionCreated -= handler;
-            Assert.True(fired);
+            ClassicAssert.True(fired);
         }
-        
+
         [Test]
         public void ConnectionCreatedCanOverrideConnection()
         {
@@ -45,7 +46,7 @@ namespace Simple.Data.Ado.Test
             AdoAdapter.ConnectionCreated += handler;
             var adapter = new AdoAdapter(new StubConnectionProvider());
             var connection = adapter.CreateConnection();
-            Assert.IsInstanceOf<BarConnection>(connection);
+            ClassicAssert.IsInstanceOf<BarConnection>(connection);
             AdoAdapter.ConnectionCreated -= handler;
         }
 
@@ -98,7 +99,7 @@ namespace Simple.Data.Ado.Test
             public string Database { get; private set; }
             public ConnectionState State { get; private set; }
         }
-        
+
         private class BarConnection : IDbConnection
         {
             private readonly IDbConnection _wrapped;

@@ -3,6 +3,7 @@
     using Ado;
     using Mocking.Ado;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class StopUsingMockTest : DatabaseIntegrationContext
@@ -13,10 +14,10 @@
             var mock = new InMemoryAdapter();
             Database.UseMockAdapter(mock);
             Database db = Database.OpenNamedConnection("Mock");
-            Assert.AreSame(mock, db.GetAdapter());
+            ClassicAssert.AreSame(mock, db.GetAdapter());
             Database.StopUsingMockAdapter();
             db = Database.OpenNamedConnection("Mock");
-            Assert.IsInstanceOf<AdoAdapter>(db.GetAdapter());
+            ClassicAssert.IsInstanceOf<AdoAdapter>(db.GetAdapter());
         }
 
         protected override void SetSchema(MockSchemaProvider schemaProvider)

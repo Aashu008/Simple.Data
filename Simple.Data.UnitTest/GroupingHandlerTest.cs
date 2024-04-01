@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Simple.Data.QueryPolyfills;
 
 namespace Simple.Data.UnitTest
@@ -24,7 +25,7 @@ namespace Simple.Data.UnitTest
                              };
             var target = new GroupingHandler("Id");
             var actual = target.Group(source).ToList();
-            Assert.AreEqual(2, actual.Count);
+            ClassicAssert.AreEqual(2, actual.Count);
         }
         [Test]
         public void GroupingOnDoubleKeyWorks()
@@ -42,7 +43,7 @@ namespace Simple.Data.UnitTest
                              };
             var target = new GroupingHandler("Id", "Type");
             var actual = target.Group(source).ToList();
-            Assert.AreEqual(4, actual.Count);
+            ClassicAssert.AreEqual(4, actual.Count);
         }
     }
 }

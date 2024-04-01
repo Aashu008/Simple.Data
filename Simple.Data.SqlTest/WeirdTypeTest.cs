@@ -6,11 +6,12 @@ using System.Text;
 namespace Simple.Data.SqlTest
 {
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class WeirdTypeTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             DatabaseHelper.Reset();
@@ -21,21 +22,21 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var actual = db.GeographyTest.Insert(Description: "Test");
-            Assert.IsNotNull(actual);
+            ClassicAssert.IsNotNull(actual);
         }
         [Test]
         public void TestInsertOnGeometry()
         {
             var db = DatabaseHelper.Open();
             var actual = db.GeometryTest.Insert(Description: "Test");
-            Assert.IsNotNull(actual);
+            ClassicAssert.IsNotNull(actual);
         }
         [Test]
         public void TestInsertOnHierarchyId()
         {
             var db = DatabaseHelper.Open();
             var actual = db.HierarchyIdTest.Insert(Description: "Test");
-            Assert.IsNotNull(actual);
+            ClassicAssert.IsNotNull(actual);
         }
     }
 }

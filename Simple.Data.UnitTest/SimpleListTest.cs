@@ -5,6 +5,7 @@ namespace Simple.Data.UnitTest
     using System.Collections.Generic;
     using System.Linq;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class SimpleListTest
@@ -16,28 +17,28 @@ namespace Simple.Data.UnitTest
                 yield return i.ToString();
             }
         }
-        
+
         [Test]
         public void ElementAtOrDefaultReturnsCorrectElement()
         {
             var list = new SimpleList(Strings(2));
-            Assert.AreEqual("0", list.ElementAtOrDefault(0));
-            Assert.AreEqual("1", list.ElementAtOrDefault(1));
+            ClassicAssert.AreEqual("0", list.ElementAtOrDefault(0));
+            ClassicAssert.AreEqual("1", list.ElementAtOrDefault(1));
         }
 
         [Test]
         public void ElementAtOrDefaultReturnsNullForOutOfRange()
         {
             var list = new SimpleList(Strings(1));
-            Assert.IsNull(list.ElementAtOrDefault(2));
+            ClassicAssert.IsNull(list.ElementAtOrDefault(2));
         }
 
         [Test]
         public void ElementAtReturnsCorrectElement()
         {
             var list = new SimpleList(Strings(2));
-            Assert.AreEqual("0", list.ElementAt(0));
-            Assert.AreEqual("1", list.ElementAt(1));
+            ClassicAssert.AreEqual("0", list.ElementAt(0));
+            ClassicAssert.AreEqual("1", list.ElementAt(1));
         }
 
         [Test]
@@ -51,7 +52,7 @@ namespace Simple.Data.UnitTest
         public void FirstReturnsFirstElement()
         {
             var list = new SimpleList(Strings(10));
-            Assert.AreEqual("0", list.First());
+            ClassicAssert.AreEqual("0", list.First());
         }
 
         [Test]
@@ -65,21 +66,21 @@ namespace Simple.Data.UnitTest
         public void FirstOrDefaultReturnsFirstElement()
         {
             var list = new SimpleList(Strings(10));
-            Assert.AreEqual("0", list.FirstOrDefault());
+            ClassicAssert.AreEqual("0", list.FirstOrDefault());
         }
 
         [Test]
         public void FirstOrDefaultReturnsNullOnEmptyList()
         {
             var list = new SimpleList(Strings(0));
-            Assert.IsNull(list.FirstOrDefault());
+            ClassicAssert.IsNull(list.FirstOrDefault());
         }
 
         [Test]
         public void LastReturnsLastElement()
         {
             var list = new SimpleList(Strings(10));
-            Assert.AreEqual("9", list.Last());
+            ClassicAssert.AreEqual("9", list.Last());
         }
 
         [Test]
@@ -93,21 +94,21 @@ namespace Simple.Data.UnitTest
         public void LastOrDefaultReturnsLastElement()
         {
             var list = new SimpleList(Strings(10));
-            Assert.AreEqual("9", list.LastOrDefault());
+            ClassicAssert.AreEqual("9", list.LastOrDefault());
         }
 
         [Test]
         public void LastOrDefaultReturnsNullOnEmptyList()
         {
             var list = new SimpleList(Strings(0));
-            Assert.IsNull(list.LastOrDefault());
+            ClassicAssert.IsNull(list.LastOrDefault());
         }
 
         [Test]
         public void SingleReturnsSingleElement()
         {
             var list = new SimpleList(Strings(1));
-            Assert.AreEqual("0", list.Single());
+            ClassicAssert.AreEqual("0", list.Single());
         }
 
         [Test]
@@ -128,14 +129,14 @@ namespace Simple.Data.UnitTest
         public void SingleOrDefaultReturnsSingleElement()
         {
             var list = new SimpleList(Strings(1));
-            Assert.AreEqual("0", list.SingleOrDefault());
+            ClassicAssert.AreEqual("0", list.SingleOrDefault());
         }
 
         [Test]
         public void SingleOrDefaultReturnsNullOnEmptyList()
         {
             var list = new SimpleList(Strings(0));
-            Assert.IsNull(list.SingleOrDefault());
+            ClassicAssert.IsNull(list.SingleOrDefault());
         }
 
         [Test]
@@ -149,7 +150,7 @@ namespace Simple.Data.UnitTest
         public void SimpleListIsNotReadOnly()
         {
             var list = new SimpleList(Strings(0));
-            Assert.IsFalse(list.IsReadOnly);
+            ClassicAssert.IsFalse(list.IsReadOnly);
         }
 
         [Test]
@@ -157,8 +158,8 @@ namespace Simple.Data.UnitTest
         {
             dynamic list = new SimpleList(Strings(1));
             List<string> generic = list;
-            Assert.IsNotNull(generic);
-            Assert.AreEqual("0", generic[0]);
+            ClassicAssert.IsNotNull(generic);
+            ClassicAssert.AreEqual("0", generic[0]);
         }
 
         [Test]
@@ -166,8 +167,8 @@ namespace Simple.Data.UnitTest
         {
             dynamic list = new SimpleList(Strings(1));
             ArrayList generic = list;
-            Assert.IsNotNull(generic);
-            Assert.AreEqual("0", generic[0]);
+            ClassicAssert.IsNotNull(generic);
+            ClassicAssert.AreEqual("0", generic[0]);
         }
 
         [Test]
@@ -175,8 +176,8 @@ namespace Simple.Data.UnitTest
         {
             dynamic list = new SimpleList(Strings(1));
             HashSet<string> generic = list;
-            Assert.IsNotNull(generic);
-            Assert.AreEqual("0", generic.Single());
+            ClassicAssert.IsNotNull(generic);
+            ClassicAssert.AreEqual("0", generic.Single());
         }
     }
 }

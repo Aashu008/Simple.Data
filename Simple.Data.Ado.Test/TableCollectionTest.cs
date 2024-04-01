@@ -1,6 +1,7 @@
 ﻿using Simple.Data.Ado.Schema;
 using NUnit.Framework;
 using System;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.UnitTest
 {
@@ -77,8 +78,8 @@ namespace Simple.Data.UnitTest
         {
             var target = new TableCollection { new Table(actualName, "", TableType.Table) };
             var actual = target.Find(searchName);
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(actualName, actual.ActualName);
+            ClassicAssert.IsNotNull(actual);
+            ClassicAssert.AreEqual(actualName, actual.ActualName);
         }
     }
 }

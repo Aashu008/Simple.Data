@@ -1,12 +1,13 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Simple.Data;
 using System;
 using System.Collections.Generic;
 
 namespace Simple.Data.UnitTest
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for MethodNameParserTest and is intended
     ///to contain all MethodNameParserTest Unit Tests
@@ -21,7 +22,7 @@ namespace Simple.Data.UnitTest
         public void GetColumnsTest()
         {
             const string methodName = "ThisAndThat";
-            IList<string> expected = new[] {"This", "That"};
+            IList<string> expected = new[] { "This", "That" };
             IList<string> actual = MethodNameParser.GetColumns(methodName);
             ListHelper.AssertAreEqual(expected, actual);
         }
@@ -33,8 +34,8 @@ namespace Simple.Data.UnitTest
         public void ParseFromMethodNameTest()
         {
             const string methodName = "FindByThisAndThat";
-            IList<object> args = new object[] {1, "Foo"};
-            IDictionary<string, object> expected = new Dictionary<string, object> { {"This", 1}, {"That", "Foo"}};
+            IList<object> args = new object[] { 1, "Foo" };
+            IDictionary<string, object> expected = new Dictionary<string, object> { { "This", 1 }, { "That", "Foo" } };
             IDictionary<string, object> actual = MethodNameParser.ParseFromMethodName(methodName, expected);
             ListHelper.AssertAreEqual(expected, actual);
         }
@@ -65,10 +66,10 @@ namespace Simple.Data.UnitTest
         {
             RemoveCommandPartHelper("ThisAndThat", "DeleteByThisAndThat");
         }
-        
+
         private static void RemoveCommandPartHelper(string expected, string test)
         {
-            Assert.AreEqual(expected, MethodNameParser.RemoveCommandPart(test));
+            ClassicAssert.AreEqual(expected, MethodNameParser.RemoveCommandPart(test));
         }
     }
 }

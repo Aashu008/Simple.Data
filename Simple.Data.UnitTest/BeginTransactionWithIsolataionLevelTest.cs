@@ -15,7 +15,7 @@ namespace Simple.Data.UnitTest
             Database db = new Database(adapter);
             db.BeginTransaction();
 
-            Assert.AreEqual(IsolationLevel.Unspecified, adapter.IsolationLevel);
+            Assert.That(IsolationLevel.Unspecified, Is.EqualTo(adapter.IsolationLevel));
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace Simple.Data.UnitTest
             Database db = new Database(adapter);
             db.BeginTransaction(IsolationLevel.Serializable);
 
-            Assert.AreEqual(IsolationLevel.Serializable, adapter.IsolationLevel);
+            Assert.That(IsolationLevel.Serializable, Is.EqualTo(adapter.IsolationLevel));
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace Simple.Data.UnitTest
             Database db = new Database(adapter);
             db.BeginTransaction("tran name");
 
-            Assert.AreEqual(IsolationLevel.Unspecified, adapter.IsolationLevel);
+            Assert.That(IsolationLevel.Unspecified, Is.EqualTo(adapter.IsolationLevel));
         }
     }
 

@@ -6,6 +6,7 @@ using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Simple.Data.Ado.Schema;
 
 namespace Simple.Data.Ado.Test
@@ -19,7 +20,7 @@ namespace Simple.Data.Ado.Test
             var helper = new ProviderHelper();
             var connectionProvider = new StubConnectionProvider();
             var actual = helper.GetCustomProvider<ICustomInserter>(connectionProvider);
-            Assert.IsInstanceOf(typeof(StubCustomInserter), actual);
+            ClassicAssert.IsInstanceOf(typeof(StubCustomInserter), actual);
         }
     }
 

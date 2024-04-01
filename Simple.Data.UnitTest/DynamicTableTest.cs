@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.UnitTest
 {
@@ -19,8 +20,8 @@ namespace Simple.Data.UnitTest
             ObjectReference column = table.TestColumn;
 
             // Assert
-            Assert.AreEqual("Test", column.GetOwner().GetName());
-            Assert.AreEqual("TestColumn", column.GetName());
+            ClassicAssert.AreEqual("Test", column.GetOwner().GetName());
+            ClassicAssert.AreEqual("TestColumn", column.GetName());
         }
     }
 }

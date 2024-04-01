@@ -4,13 +4,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.SqlTest
 {
     [TestFixture]
     public class NaturalJoinTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             DatabaseHelper.Reset();
@@ -21,8 +22,8 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var row = db.Customers.Find(db.Customers.Orders.OrderDate == new DateTime(2010, 10, 10));
-            Assert.IsNotNull(row);
-            Assert.AreEqual("Test", row.Name);
+            ClassicAssert.IsNotNull(row);
+            ClassicAssert.AreEqual("Test", row.Name);
         }
 
         [Test]
@@ -30,11 +31,11 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var customer = db.Customers.Find(db.Customers.Orders.OrderItems.Item.Name == "Widget");
-            Assert.IsNotNull(customer);
-            Assert.AreEqual("Test", customer.Name);
+            ClassicAssert.IsNotNull(customer);
+            ClassicAssert.AreEqual("Test", customer.Name);
             foreach (var order in customer.Orders)
             {
-                Assert.AreEqual(1, order.OrderId);
+                ClassicAssert.AreEqual(1, order.OrderId);
             }
         }
 
@@ -44,11 +45,11 @@ namespace Simple.Data.SqlTest
             var db = DatabaseHelper.Open();
             var customer = db.Customers.Find(db.Customers.Name == "Test" &&
                                              db.Customers.Orders.OrderItems.Item.Name == "Widget");
-            Assert.IsNotNull(customer);
-            Assert.AreEqual("Test", customer.Name);
+            ClassicAssert.IsNotNull(customer);
+            ClassicAssert.AreEqual("Test", customer.Name);
             foreach (var order in customer.Orders)
             {
-                Assert.AreEqual(1, order.OrderId);
+                ClassicAssert.AreEqual(1, order.OrderId);
             }
         }
 
@@ -59,11 +60,11 @@ namespace Simple.Data.SqlTest
             var customer = db.Customers.Find(db.Customers.Name == "Test" &&
                                              db.Customers.Orders.OrderDate == new DateTime(2010, 10, 10) &&
                                              db.Customers.Orders.OrderItems.Item.Name == "Widget");
-            Assert.IsNotNull(customer);
-            Assert.AreEqual("Test", customer.Name);
+            ClassicAssert.IsNotNull(customer);
+            ClassicAssert.AreEqual("Test", customer.Name);
             foreach (var order in customer.Orders)
             {
-                Assert.AreEqual(1, order.OrderId);
+                ClassicAssert.AreEqual(1, order.OrderId);
             }
         }
     }

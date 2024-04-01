@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Simple.Data.Extensions;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.UnitTest
 {
@@ -15,8 +16,8 @@ namespace Simple.Data.UnitTest
         public void NamedArgumentsToDictionaryShouldApplyNamesToLastArguments()
         {
             var binder = new TestInvokeMemberBinder("Test", false, new CallInfo(2, "Foo"));
-            var actual = binder.NamedArgumentsToDictionary(new object[] {1, 2});
-            Assert.AreEqual(2, actual["Foo"]);
+            var actual = binder.NamedArgumentsToDictionary(new object[] { 1, 2 });
+            ClassicAssert.AreEqual(2, actual["Foo"]);
         }
 
         [Test]
@@ -24,7 +25,7 @@ namespace Simple.Data.UnitTest
         {
             var binder = new TestInvokeMemberBinder("Test", false, new CallInfo(2, "Foo"));
             var actual = binder.ArgumentsToDictionary(new object[] { 1, 2 });
-            Assert.AreEqual("_0", actual.First().Key);
+            ClassicAssert.AreEqual("_0", actual.First().Key);
         }
 
         [Test]
@@ -33,7 +34,7 @@ namespace Simple.Data.UnitTest
             var binder = new TestInvokeMemberBinder("Test", false, new CallInfo(1, "Foo"));
             var input = new Dictionary<string, object> { { "Test1", 1 }, { "Test2", 2 } };
             var actual = binder.ArgumentsToDictionary(new object[] { input });
-            Assert.AreEqual(input["Test2"], actual["Test2"]);
+            ClassicAssert.AreEqual(input["Test2"], actual["Test2"]);
         }
     }
 

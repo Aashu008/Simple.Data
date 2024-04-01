@@ -6,6 +6,7 @@ using System.Text;
 namespace Simple.Data.UnitTest
 {
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class ExpressionHelperTest
@@ -21,18 +22,18 @@ namespace Simple.Data.UnitTest
 
             var actual = ExpressionHelper.CriteriaDictionaryToExpression("quux", dict);
 
-            Assert.AreEqual(SimpleExpressionType.And, actual.Type);
+            ClassicAssert.AreEqual(SimpleExpressionType.And, actual.Type);
 
             var actualFirst = (SimpleExpression)actual.LeftOperand;
             var actualSecond = (SimpleExpression)actual.RightOperand;
 
-            Assert.AreEqual("foo", ((ObjectReference)actualFirst.LeftOperand).GetName());
-            Assert.AreEqual(SimpleExpressionType.Equal, actualFirst.Type);
-            Assert.AreEqual(1, actualFirst.RightOperand);
+            ClassicAssert.AreEqual("foo", ((ObjectReference)actualFirst.LeftOperand).GetName());
+            ClassicAssert.AreEqual(SimpleExpressionType.Equal, actualFirst.Type);
+            ClassicAssert.AreEqual(1, actualFirst.RightOperand);
 
-            Assert.AreEqual("bar", ((ObjectReference)actualSecond.LeftOperand).GetName());
-            Assert.AreEqual(SimpleExpressionType.Equal, actualSecond.Type);
-            Assert.AreEqual(2, actualSecond.RightOperand);
+            ClassicAssert.AreEqual("bar", ((ObjectReference)actualSecond.LeftOperand).GetName());
+            ClassicAssert.AreEqual(SimpleExpressionType.Equal, actualSecond.Type);
+            ClassicAssert.AreEqual(2, actualSecond.RightOperand);
         }
     }
 }

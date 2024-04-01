@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class ObjectReferenceTest
@@ -54,14 +55,14 @@
             var bar = new ObjectReference("bar", foo);
             var quux = new ObjectReference("quux", bar);
 
-            Assert.AreEqual(foo, quux.GetTop());
+            ClassicAssert.AreEqual(foo, quux.GetTop());
         }
 
         private static void AssertHelper<T>(SimpleExpression actual, SimpleExpressionType expectedType, T expectedRightOperand)
         {
-            Assert.AreEqual(Db.foo.id, actual.LeftOperand);
-            Assert.AreEqual(expectedType, actual.Type);
-            Assert.AreEqual(expectedRightOperand, actual.RightOperand);
+            ClassicAssert.AreEqual(Db.foo.id, actual.LeftOperand);
+            ClassicAssert.AreEqual(expectedType, actual.Type);
+            ClassicAssert.AreEqual(expectedRightOperand, actual.RightOperand);
         }
     }
 }

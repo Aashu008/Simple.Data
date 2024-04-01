@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Text;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class SimpleListAsListTest
@@ -26,8 +27,8 @@
             var target = CreateTarget();
             var entry = CreateEntry(0);
             target.Add(entry);
-            Assert.AreEqual(1, target.Count);
-            Assert.AreEqual(entry, target[0]);
+            Assert.That(1, Is.EqualTo(target.Count));
+            Assert.That(entry, Is.EqualTo(target[0]));
         }
 
         [Test]
@@ -39,8 +40,8 @@
             target.Add(entry);
 
             target.Clear();
-            Assert.AreEqual(0, target.Count);
-            Assert.IsFalse(target.Contains(entry));
+            Assert.That(0, Is.EqualTo(target.Count));
+            ClassicAssert.IsFalse(target.Contains(entry));
         }
 
         [Test]
@@ -51,7 +52,7 @@
 
             target.Add(entry);
 
-            Assert.IsTrue(target.Contains(entry));
+            ClassicAssert.IsTrue(target.Contains(entry));
         }
 
         [Test]
@@ -60,7 +61,7 @@
             var target = CreateTarget();
             var entry = CreateEntry(0);
 
-            Assert.IsFalse(target.Contains(entry));
+            ClassicAssert.IsFalse(target.Contains(entry));
         }
 
         [Test]
@@ -68,7 +69,7 @@
         {
             var target = CreateTarget();
 
-            Assert.AreEqual(0, target.Count);
+            ClassicAssert.AreEqual(0, target.Count);
         }
 
         [Test]
@@ -77,7 +78,7 @@
             var target = CreateTarget();
             target.Add(CreateEntry(0));
 
-            Assert.AreEqual(1, target.Count);
+            ClassicAssert.AreEqual(1, target.Count);
         }
 
         [Test]
@@ -92,8 +93,8 @@
             var array = new object[2];
             target.CopyTo(array, 0);
 
-            Assert.AreEqual(entry0, array[0]);
-            Assert.AreEqual(entry1, array[1]);
+            ClassicAssert.AreEqual(entry0, array[0]);
+            ClassicAssert.AreEqual(entry1, array[1]);
         }
 
         [Test]
@@ -108,8 +109,8 @@
             var array = new object[3];
             target.CopyTo(array, 1);
 
-            Assert.AreEqual(entry0, array[1]);
-            Assert.AreEqual(entry1, array[2]);
+            ClassicAssert.AreEqual(entry0, array[1]);
+            ClassicAssert.AreEqual(entry1, array[2]);
         }
 
         [Test]
@@ -120,9 +121,9 @@
             target.Add(entry);
 
             var enumerator = target.GetEnumerator();
-            Assert.IsTrue(enumerator.MoveNext());
-            Assert.AreEqual(entry, enumerator.Current);
-            Assert.IsFalse(enumerator.MoveNext());
+            ClassicAssert.IsTrue(enumerator.MoveNext());
+            ClassicAssert.AreEqual(entry, enumerator.Current);
+            ClassicAssert.IsFalse(enumerator.MoveNext());
         }
 
         [Test]
@@ -133,9 +134,9 @@
             target.Add(entry);
 
             var enumerator = ((IEnumerable)target).GetEnumerator();
-            Assert.IsTrue(enumerator.MoveNext());
-            Assert.AreEqual(entry, enumerator.Current);
-            Assert.IsFalse(enumerator.MoveNext());
+            ClassicAssert.IsTrue(enumerator.MoveNext());
+            ClassicAssert.AreEqual(entry, enumerator.Current);
+            ClassicAssert.IsFalse(enumerator.MoveNext());
         }
 
         [Test]
@@ -148,8 +149,8 @@
             target.Add(entry0);
             target.Add(entry1);
 
-            Assert.AreEqual(0, target.IndexOf(entry0));
-            Assert.AreEqual(1, target.IndexOf(entry1));
+            ClassicAssert.AreEqual(0, target.IndexOf(entry0));
+            ClassicAssert.AreEqual(1, target.IndexOf(entry1));
         }
 
         [Test]
@@ -160,12 +161,12 @@
             var entry1 = CreateEntry(1);
 
             target.Add(entry1);
-            Assert.AreEqual(0, target.IndexOf(entry1));
+            ClassicAssert.AreEqual(0, target.IndexOf(entry1));
 
             target.Insert(0, entry0);
 
-            Assert.AreEqual(0, target.IndexOf(entry0));
-            Assert.AreEqual(1, target.IndexOf(entry1));
+            ClassicAssert.AreEqual(0, target.IndexOf(entry0));
+            ClassicAssert.AreEqual(1, target.IndexOf(entry1));
         }
 
         [Test]
@@ -176,8 +177,8 @@
 
             target.Add(entry0);
             target.Remove(entry0);
-            Assert.IsFalse(target.Contains(entry0));
-            Assert.AreEqual(0, target.Count);
+            ClassicAssert.IsFalse(target.Contains(entry0));
+            ClassicAssert.AreEqual(0, target.Count);
         }
 
         [Test]
@@ -191,8 +192,8 @@
             target.Add(entry1);
 
             target.RemoveAt(0);
-            Assert.AreEqual(1, target.Count);
-            Assert.AreEqual(target[0], entry1);
+            Assert.That(1, Is.EqualTo(target.Count));
+            Assert.That(target[0], Is.EqualTo(entry1));
         }
 
         [Test]
@@ -202,7 +203,7 @@
             var entry = CreateEntry(0);
             target.Add(entry);
 
-            Assert.AreEqual(entry, target[0]);
+            Assert.That(entry, Is.EqualTo(target[0]));
         }
 
         [Test]
@@ -214,17 +215,18 @@
             target.Add(entry0);
             target[0] = entry1;
 
-            Assert.AreEqual(entry1, target[0]);
+            Assert.That(entry1, Is.EqualTo(target[0]));
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SetIndexerBeyondSizeOfListShouldThrowException()
         {
             var target = CreateTarget();
             var entry0 = CreateEntry(0);
 
-            target[0] = entry0;
+            Assert.Throws<ArgumentOutOfRangeException>(() => target[0] = entry0);
+
+
         }
     }
 }

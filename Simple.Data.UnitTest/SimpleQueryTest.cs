@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.UnitTest
 {
@@ -15,7 +16,7 @@ namespace Simple.Data.UnitTest
             var query = new SimpleQuery(null, "foo");
             var criteria = new SimpleExpression(1, 1, SimpleExpressionType.Equal);
             query = query.Where(criteria);
-            Assert.AreSame(criteria, query.Clauses.OfType<WhereClause>().Single().Criteria);
+            ClassicAssert.AreSame(criteria, query.Clauses.OfType<WhereClause>().Single().Criteria);
         }
 
         [Test]
@@ -23,8 +24,8 @@ namespace Simple.Data.UnitTest
         {
             var query = new SimpleQuery(null, "foo");
             query = query.Skip(42);
-            Assert.IsNotNull(query.Clauses.OfType<SkipClause>().FirstOrDefault());
-            Assert.AreEqual(42, query.Clauses.OfType<SkipClause>().First().Count);
+            ClassicAssert.IsNotNull(query.Clauses.OfType<SkipClause>().FirstOrDefault());
+            ClassicAssert.AreEqual(42, query.Clauses.OfType<SkipClause>().First().Count);
         }
 
         [Test]
@@ -32,8 +33,8 @@ namespace Simple.Data.UnitTest
         {
             var query = new SimpleQuery(null, "foo");
             query = query.Take(42);
-            Assert.IsNotNull(query.Clauses.OfType<TakeClause>().FirstOrDefault());
-            Assert.AreEqual(42, query.Clauses.OfType<TakeClause>().First().Count);
+            ClassicAssert.IsNotNull(query.Clauses.OfType<TakeClause>().FirstOrDefault());
+            ClassicAssert.AreEqual(42, query.Clauses.OfType<TakeClause>().First().Count);
         }
 
         [Test]
@@ -41,8 +42,8 @@ namespace Simple.Data.UnitTest
         {
             var query = new SimpleQuery(null, "foo");
             query = query.OrderBy(new ObjectReference("bar"));
-            Assert.AreEqual("bar", query.Clauses.OfType<OrderByClause>().Single().Reference.GetName());
-            Assert.AreEqual(OrderByDirection.Ascending, query.Clauses.OfType<OrderByClause>().Single().Direction);
+            ClassicAssert.AreEqual("bar", query.Clauses.OfType<OrderByClause>().Single().Reference.GetName());
+            ClassicAssert.AreEqual(OrderByDirection.Ascending, query.Clauses.OfType<OrderByClause>().Single().Direction);
         }
 
         [Test]
@@ -50,8 +51,8 @@ namespace Simple.Data.UnitTest
         {
             var query = new SimpleQuery(null, "foo");
             query = query.OrderBy(new ObjectReference("bar"), OrderByDirection.Descending);
-            Assert.AreEqual("bar", query.Clauses.OfType<OrderByClause>().Single().Reference.GetName());
-            Assert.AreEqual(OrderByDirection.Descending, query.Clauses.OfType<OrderByClause>().Single().Direction);
+            ClassicAssert.AreEqual("bar", query.Clauses.OfType<OrderByClause>().Single().Reference.GetName());
+            ClassicAssert.AreEqual(OrderByDirection.Descending, query.Clauses.OfType<OrderByClause>().Single().Direction);
         }
 
         [Test]
@@ -59,8 +60,8 @@ namespace Simple.Data.UnitTest
         {
             dynamic query = new SimpleQuery(null, "foo");
             SimpleQuery actual = query.OrderByBar();
-            Assert.AreEqual("bar", actual.Clauses.OfType<OrderByClause>().Single().Reference.GetName().ToLowerInvariant());
-            Assert.AreEqual(OrderByDirection.Ascending, actual.Clauses.OfType<OrderByClause>().Single().Direction);
+            ClassicAssert.AreEqual("bar", actual.Clauses.OfType<OrderByClause>().Single().Reference.GetName().ToLowerInvariant());
+            ClassicAssert.AreEqual(OrderByDirection.Ascending, actual.Clauses.OfType<OrderByClause>().Single().Direction);
         }
 
         [Test]
@@ -68,10 +69,10 @@ namespace Simple.Data.UnitTest
         {
             dynamic query = new SimpleQuery(null, "foo");
             SimpleQuery actual = query.OrderByBar().ThenByQuux();
-            Assert.AreEqual("bar", actual.Clauses.OfType<OrderByClause>().First().Reference.GetName().ToLowerInvariant());
-            Assert.AreEqual("quux", actual.Clauses.OfType<OrderByClause>().Skip(1).First().Reference.GetName().ToLowerInvariant());
-            Assert.AreEqual(OrderByDirection.Ascending, actual.Clauses.OfType<OrderByClause>().First().Direction);
-            Assert.AreEqual(OrderByDirection.Ascending, actual.Clauses.OfType<OrderByClause>().Skip(1).First().Direction);
+            ClassicAssert.AreEqual("bar", actual.Clauses.OfType<OrderByClause>().First().Reference.GetName().ToLowerInvariant());
+            ClassicAssert.AreEqual("quux", actual.Clauses.OfType<OrderByClause>().Skip(1).First().Reference.GetName().ToLowerInvariant());
+            ClassicAssert.AreEqual(OrderByDirection.Ascending, actual.Clauses.OfType<OrderByClause>().First().Direction);
+            ClassicAssert.AreEqual(OrderByDirection.Ascending, actual.Clauses.OfType<OrderByClause>().Skip(1).First().Direction);
         }
 
         [Test]
@@ -80,23 +81,23 @@ namespace Simple.Data.UnitTest
             var query = new SimpleQuery(null, "foo");
             query = query.OrderBy(new ObjectReference("bar"), OrderByDirection.Ascending)
                          .ThenBy(new ObjectReference("quux"), OrderByDirection.Descending);
-            Assert.AreEqual("bar", query.Clauses.OfType<OrderByClause>().First().Reference.GetName());
-            Assert.AreEqual("quux", query.Clauses.OfType<OrderByClause>().Skip(1).First().Reference.GetName());
-            Assert.AreEqual(OrderByDirection.Ascending, query.Clauses.OfType<OrderByClause>().First().Direction);
-            Assert.AreEqual(OrderByDirection.Descending, query.Clauses.OfType<OrderByClause>().Skip(1).First().Direction);
+            ClassicAssert.AreEqual("bar", query.Clauses.OfType<OrderByClause>().First().Reference.GetName());
+            ClassicAssert.AreEqual("quux", query.Clauses.OfType<OrderByClause>().Skip(1).First().Reference.GetName());
+            ClassicAssert.AreEqual(OrderByDirection.Ascending, query.Clauses.OfType<OrderByClause>().First().Direction);
+            ClassicAssert.AreEqual(OrderByDirection.Descending, query.Clauses.OfType<OrderByClause>().Skip(1).First().Direction);
         }
-        
+
         [Test]
         public void ThenByShouldModifyOrderAscending()
         {
             var query = new SimpleQuery(null, "foo");
             query = query.OrderBy(new ObjectReference("bar")).ThenBy(new ObjectReference("quux"));
             var actual = query.Clauses.OfType<OrderByClause>().ToArray();
-            Assert.AreEqual(2, actual.Length);
-            Assert.AreEqual("bar", actual[0].Reference.GetName());
-            Assert.AreEqual(OrderByDirection.Ascending, actual[0].Direction);
-            Assert.AreEqual("quux", actual[1].Reference.GetName());
-            Assert.AreEqual(OrderByDirection.Ascending, actual[1].Direction);
+            ClassicAssert.AreEqual(2, actual.Length);
+            ClassicAssert.AreEqual("bar", actual[0].Reference.GetName());
+            ClassicAssert.AreEqual(OrderByDirection.Ascending, actual[0].Direction);
+            ClassicAssert.AreEqual("quux", actual[1].Reference.GetName());
+            ClassicAssert.AreEqual(OrderByDirection.Ascending, actual[1].Direction);
         }
 
         [Test]
@@ -104,8 +105,8 @@ namespace Simple.Data.UnitTest
         {
             var query = new SimpleQuery(null, "foo");
             query = query.OrderByDescending(new ObjectReference("bar"));
-            Assert.AreEqual("bar", query.Clauses.OfType<OrderByClause>().Single().Reference.GetName());
-            Assert.AreEqual(OrderByDirection.Descending, query.Clauses.OfType<OrderByClause>().Single().Direction);
+            ClassicAssert.AreEqual("bar", query.Clauses.OfType<OrderByClause>().Single().Reference.GetName());
+            ClassicAssert.AreEqual(OrderByDirection.Descending, query.Clauses.OfType<OrderByClause>().Single().Direction);
         }
 
         [Test]
@@ -113,8 +114,8 @@ namespace Simple.Data.UnitTest
         {
             dynamic query = new SimpleQuery(null, "foo");
             SimpleQuery actual = query.OrderByBarDescending();
-            Assert.AreEqual("bar", actual.Clauses.OfType<OrderByClause>().Single().Reference.GetName().ToLowerInvariant());
-            Assert.AreEqual(OrderByDirection.Descending, actual.Clauses.OfType<OrderByClause>().Single().Direction);
+            ClassicAssert.AreEqual("bar", actual.Clauses.OfType<OrderByClause>().Single().Reference.GetName().ToLowerInvariant());
+            ClassicAssert.AreEqual(OrderByDirection.Descending, actual.Clauses.OfType<OrderByClause>().Single().Direction);
         }
 
         [Test]
@@ -123,25 +124,23 @@ namespace Simple.Data.UnitTest
             var query = new SimpleQuery(null, "foo");
             query = query.OrderBy(new ObjectReference("bar")).ThenByDescending(new ObjectReference("quux"));
             var actual = query.Clauses.OfType<OrderByClause>().ToArray();
-            Assert.AreEqual(2, actual.Length);
-            Assert.AreEqual("bar", actual[0].Reference.GetName());
-            Assert.AreEqual(OrderByDirection.Ascending, actual[0].Direction);
-            Assert.AreEqual("quux", actual[1].Reference.GetName());
-            Assert.AreEqual(OrderByDirection.Descending, actual[1].Direction);
+            ClassicAssert.AreEqual(2, actual.Length);
+            ClassicAssert.AreEqual("bar", actual[0].Reference.GetName());
+            ClassicAssert.AreEqual(OrderByDirection.Ascending, actual[0].Direction);
+            ClassicAssert.AreEqual("quux", actual[1].Reference.GetName());
+            ClassicAssert.AreEqual(OrderByDirection.Descending, actual[1].Direction);
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ThenByWithoutOrderByShouldThrow()
         {
-            new SimpleQuery(null, "foo").ThenBy(new ObjectReference("bar"));
+            Assert.Throws<InvalidOperationException>(() => new SimpleQuery(null, "foo").ThenBy(new ObjectReference("bar")));
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ThenByDescendingWithoutOrderByShouldThrow()
         {
-            new SimpleQuery(null, "foo").ThenByDescending(new ObjectReference("bar"));
+            Assert.Throws<InvalidOperationException>(() => new SimpleQuery(null, "foo").ThenByDescending(new ObjectReference("bar")));
         }
 
         [Test]
@@ -149,10 +148,10 @@ namespace Simple.Data.UnitTest
         {
             dynamic q = new SimpleQuery(null, "foo");
             q = q.Join(new ObjectReference("bar"), foo_id: new ObjectReference("id", new ObjectReference("foo")));
-            var query = (SimpleQuery) q;
-            Assert.AreEqual(1, query.Clauses.OfType<JoinClause>().Count());
+            var query = (SimpleQuery)q;
+            ClassicAssert.AreEqual(1, query.Clauses.OfType<JoinClause>().Count());
             var join = query.Clauses.OfType<JoinClause>().Single();
-            Assert.AreEqual("bar", join.Table.GetName());
+            ClassicAssert.AreEqual("bar", join.Table.GetName());
         }
 
         [Test]
@@ -162,44 +161,44 @@ namespace Simple.Data.UnitTest
             dynamic quux;
             SimpleQuery q = db.foo.Query().Join(new ObjectReference("bar").As("quux"), out quux).On(db.foo.id == quux.foo_id);
             var join = q.Clauses.OfType<JoinClause>().Single();
-            Assert.AreEqual("quux", join.Name);
-            Assert.AreEqual(quux, join.Table);
-            Assert.AreEqual(db.foo.id, join.JoinExpression.LeftOperand);
-            Assert.AreEqual(quux.foo_id, join.JoinExpression.RightOperand);
-            Assert.AreEqual(SimpleExpressionType.Equal, join.JoinExpression.Type);
+            ClassicAssert.AreEqual("quux", join.Name);
+            ClassicAssert.AreEqual(quux, join.Table);
+            ClassicAssert.AreEqual(db.foo.id, join.JoinExpression.LeftOperand);
+            ClassicAssert.AreEqual(quux.foo_id, join.JoinExpression.RightOperand);
+            ClassicAssert.AreEqual(SimpleExpressionType.Equal, join.JoinExpression.Type);
         }
 
         [Test]
         public void ForUpdateShouldAddAClause()
         {
             var query = new SimpleQuery(null, "foo").ForUpdate(true);
-            Assert.AreEqual(1, query.Clauses.OfType<ForUpdateClause>().Count());
+            ClassicAssert.AreEqual(1, query.Clauses.OfType<ForUpdateClause>().Count());
             var forUpdate = query.Clauses.OfType<ForUpdateClause>().Single();
-            Assert.IsTrue(forUpdate.SkipLockedRows);
+            ClassicAssert.IsTrue(forUpdate.SkipLockedRows);
         }
 
         [Test]
         public void SubsequentCallsToForUpdateShouldReplaceClause()
         {
             var query = new SimpleQuery(null, "foo").ForUpdate(false);
-            Assert.AreEqual(1, query.Clauses.OfType<ForUpdateClause>().Count());
+            ClassicAssert.AreEqual(1, query.Clauses.OfType<ForUpdateClause>().Count());
             var forUpdate = query.Clauses.OfType<ForUpdateClause>().Single();
-            Assert.IsFalse(forUpdate.SkipLockedRows);
+            ClassicAssert.IsFalse(forUpdate.SkipLockedRows);
             query = query.ForUpdate(true);
-            Assert.AreEqual(1, query.Clauses.OfType<ForUpdateClause>().Count());
+            ClassicAssert.AreEqual(1, query.Clauses.OfType<ForUpdateClause>().Count());
             forUpdate = query.Clauses.OfType<ForUpdateClause>().Single();
-            Assert.IsTrue(forUpdate.SkipLockedRows);
+            ClassicAssert.IsTrue(forUpdate.SkipLockedRows);
         }
 
         [Test]
         public void ClearForUpdateRemovesClause()
         {
             var query = new SimpleQuery(null, "foo").ForUpdate(false);
-            Assert.AreEqual(1, query.Clauses.OfType<ForUpdateClause>().Count());
+            ClassicAssert.AreEqual(1, query.Clauses.OfType<ForUpdateClause>().Count());
             var forUpdate = query.Clauses.OfType<ForUpdateClause>().Single();
-            Assert.IsFalse(forUpdate.SkipLockedRows);
+            ClassicAssert.IsFalse(forUpdate.SkipLockedRows);
             query = query.ClearForUpdate();
-            Assert.AreEqual(0, query.Clauses.OfType<ForUpdateClause>().Count());
+            ClassicAssert.AreEqual(0, query.Clauses.OfType<ForUpdateClause>().Count());
         }
     }
 }

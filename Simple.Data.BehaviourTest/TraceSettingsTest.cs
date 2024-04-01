@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.IntegrationTest
 {
@@ -13,14 +14,14 @@ namespace Simple.Data.IntegrationTest
         [Test]
         public void TraceLevelShouldBePickedUpFromConfig()
         {
-            Assert.AreEqual(TraceLevel.Error, Database.TraceLevel);
+            ClassicAssert.AreEqual(TraceLevel.Error, Database.TraceLevel);
         }
 
         [Test]
         public void TraceLevelShouldBeSettableFromCode()
         {
             Database.TraceLevel = TraceLevel.Off;
-            Assert.AreEqual(TraceLevel.Off, Database.TraceLevel);
+            ClassicAssert.AreEqual(TraceLevel.Off, Database.TraceLevel);
 
         }
     }

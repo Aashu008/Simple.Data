@@ -4,12 +4,13 @@ using NUnit.Framework;
 
 namespace Simple.Data.SqlTest
 {
+    using NUnit.Framework.Legacy;
     using System.Collections.Generic;
 
     [TestFixture]
     public class UpdateTests
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             DatabaseHelper.Reset();
@@ -22,10 +23,10 @@ namespace Simple.Data.SqlTest
 
             db.Users.UpdateById(Id: 1, Name: "Ford", Password: "hoopy", Age: 29);
             var user = db.Users.FindById(1);
-            Assert.IsNotNull(user);
-            Assert.AreEqual("Ford", user.Name);
-            Assert.AreEqual("hoopy", user.Password);
-            Assert.AreEqual(29, user.Age);
+            ClassicAssert.IsNotNull(user);
+            ClassicAssert.AreEqual("Ford", user.Name);
+            ClassicAssert.AreEqual("hoopy", user.Password);
+            ClassicAssert.AreEqual(29, user.Age);
         }
 
         [Test]
@@ -39,10 +40,10 @@ namespace Simple.Data.SqlTest
 
             User actual = db.Users.FindById(2);
 
-            Assert.IsNotNull(user);
-            Assert.AreEqual("Zaphod", actual.Name);
-            Assert.AreEqual("zarquon", actual.Password);
-            Assert.AreEqual(42, actual.Age);
+            ClassicAssert.IsNotNull(user);
+            ClassicAssert.AreEqual("Zaphod", actual.Name);
+            ClassicAssert.AreEqual("zarquon", actual.Password);
+            ClassicAssert.AreEqual(42, actual.Age);
         }
 
         [Test]
@@ -60,10 +61,10 @@ namespace Simple.Data.SqlTest
 
             var actual = db.Users.FindById(3);
 
-            Assert.IsNotNull(user);
-            Assert.AreEqual("Marvin", actual.Name);
-            Assert.AreEqual("diodes", actual.Password);
-            Assert.AreEqual(42000000, actual.Age);
+            ClassicAssert.IsNotNull(user);
+            ClassicAssert.AreEqual("Marvin", actual.Name);
+            ClassicAssert.AreEqual("diodes", actual.Password);
+            ClassicAssert.AreEqual(42000000, actual.Age);
         }
 
         [Test]
@@ -71,19 +72,19 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var blob = new Blob
-                           {
-                               Id = 1,
-                               Data = new byte[] {9, 8, 7, 6, 5, 4, 3, 2, 1, 0}
-                           };
+            {
+                Id = 1,
+                Data = new byte[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }
+            };
             db.Blobs.Insert(blob);
 
-            var newData = blob.Data = new byte[] {0,1,2,3,4,5,6,7,8,9};
+            var newData = blob.Data = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
             db.Blobs.Update(blob);
 
             blob = db.Blobs.FindById(1);
-            
-            Assert.IsTrue(newData.SequenceEqual(blob.Data));
+
+            ClassicAssert.IsTrue(newData.SequenceEqual(blob.Data));
         }
 
         [Test]
@@ -92,7 +93,7 @@ namespace Simple.Data.SqlTest
             var db = DatabaseHelper.Open();
             db.Customers.UpdateAll(db.Customers.Orders.OrderId == 1, Name: "Updated");
             var customer = db.Customers.Get(1);
-            Assert.AreEqual("Updated", customer.Name);
+            ClassicAssert.AreEqual("Updated", customer.Name);
         }
 
         [Test]
@@ -101,7 +102,7 @@ namespace Simple.Data.SqlTest
             var db = DatabaseHelper.Open();
             db.test.SchemaTable.UpdateAll(db.test.SchemaTable.Id == 1138, Description: "Updated");
             var test = db.test.SchemaTable.FindById(1138);
-            Assert.IsNull(test);
+            ClassicAssert.IsNull(test);
         }
 
         [Test]
@@ -110,9 +111,9 @@ namespace Simple.Data.SqlTest
             var db = DatabaseHelper.Open();
             db.CompoundKeyMaster.UpdateAll(db.CompoundKeyMaster.CompoundKeyDetail.Value == 1, Description: "Updated");
             var record = db.CompoundKeyMaster.Get(1, 1);
-            Assert.AreEqual("Updated", record.Description);
+            ClassicAssert.AreEqual("Updated", record.Description);
         }
-        
+
         [Test]
         public void ToListShouldExecuteQuery()
         {
@@ -135,7 +136,7 @@ namespace Simple.Data.SqlTest
             row.Description = "Updated";
             db.TimestampTest.Update(row);
             row = db.TimestampTest.Get(row.Id);
-            Assert.AreEqual("Updated", row.Description);
+            ClassicAssert.AreEqual("Updated", row.Description);
         }
 
         [Test]
@@ -154,7 +155,7 @@ namespace Simple.Data.SqlTest
 
             db.Users.UpdateById(user);
 
-            Assert.AreEqual(4, user.Keys.Count);
+            ClassicAssert.AreEqual(4, user.Keys.Count);
         }
 
         [Test]
@@ -170,9 +171,9 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var user = db.Users.Insert(Age: 54, Name: "YZ1", Password: "argh");
-            db.Users.Update(new {Name = "2YZ"}, new {Name = "YZ1"});
+            db.Users.Update(new { Name = "2YZ" }, new { Name = "YZ1" });
             var actual = db.Users.FindById(user.Id);
-            Assert.AreEqual("2YZ", actual.Name);
+            ClassicAssert.AreEqual("2YZ", actual.Name);
         }
     }
 }

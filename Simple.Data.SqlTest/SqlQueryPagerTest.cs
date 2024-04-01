@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Simple.Data.Ado;
 using Simple.Data.SqlServer;
 
@@ -23,7 +24,7 @@ namespace Simple.Data.SqlTest
             var pagedSql = new SqlQueryPager().ApplyLimit(sql, 5);
             var modified = pagedSql.Select(x => Normalize.Replace(x, " ").ToLowerInvariant());
 
-            Assert.IsTrue(expected.SequenceEqual(modified));
+            ClassicAssert.IsTrue(expected.SequenceEqual(modified));
         }
 
         [Test]
@@ -35,7 +36,7 @@ namespace Simple.Data.SqlTest
             var pagedSql = new SqlQueryPager().ApplyLimit(sql, 5);
             var modified = pagedSql.Select(x => Normalize.Replace(x, " ").ToLowerInvariant());
 
-            Assert.IsTrue(expected.SequenceEqual(modified));
+            ClassicAssert.IsTrue(expected.SequenceEqual(modified));
         }
 
         [Test]
@@ -46,10 +47,10 @@ namespace Simple.Data.SqlTest
                 "with __data as (select [dbo].[d].[a], row_number() over(order by [dbo].[d].[c]) as [_#_] from [dbo].[d] where [dbo].[d].[a] = 1)"
                 + " select [dbo].[d].[a],[dbo].[d].[b],[dbo].[d].[c] from __data join [dbo].[d] on [dbo].[d].[a] = __data.[a] where [dbo].[d].[a] = 1 and [_#_] between 6 and 15"};
 
-            var pagedSql = new SqlQueryPager().ApplyPaging(sql, new[] {"[dbo].[d].[a]"}, 5, 10);
+            var pagedSql = new SqlQueryPager().ApplyPaging(sql, new[] { "[dbo].[d].[a]" }, 5, 10);
             var modified = pagedSql.Select(x => Normalize.Replace(x, " ").ToLowerInvariant()).ToArray();
 
-            Assert.AreEqual(expected[0], modified[0]);
+            ClassicAssert.AreEqual(expected[0], modified[0]);
         }
 
         [Test]
@@ -60,24 +61,24 @@ namespace Simple.Data.SqlTest
                 "with __data as (select [dbo].[d].[a], row_number() over(order by [dbo].[d].[a]) as [_#_] from [dbo].[d] where [dbo].[d].[a] = 1)"
                 + " select [dbo].[d].[a],[dbo].[d].[b],[dbo].[d].[c] from __data join [dbo].[d] on [dbo].[d].[a] = __data.[a] where [dbo].[d].[a] = 1 and [_#_] between 11 and 30"};
 
-            var pagedSql = new SqlQueryPager().ApplyPaging(sql, new[] {"[dbo].[d].[a]"}, 10, 20);
+            var pagedSql = new SqlQueryPager().ApplyPaging(sql, new[] { "[dbo].[d].[a]" }, 10, 20);
             var modified = pagedSql.Select(x => Normalize.Replace(x, " ").ToLowerInvariant()).ToArray();
 
-            Assert.AreEqual(expected[0], modified[0]);
+            ClassicAssert.AreEqual(expected[0], modified[0]);
         }
 
         [Test]
         public void ShouldCopeWithAliasedColumns()
         {
             var sql = "select [dbo].[d].[a],[dbo].[d].[b] as [foo],[dbo].[d].[c] from [dbo].[d] where [dbo].[d].[a] = 1";
-            var expected =new[]{
+            var expected = new[]{
                 "with __data as (select [dbo].[d].[a], row_number() over(order by [dbo].[d].[a]) as [_#_] from [dbo].[d] where [dbo].[d].[a] = 1)"
                 + " select [dbo].[d].[a],[dbo].[d].[b] as [foo],[dbo].[d].[c] from __data join [dbo].[d] on [dbo].[d].[a] = __data.[a] where [dbo].[d].[a] = 1 and [_#_] between 21 and 25"};
 
-            var pagedSql = new SqlQueryPager().ApplyPaging(sql, new[]{"[dbo].[d].[a]"}, 20, 5);
+            var pagedSql = new SqlQueryPager().ApplyPaging(sql, new[] { "[dbo].[d].[a]" }, 20, 5);
             var modified = pagedSql.Select(x => Normalize.Replace(x, " ").ToLowerInvariant()).ToArray();
 
-            Assert.AreEqual(expected[0], modified[0]);
+            ClassicAssert.AreEqual(expected[0], modified[0]);
         }
 
         [Test]
@@ -90,9 +91,9 @@ namespace Simple.Data.SqlTest
             var expected = @"with __data as (select [dbo].[promoposts].[id], row_number() over(order by [dbo].[promoposts].[activefrom]) as [_#_] from [dbo].[promoposts]) select [dbo].[promoposts].[id],[dbo].[promoposts].[activefrom],[dbo].[promoposts].[activeto],[dbo].[promoposts].[created],[dbo].[promoposts].[updated] from __data join [dbo].[promoposts] on [dbo].[promoposts].[id] = __data.[id] and [_#_] between 1 and 25";
             expected = expected.ToLowerInvariant();
 
-            var pagedSql = new SqlQueryPager().ApplyPaging(sql, new[] {"[dbo].[PromoPosts].[Id]"}, 0, 25).Single();
+            var pagedSql = new SqlQueryPager().ApplyPaging(sql, new[] { "[dbo].[PromoPosts].[Id]" }, 0, 25).Single();
             var modified = Normalize.Replace(pagedSql, " ").ToLowerInvariant();
-            Assert.AreEqual(expected, modified);
+            ClassicAssert.AreEqual(expected, modified);
         }
 
         [Test]
@@ -109,13 +110,13 @@ namespace Simple.Data.SqlTest
 
             const string expected = @"with __data as (select [dbo].[promoposts].[id], row_number() over(order by [dbo].[promoposts].[id]) as [_#_] from [dbo].[mainclass] where ([dbo].[mainclass].[someproperty] > @p1 and [dbo].[mainclass].[someproperty] <= @p2)) select [dbo].[mainclass].[id], [dbo].[mainclass].[someproperty], [dbo].[mainclass].[someproperty2], [dbo].[mainclass].[someproperty3], [dbo].[mainclass].[someproperty4], [dbo].[childclass].[id] as [__withn__childclass__id], [dbo].[childclass].[someproperty] as [__withn__childclass__someproperty], [dbo].[childclass].[someproperty2] as [__withn__childclass__someproperty2] from __data join [dbo].[promoposts] on [dbo].[promoposts].[id] = __data.[id]from [dbo].[mainclass] left join [dbo].[jointable] on ([dbo].[mainclass].[id] = [dbo].[jointable].[mainclassid]) left join [dbo].[childclass] on ([dbo].[childclass].[id] = [dbo].[jointable].[childclassid]) where ([dbo].[mainclass].[someproperty] > @p1 and [dbo].[mainclass].[someproperty] <= @p2) and [_#_] between 1 and 25";
 
-            var pagedSql = new SqlQueryPager().ApplyPaging(sql, new[] {"[dbo].[PromoPosts].[Id]"}, 0, 25).Single();
+            var pagedSql = new SqlQueryPager().ApplyPaging(sql, new[] { "[dbo].[PromoPosts].[Id]" }, 0, 25).Single();
             var modified = Normalize.Replace(pagedSql, " ").ToLowerInvariant();
-            Assert.AreEqual(expected, modified);
+            ClassicAssert.AreEqual(expected, modified);
         }
 
         [Test]
-        public void ShouldThrowIfTableHasNoPrimaryKey([Values(null, new string[0])]string[] keys)
+        public void ShouldThrowIfTableHasNoPrimaryKey([Values(null, new string[0])] string[] keys)
         {
             var sql = "select [dbo].[d].[a] from [dbo].[b]";
 

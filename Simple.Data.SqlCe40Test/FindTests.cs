@@ -5,6 +5,7 @@ using System.IO;
 using Simple.Data.Ado;
 using Simple.Data.SqlCe40;
 using Simple.Data.SqlCeTest;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.SqlCe40Test
 {
@@ -18,7 +19,7 @@ namespace Simple.Data.SqlCe40Test
             Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase.Substring(8)),
             "TestDatabase.sdf");
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void DeleteAlice()
         {
             var db = Database.Opener.OpenFile(DatabasePath);
@@ -29,14 +30,14 @@ namespace Simple.Data.SqlCe40Test
         public void TestProviderWithFileName()
         {
             var provider = new ProviderHelper().GetProviderByFilename(DatabasePath);
-            Assert.IsInstanceOf(typeof (SqlCe40ConnectionProvider), provider);
+            ClassicAssert.IsInstanceOf(typeof(SqlCe40ConnectionProvider), provider);
         }
 
         [Test]
         public void TestProviderWithConnectionString()
         {
             var provider = new ProviderHelper().GetProviderByConnectionString(string.Format("data source={0}", DatabasePath));
-            Assert.IsInstanceOf(typeof(SqlCe40ConnectionProvider), provider);
+            ClassicAssert.IsInstanceOf(typeof(SqlCe40ConnectionProvider), provider);
         }
 
         [Test]
@@ -44,7 +45,7 @@ namespace Simple.Data.SqlCe40Test
         {
             var db = Database.Opener.OpenFile(DatabasePath);
             var user = db.Users.FindById(1);
-            Assert.AreEqual(1, user.Id);
+            ClassicAssert.AreEqual(1, user.Id);
         }
 
         [Test]
@@ -52,7 +53,7 @@ namespace Simple.Data.SqlCe40Test
         {
             var db = Database.OpenFile(DatabasePath);
             var all = new List<object>(db.Users.All().Cast<dynamic>());
-            Assert.IsNotEmpty(all);
+            ClassicAssert.IsNotEmpty(all);
         }
 
         [Test]
@@ -60,7 +61,7 @@ namespace Simple.Data.SqlCe40Test
         {
             var db = Database.OpenFile(DatabasePath);
             User user = db.Users.FindById(1);
-            Assert.AreEqual(1, user.Id);
+            ClassicAssert.AreEqual(1, user.Id);
         }
 
         [Test]
@@ -69,7 +70,7 @@ namespace Simple.Data.SqlCe40Test
             var db = Database.OpenFile(DatabasePath);
             foreach (User user in db.Users.All())
             {
-                Assert.IsNotNull(user);
+                ClassicAssert.IsNotNull(user);
             }
         }
 
@@ -80,10 +81,10 @@ namespace Simple.Data.SqlCe40Test
 
             var user = db.Users.Insert(Name: "Alice", Password: "foo", Age: 29);
 
-            Assert.IsNotNull(user);
-            Assert.AreEqual("Alice", user.Name);
-            Assert.AreEqual("foo", user.Password);
-            Assert.AreEqual(29, user.Age);
+            ClassicAssert.IsNotNull(user);
+            ClassicAssert.AreEqual("Alice", user.Name);
+            ClassicAssert.AreEqual("foo", user.Password);
+            ClassicAssert.AreEqual(29, user.Age);
         }
     }
 }

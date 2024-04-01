@@ -6,11 +6,12 @@ using System.Text;
 namespace Simple.Data.SqlTest
 {
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class EnumTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             DatabaseHelper.Reset();
@@ -21,14 +22,14 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             EnumTestClass actual = db.EnumTest.Insert(Flag: TestFlag.One);
-            Assert.AreEqual(TestFlag.One, actual.Flag);
+            ClassicAssert.AreEqual(TestFlag.One, actual.Flag);
 
             actual.Flag = TestFlag.Three;
 
             db.EnumTest.Update(actual);
 
             actual = db.EnumTest.FindById(actual.Id);
-            Assert.AreEqual(TestFlag.Three, actual.Flag);
+            ClassicAssert.AreEqual(TestFlag.Three, actual.Flag);
         }
     }
 
@@ -42,7 +43,7 @@ namespace Simple.Data.SqlTest
     {
         None = 0,
         One = 1,
-        Two = 2, 
+        Two = 2,
         Three = 3
     }
 }

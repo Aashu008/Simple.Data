@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Simple.Data.Ado;
 using Simple.Data.Ado.Schema;
 using Simple.Data.TestHelper;
@@ -24,50 +25,50 @@ namespace Simple.Data.SqlCe40Test.SchemaTests
         [Test]
         public void TestTables()
         {
-            Assert.AreEqual(1, Schema.Tables.Count(t => t.ActualName == "Users"));
+            ClassicAssert.AreEqual(1, Schema.Tables.Count(t => t.ActualName == "Users"));
         }
 
         [Test]
         public void TestColumns()
         {
             var table = Schema.FindTable("Users");
-            Assert.AreEqual(1, table.Columns.Count(c => c.ActualName == "Id"));
+            ClassicAssert.AreEqual(1, table.Columns.Count(c => c.ActualName == "Id"));
         }
 
         [Test]
         public void TestPrimaryKey()
         {
-            Assert.AreEqual("CustomerId", Schema.FindTable("Customers").PrimaryKey[0]);
+            ClassicAssert.AreEqual("CustomerId", Schema.FindTable("Customers").PrimaryKey[0]);
         }
 
         [Test]
         public void TestForeignKey()
         {
             var foreignKey = Schema.FindTable("Orders").ForeignKeys.Single();
-            Assert.AreEqual("Customers", foreignKey.MasterTable.Name);
-            Assert.AreEqual("Orders", foreignKey.DetailTable.Name);
-            Assert.AreEqual("CustomerId", foreignKey.Columns[0]);
-            Assert.AreEqual("CustomerId", foreignKey.UniqueColumns[0]);
+            ClassicAssert.AreEqual("Customers", foreignKey.MasterTable.Name);
+            ClassicAssert.AreEqual("Orders", foreignKey.DetailTable.Name);
+            ClassicAssert.AreEqual("CustomerId", foreignKey.Columns[0]);
+            ClassicAssert.AreEqual("CustomerId", foreignKey.UniqueColumns[0]);
         }
 
         [Test]
         public void TestSingularResolution()
         {
-            Assert.AreEqual("OrderItems",
+            ClassicAssert.AreEqual("OrderItems",
                 Schema.FindTable("OrderItem").ActualName);
         }
 
         [Test]
         public void TestShoutySingularResolution()
         {
-            Assert.AreEqual("OrderItems",
+            ClassicAssert.AreEqual("OrderItems",
                 Schema.FindTable("ORDER_ITEM").ActualName);
         }
 
         [Test]
         public void TestShoutyPluralResolution()
         {
-            Assert.AreEqual("OrderItems",
+            ClassicAssert.AreEqual("OrderItems",
                 Schema.FindTable("ORDER_ITEM").ActualName);
         }
     }

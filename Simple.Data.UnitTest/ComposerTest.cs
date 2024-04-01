@@ -1,6 +1,7 @@
 ﻿namespace Simple.Data.UnitTest
 {
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class ComposerTest
@@ -10,7 +11,7 @@
         {
             var stub = new StubComposer();
             Composer.SetDefault(stub);
-            Assert.AreSame(stub, Composer.Default);
+            ClassicAssert.AreSame(stub, Composer.Default);
         }
     }
 }

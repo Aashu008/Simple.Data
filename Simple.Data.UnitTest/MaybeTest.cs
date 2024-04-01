@@ -2,6 +2,7 @@ namespace Simple.Data.UnitTest
 {
     using System;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class MaybeTest
@@ -10,13 +11,13 @@ namespace Simple.Data.UnitTest
         [Test]
         public void MaybeNoneShouldBeFalse()
         {
-            Assert.False(Maybe<int>.None.HasValue);
+            ClassicAssert.False(Maybe<int>.None.HasValue);
         }
 
         [Test]
         public void MaybeSomeShouldBeTrue()
         {
-            Assert.True(Maybe<int>.Some(1).HasValue);
+            ClassicAssert.True(Maybe<int>.Some(1).HasValue);
         }
 
         [Test]
@@ -27,34 +28,34 @@ namespace Simple.Data.UnitTest
             Maybe<int> maybe;
             while ((maybe = iterator()).HasValue)
             {
-                Assert.AreEqual(n, maybe.Value);
+                ClassicAssert.AreEqual(n, maybe.Value);
             }
-            Assert.False(maybe.HasValue);
+            ClassicAssert.False(maybe.HasValue);
         }
 
         [Test]
         public void NoneOfSameTypeShouldBeEqual()
         {
-            Assert.AreEqual(Maybe<int>.None, Maybe<int>.None);
+            ClassicAssert.AreEqual(Maybe<int>.None, Maybe<int>.None);
         }
 
         [Test]
         public void NoneOfDifferentTypeShouldNotBeEqual()
         {
-            Assert.AreNotEqual(Maybe<int>.None, Maybe<long>.None);
+            ClassicAssert.AreNotEqual(Maybe<int>.None, Maybe<long>.None);
         }
 
         [Test]
         public void NoneValueIsDefault()
         {
-            Assert.AreEqual(default(int), Maybe<int>.None.Value);
-            Assert.IsNull(Maybe<object>.None.Value);
+            ClassicAssert.AreEqual(default(int), Maybe<int>.None.Value);
+            ClassicAssert.IsNull(Maybe<object>.None.Value);
         }
 
         [Test]
         public void NoneToStringIsEmptyString()
         {
-            Assert.AreEqual(string.Empty, Maybe<int>.None.ToString());
+            ClassicAssert.AreEqual(string.Empty, Maybe<int>.None.ToString());
         }
 
         [Test]
@@ -62,7 +63,7 @@ namespace Simple.Data.UnitTest
         {
             var first = Maybe.Some(42);
             var second = Maybe.Some(42);
-            Assert.IsTrue(first == second);
+            ClassicAssert.IsTrue(first == second);
         }
 
         [Test]
@@ -70,7 +71,7 @@ namespace Simple.Data.UnitTest
         {
             var first = Maybe.Some(42);
             var second = Maybe.Some(43);
-            Assert.IsFalse(first == second);
+            ClassicAssert.IsFalse(first == second);
         }
 
         [Test]
@@ -78,7 +79,7 @@ namespace Simple.Data.UnitTest
         {
             var first = Maybe.Some(42);
             var second = Maybe.Some(42);
-            Assert.IsFalse(first != second);
+            ClassicAssert.IsFalse(first != second);
         }
 
         [Test]
@@ -86,7 +87,7 @@ namespace Simple.Data.UnitTest
         {
             var first = Maybe.Some(42);
             var second = Maybe.Some(43);
-            Assert.IsTrue(first != second);
+            ClassicAssert.IsTrue(first != second);
         }
     }
 }

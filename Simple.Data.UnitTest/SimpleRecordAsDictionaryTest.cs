@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class SimpleRecordAsDictionaryTest
@@ -26,20 +27,22 @@
 
             target.Add(entry);
 
-            Assert.AreEqual(1, target.Count);
-            Assert.IsTrue(target.ContainsKey(entry.Key));
-            Assert.AreEqual(entry.Value, target[entry.Key]);
+            ClassicAssert.AreEqual(1, target.Count);
+            ClassicAssert.IsTrue(target.ContainsKey(entry.Key));
+            ClassicAssert.AreEqual(entry.Value, target[entry.Key]);
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void AddDuplicateKeyValuePairShouldThrow()
         {
             var target = CreateTarget();
             var entry = CreateEntry(0);
 
-            target.Add(entry);
-            target.Add(entry);
+            Assert.Throws<ArgumentException>(() =>
+            {
+                target.Add(entry);
+                target.Add(entry);
+            });
         }
 
         [Test]
@@ -50,20 +53,24 @@
 
             target.Add(entry.Key, entry.Value);
 
-            Assert.AreEqual(1, target.Count);
-            Assert.IsTrue(target.ContainsKey(entry.Key));
-            Assert.AreEqual(entry.Value, target[entry.Key]);
+            ClassicAssert.AreEqual(1, target.Count);
+            ClassicAssert.IsTrue(target.ContainsKey(entry.Key));
+            ClassicAssert.AreEqual(entry.Value, target[entry.Key]);
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void AddDuplicateKeyAndValueShouldThrow()
         {
             var target = CreateTarget();
             var entry = CreateEntry(0);
 
-            target.Add(entry.Key, entry.Value);
-            target.Add(entry.Key, entry.Value);
+            Assert.Throws<ArgumentException>(() =>
+            {
+                target.Add(entry.Key, entry.Value);
+                target.Add(entry.Key, entry.Value);
+            });
+
+
         }
 
         [Test]
@@ -74,7 +81,7 @@
             target.Add(CreateEntry(1));
             target.Clear();
 
-            Assert.AreEqual(0, target.Count);
+            ClassicAssert.AreEqual(0, target.Count);
         }
 
         [Test]
@@ -83,7 +90,7 @@
             var target = CreateTarget();
             var entry = CreateEntry(0);
             target.Add(entry);
-            Assert.IsTrue(target.Contains(entry));
+            ClassicAssert.IsTrue(target.Contains(entry));
         }
 
         [Test]
@@ -91,7 +98,7 @@
         {
             var target = CreateTarget();
             var entry = CreateEntry(0);
-            Assert.IsFalse(target.Contains(entry));
+            ClassicAssert.IsFalse(target.Contains(entry));
         }
 
         [Test]
@@ -100,7 +107,7 @@
             var target = CreateTarget();
             var entry = CreateEntry(0);
             target.Add(entry);
-            Assert.IsTrue(target.ContainsKey(entry.Key));
+            ClassicAssert.IsTrue(target.ContainsKey(entry.Key));
         }
 
         [Test]
@@ -108,7 +115,7 @@
         {
             var target = CreateTarget();
             var entry = CreateEntry(0);
-            Assert.IsFalse(target.ContainsKey(entry.Key));
+            ClassicAssert.IsFalse(target.ContainsKey(entry.Key));
         }
 
         [Test]
@@ -120,11 +127,11 @@
             target.Add(entry0);
             target.Add(entry1);
 
-            var array = new KeyValuePair<string,object>[2];
+            var array = new KeyValuePair<string, object>[2];
             target.CopyTo(array, 0);
 
-            Assert.AreEqual(entry0, array[0]);
-            Assert.AreEqual(entry1, array[1]);
+            ClassicAssert.AreEqual(entry0, array[0]);
+            ClassicAssert.AreEqual(entry1, array[1]);
         }
 
         [Test]
@@ -136,18 +143,18 @@
             target.Add(entry0);
             target.Add(entry1);
 
-            var array = new KeyValuePair<string,object>[3];
+            var array = new KeyValuePair<string, object>[3];
             target.CopyTo(array, 1);
 
-            Assert.AreEqual(entry0, array[1]);
-            Assert.AreEqual(entry1, array[2]);
+            ClassicAssert.AreEqual(entry0, array[1]);
+            ClassicAssert.AreEqual(entry1, array[2]);
         }
 
         [Test]
         public void CountOnNewInstanceShouldBeZero()
         {
             var target = CreateTarget();
-            Assert.AreEqual(0, target.Count);
+            ClassicAssert.AreEqual(0, target.Count);
         }
 
         [Test]
@@ -155,7 +162,7 @@
         {
             var target = CreateTarget();
             target.Add(CreateEntry(0));
-            Assert.AreEqual(1, target.Count);
+            ClassicAssert.AreEqual(1, target.Count);
         }
 
         [Test]
@@ -166,9 +173,9 @@
             target.Add(entry);
 
             var enumerator = target.GetEnumerator();
-            Assert.IsTrue(enumerator.MoveNext());
-            Assert.AreEqual(entry, enumerator.Current);
-            Assert.IsFalse(enumerator.MoveNext());
+            ClassicAssert.IsTrue(enumerator.MoveNext());
+            ClassicAssert.AreEqual(entry, enumerator.Current);
+            ClassicAssert.IsFalse(enumerator.MoveNext());
         }
 
         [Test]
@@ -177,8 +184,8 @@
             var target = CreateTarget();
             var entry = CreateEntry(0);
             target.Add(entry);
-            Assert.AreEqual(1, target.Keys.Count);
-            Assert.AreEqual(entry.Key, target.Keys.Single());
+            ClassicAssert.AreEqual(1, target.Keys.Count);
+            ClassicAssert.AreEqual(entry.Key, target.Keys.Single());
         }
 
         [Test]
@@ -189,9 +196,9 @@
             var entry1 = CreateEntry(1);
             target.Add(entry0);
             target.Add(entry1);
-            Assert.AreEqual(2, target.Keys.Count);
-            Assert.AreEqual(entry0.Key, target.Keys.First());
-            Assert.AreEqual(entry1.Key, target.Keys.Last());
+            ClassicAssert.AreEqual(2, target.Keys.Count);
+            ClassicAssert.AreEqual(entry0.Key, target.Keys.First());
+            ClassicAssert.AreEqual(entry1.Key, target.Keys.Last());
         }
 
         [Test]
@@ -201,7 +208,7 @@
             var entry = CreateEntry(0);
             target.Add(entry);
             target.Remove(entry);
-            Assert.AreEqual(0, target.Count);
+            ClassicAssert.AreEqual(0, target.Count);
         }
 
         [Test]
@@ -213,8 +220,8 @@
             target.Add(entry0);
             target.Add(entry1);
             target.Remove(entry0);
-            Assert.AreEqual(1, target.Count);
-            Assert.IsTrue(target.Contains(entry1));
+            ClassicAssert.AreEqual(1, target.Count);
+            ClassicAssert.IsTrue(target.Contains(entry1));
         }
 
         [Test]
@@ -224,7 +231,7 @@
             var entry = CreateEntry(0);
             target.Add(entry);
             target.Remove(entry.Key);
-            Assert.AreEqual(0, target.Count);
+            ClassicAssert.AreEqual(0, target.Count);
         }
 
         [Test]
@@ -236,8 +243,8 @@
             target.Add(entry0);
             target.Add(entry1);
             target.Remove(entry0.Key);
-            Assert.AreEqual(1, target.Count);
-            Assert.IsTrue(target.Contains(entry1));
+            ClassicAssert.AreEqual(1, target.Count);
+            ClassicAssert.IsTrue(target.Contains(entry1));
         }
 
         [Test]
@@ -248,8 +255,8 @@
             target.Add(entry);
 
             object value;
-            Assert.IsTrue(target.TryGetValue(entry.Key, out value));
-            Assert.AreEqual(entry.Value, value);
+            ClassicAssert.IsTrue(target.TryGetValue(entry.Key, out value));
+            ClassicAssert.AreEqual(entry.Value, value);
         }
 
         [Test]
@@ -259,8 +266,8 @@
             var entry = CreateEntry(0);
 
             object value;
-            Assert.IsFalse(target.TryGetValue(entry.Key, out value));
-            Assert.AreEqual(default(object), value);
+            ClassicAssert.IsFalse(target.TryGetValue(entry.Key, out value));
+            ClassicAssert.AreEqual(default(object), value);
         }
 
         [Test]
@@ -270,16 +277,17 @@
             var entry = CreateEntry(0);
             target.Add(entry);
 
-            Assert.AreEqual(entry.Value, target[entry.Key]);
+            ClassicAssert.AreEqual(entry.Value, target[entry.Key]);
         }
 
 
         [Test]
-        [ExpectedException(typeof(KeyNotFoundException))]
         public void IndexerShouldThrowWithInvalidKey()
         {
             var target = CreateTarget();
-            var x = target["INVALIDKEY"];
+
+            Assert.Throws<KeyNotFoundException>(() => { var x = target["INVALIDKEY"]; });
+
         }
     }
 }

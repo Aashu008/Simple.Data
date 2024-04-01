@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.UnitTest
 {
@@ -21,9 +22,9 @@ namespace Simple.Data.UnitTest
             var newExpr = expr1 && expr2;
 
             // Assert
-            Assert.AreEqual(expr1, newExpr.LeftOperand);
-            Assert.AreEqual(expr2, newExpr.RightOperand);
-            Assert.AreEqual(SimpleExpressionType.And, newExpr.Type);
+            ClassicAssert.AreEqual(expr1, newExpr.LeftOperand);
+            ClassicAssert.AreEqual(expr2, newExpr.RightOperand);
+            ClassicAssert.AreEqual(SimpleExpressionType.And, newExpr.Type);
         }
 
         [Test]
@@ -37,9 +38,9 @@ namespace Simple.Data.UnitTest
             var newExpr = expr1 || expr2;
 
             // Assert
-            Assert.AreEqual(expr1, newExpr.LeftOperand);
-            Assert.AreEqual(expr2, newExpr.RightOperand);
-            Assert.AreEqual(SimpleExpressionType.Or, newExpr.Type);
+            ClassicAssert.AreEqual(expr1, newExpr.LeftOperand);
+            ClassicAssert.AreEqual(expr2, newExpr.RightOperand);
+            ClassicAssert.AreEqual(SimpleExpressionType.Or, newExpr.Type);
         }
 
         [Test]
@@ -57,13 +58,13 @@ namespace Simple.Data.UnitTest
             var rightExpr = newExpr.RightOperand as SimpleExpression;
 
             // Assert
-            Assert.IsNotNull(leftExpr);
-            Assert.IsNotNull(rightExpr);
-            Assert.AreEqual(newExpr.Type, SimpleExpressionType.Or);
-            Assert.AreEqual(expr1, leftExpr.LeftOperand);
-            Assert.AreEqual(expr2, leftExpr.RightOperand);
-            Assert.AreEqual(expr3, rightExpr.LeftOperand);
-            Assert.AreEqual(expr4, rightExpr.RightOperand);
+            ClassicAssert.IsNotNull(leftExpr);
+            ClassicAssert.IsNotNull(rightExpr);
+            ClassicAssert.AreEqual(newExpr.Type, SimpleExpressionType.Or);
+            ClassicAssert.AreEqual(expr1, leftExpr.LeftOperand);
+            ClassicAssert.AreEqual(expr2, leftExpr.RightOperand);
+            ClassicAssert.AreEqual(expr3, rightExpr.LeftOperand);
+            ClassicAssert.AreEqual(expr4, rightExpr.RightOperand);
         }
 
 
@@ -82,16 +83,16 @@ namespace Simple.Data.UnitTest
             var rightExpr = newExpr.RightOperand as SimpleExpression;
 
             // Assert
-            Assert.IsNotNull(leftExpr);
-            Assert.IsNotNull(rightExpr);
-            Assert.AreEqual(newExpr.Type, SimpleExpressionType.Or);
-            Assert.AreEqual(expr1, leftExpr.LeftOperand);
-            Assert.AreEqual(expr2, leftExpr.RightOperand);
-            Assert.AreEqual(expr3, rightExpr.LeftOperand);
-            Assert.AreEqual(expr4, rightExpr.RightOperand);
+            ClassicAssert.IsNotNull(leftExpr);
+            ClassicAssert.IsNotNull(rightExpr);
+            ClassicAssert.AreEqual(newExpr.Type, SimpleExpressionType.Or);
+            ClassicAssert.AreEqual(expr1, leftExpr.LeftOperand);
+            ClassicAssert.AreEqual(expr2, leftExpr.RightOperand);
+            ClassicAssert.AreEqual(expr3, rightExpr.LeftOperand);
+            ClassicAssert.AreEqual(expr4, rightExpr.RightOperand);
         }
 
-        private static void CompoundExpressionEvaluationOrderHelper(Func<SimpleExpression,SimpleExpression,SimpleExpression,SimpleExpression,SimpleExpression> actor)
+        private static void CompoundExpressionEvaluationOrderHelper(Func<SimpleExpression, SimpleExpression, SimpleExpression, SimpleExpression, SimpleExpression> actor)
         {
             // Arrange
             var expr1 = new SimpleExpression(1, 1, SimpleExpressionType.Equal);
@@ -103,10 +104,10 @@ namespace Simple.Data.UnitTest
             var actual = actor(expr1, expr2, expr3, expr4);
 
             // Assert
-            Assert.AreEqual(expr4, GetExpression(actual, 0).RightOperand);
-            Assert.AreEqual(expr3, GetExpression(actual, 1).RightOperand);
-            Assert.AreEqual(expr2, GetExpression(actual, 2).RightOperand);
-            Assert.AreEqual(expr1, GetExpression(actual, 2).LeftOperand);
+            ClassicAssert.AreEqual(expr4, GetExpression(actual, 0).RightOperand);
+            ClassicAssert.AreEqual(expr3, GetExpression(actual, 1).RightOperand);
+            ClassicAssert.AreEqual(expr2, GetExpression(actual, 2).RightOperand);
+            ClassicAssert.AreEqual(expr1, GetExpression(actual, 2).LeftOperand);
         }
 
         /// <summary>
@@ -116,7 +117,7 @@ namespace Simple.Data.UnitTest
         [Test]
         public void CompoundExpressionsEvaluateRightToLeft_AndAndAnd()
         {
-            CompoundExpressionEvaluationOrderHelper((e1,e2,e3,e4) => e1 & e2 & e3 & e4);
+            CompoundExpressionEvaluationOrderHelper((e1, e2, e3, e4) => e1 & e2 & e3 & e4);
         }
 
         /// <summary>

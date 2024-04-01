@@ -6,6 +6,7 @@ using NUnit.Framework;
 using System.Data;
 using Simple.Data.Ado.Schema;
 using System.ComponentModel.Composition;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.Ado.Test
 {
@@ -18,7 +19,7 @@ namespace Simple.Data.Ado.Test
             var helper = new ProviderHelper();
             var connectionProvider = new StubConnectionAndServiceProvider();
             var actual = helper.GetCustomProvider<ITestInterface>(connectionProvider);
-            Assert.IsNull(connectionProvider.RequestedServiceType);
+            ClassicAssert.IsNull(connectionProvider.RequestedServiceType);
         }
 
         [Test]
@@ -27,7 +28,7 @@ namespace Simple.Data.Ado.Test
             var helper = new ProviderHelper();
             var connectionProvider = new StubConnectionAndServiceProvider();
             var actual = helper.GetCustomProvider<IQueryPager>(connectionProvider);
-            Assert.AreEqual(typeof(IQueryPager), connectionProvider.RequestedServiceType);
+            ClassicAssert.AreEqual(typeof(IQueryPager), connectionProvider.RequestedServiceType);
         }
 
         [Test]
@@ -36,16 +37,16 @@ namespace Simple.Data.Ado.Test
             var helper = new ProviderHelper();
             var connectionProvider = new StubConnectionAndServiceProvider();
             var actual = helper.GetCustomProvider<IQueryPager>(connectionProvider);
-            Assert.IsInstanceOf(typeof(IQueryPager), actual);
+            ClassicAssert.IsInstanceOf(typeof(IQueryPager), actual);
         }
 
         [Test]
         public void ShouldFindProviderUsingAssemblyAttribute()
         {
             IConnectionProvider provider;
-            Assert.True(ProviderHelper.TryLoadAssemblyUsingAttribute("Test", null, out provider));
-            Assert.IsNotNull(provider);
-            Assert.IsInstanceOf<StubConnectionProvider>(provider);
+            ClassicAssert.True(ProviderHelper.TryLoadAssemblyUsingAttribute("Test", null, out provider));
+            ClassicAssert.IsNotNull(provider);
+            ClassicAssert.IsInstanceOf<StubConnectionProvider>(provider);
         }
 
         public class StubConnectionAndServiceProvider : IConnectionProvider, IServiceProvider

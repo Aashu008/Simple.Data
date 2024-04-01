@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.SqlCeTest
 {
@@ -20,11 +21,11 @@ namespace Simple.Data.SqlCeTest
         {
             var db = Database.OpenFile(DatabasePath);
             var order = db.Orders.FindByOrderDate(new DateTime(2010, 8, 11));
-            Assert.IsNotNull(order);
+            ClassicAssert.IsNotNull(order);
             var orderItem = order.OrderItems.FirstOrDefault();
-            Assert.IsNotNull(orderItem);
+            ClassicAssert.IsNotNull(orderItem);
             var item = orderItem.Item;
-            Assert.AreEqual("Widget", item.Name);
+            ClassicAssert.AreEqual("Widget", item.Name);
         }
     }
 }

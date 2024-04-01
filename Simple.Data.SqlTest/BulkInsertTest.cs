@@ -5,11 +5,12 @@ namespace Simple.Data.SqlTest
     using System.Collections.Generic;
     using System.Diagnostics;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class BulkInsertTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             DatabaseHelper.Reset();
@@ -29,8 +30,8 @@ namespace Simple.Data.SqlTest
                 list = tx.test.SchemaTable.All().WithTotalCount(out count).ToList();
                 tx.Rollback();
             }
-            Assert.AreEqual(1000, count.Value);
-            Assert.AreEqual(1000, list.Count);
+            ClassicAssert.AreEqual(1000, count.Value);
+            ClassicAssert.AreEqual(1000, list.Count);
         }
 
         [Test]
@@ -49,15 +50,15 @@ namespace Simple.Data.SqlTest
 
             int rowsWhichWhereUpdatedByTrigger = db.test.SchemaTable.GetCountBy(Optional: "Modified By Trigger");
 
-            Assert.AreEqual(1000, rowsWhichWhereUpdatedByTrigger);
+            ClassicAssert.AreEqual(1000, rowsWhichWhereUpdatedByTrigger);
         }
 
 
         [Test]
-        public void BulkInsertRecordsWithDifferentColumnsProperlyInsertsData() 
+        public void BulkInsertRecordsWithDifferentColumnsProperlyInsertsData()
         {
             DatabaseHelper.Reset();
-            
+
             var db = DatabaseHelper.Open();
             dynamic r1 = new SimpleRecord();
             r1.FirstName = "Bob";
@@ -72,7 +73,7 @@ namespace Simple.Data.SqlTest
 
             var objs = db.OptionalColumnTest.All().ToList<OptionalColumnTestObject>();
 
-            var expected = new[] {new OptionalColumnTestObject("Bob", "Dole"), new OptionalColumnTestObject("Bob", "Saget", "L"),};
+            var expected = new[] { new OptionalColumnTestObject("Bob", "Dole"), new OptionalColumnTestObject("Bob", "Saget", "L"), };
 
             Assert.That(objs, Is.EquivalentTo(expected));
 
@@ -121,21 +122,21 @@ namespace Simple.Data.SqlTest
         public string LastName { get; set; }
         public string MiddleInitial { get; set; }
 
-        public OptionalColumnTestObject() {}
+        public OptionalColumnTestObject() { }
 
-        public OptionalColumnTestObject(string first, string last, string middle = null) 
+        public OptionalColumnTestObject(string first, string last, string middle = null)
         {
             FirstName = first;
             LastName = last;
             MiddleInitial = middle;
         }
 
-        public override string ToString() 
+        public override string ToString()
         {
             return string.Format("<FirstName={0}, LastName={1}, MiddleInitial={2}>", FirstName, LastName, MiddleInitial);
         }
 
-        public override bool Equals(object obj) 
+        public override bool Equals(object obj)
         {
             var other = obj as OptionalColumnTestObject;
             if (other == null) return false;

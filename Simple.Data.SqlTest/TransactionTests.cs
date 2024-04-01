@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Simple.Data.Ado;
 
 namespace Simple.Data.SqlTest
@@ -36,8 +37,8 @@ namespace Simple.Data.SqlTest
                     throw;
                 }
             }
-            Assert.AreEqual(2, db.Orders.All().ToList().Count);
-            Assert.AreEqual(2, db.OrderItems.All().ToList().Count);
+            ClassicAssert.AreEqual(2, db.Orders.All().ToList().Count);
+            ClassicAssert.AreEqual(2, db.OrderItems.All().ToList().Count);
         }
 
         [Test]
@@ -51,8 +52,8 @@ namespace Simple.Data.SqlTest
                 tx.OrderItems.Insert(OrderId: order.OrderId, ItemId: 1, Quantity: 3);
                 tx.Rollback();
             }
-            Assert.AreEqual(1, db.Orders.All().ToList().Count);
-            Assert.AreEqual(1, db.OrderItems.All().ToList().Count);
+            ClassicAssert.AreEqual(1, db.Orders.All().ToList().Count);
+            ClassicAssert.AreEqual(1, db.OrderItems.All().ToList().Count);
         }
 
         [Test]
@@ -80,7 +81,7 @@ namespace Simple.Data.SqlTest
                 tx.Rollback();
             }
             customer = db.Customers.FindByCustomerId(customer.CustomerId);
-            Assert.IsNull(customer);
+            ClassicAssert.IsNull(customer);
         }
 
         [Test]
@@ -92,9 +93,9 @@ namespace Simple.Data.SqlTest
             {
                 tx.Users.Insert(Name: "Arthur", Age: 42, Password: "Ladida");
                 User u2 = tx.Users.FindByName("Arthur");
-                Assert.IsNotNull(u2);
-                Assert.AreEqual("Arthur", u2.Name);
+                ClassicAssert.IsNotNull(u2);
+                ClassicAssert.AreEqual("Arthur", u2.Name);
             }
-        } 
+        }
     }
 }

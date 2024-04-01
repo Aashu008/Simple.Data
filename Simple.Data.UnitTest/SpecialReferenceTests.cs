@@ -6,6 +6,7 @@ using System.Text;
 namespace Simple.Data.UnitTest
 {
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     class SpecialReferenceTests
@@ -14,23 +15,23 @@ namespace Simple.Data.UnitTest
         public void TestExistsReference()
         {
             var actual = new ExistsSpecialReference();
-            Assert.AreEqual("EXISTS", actual.Name);
+            ClassicAssert.AreEqual("EXISTS", actual.Name);
         }
 
         [Test]
         public void TestCountReference()
         {
             var actual = new CountSpecialReference();
-            Assert.AreEqual("COUNT", actual.Name);
+            ClassicAssert.AreEqual("COUNT", actual.Name);
         }
 
         [Test]
         public void TestSimpleEmptyExpression()
         {
             var actual = new SimpleEmptyExpression();
-            Assert.IsNull(actual.LeftOperand);
-            Assert.AreEqual(SimpleExpressionType.Empty, actual.Type);
-            Assert.IsNull(actual.RightOperand);
+            ClassicAssert.IsNull(actual.LeftOperand);
+            ClassicAssert.AreEqual(SimpleExpressionType.Empty, actual.Type);
+            ClassicAssert.IsNull(actual.RightOperand);
         }
     }
 }

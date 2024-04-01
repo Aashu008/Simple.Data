@@ -1,6 +1,7 @@
 namespace Simple.Data.UnitTest
 {
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class MathReferenceTest
@@ -48,14 +49,14 @@ namespace Simple.Data.UnitTest
         {
             MathReference first = Db.foo.id % 1;
             MathReference second = Db.foo.id % 1;
-            Assert.IsTrue(first.Equals(second));
+            ClassicAssert.IsTrue(first.Equals(second));
         }
 
         private static void AssertHelper<T>(SimpleExpression actual, SimpleExpressionType expectedType, T expectedRightOperand)
         {
-            Assert.AreEqual(Db.foo.id, ((MathReference)actual.LeftOperand).LeftOperand);
-            Assert.AreEqual(expectedType, actual.Type);
-            Assert.AreEqual(expectedRightOperand, actual.RightOperand);
+            ClassicAssert.AreEqual(Db.foo.id, ((MathReference)actual.LeftOperand).LeftOperand);
+            ClassicAssert.AreEqual(expectedType, actual.Type);
+            ClassicAssert.AreEqual(expectedRightOperand, actual.RightOperand);
         }
     }
 }

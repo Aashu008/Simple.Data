@@ -32,15 +32,15 @@ namespace Simple.Data.IntegrationTest
         {
             if (_mockDatabase.Sql == null)
                 Assert.Fail("No SQL was generated");
-            Assert.AreEqual(sql.ToLowerInvariant(), _mockDatabase.Sql.ToLowerInvariant());
+            Assert.That(sql.ToLowerInvariant(), Is.EqualTo(_mockDatabase.Sql.ToLowerInvariant()));
         }
 
         protected dynamic Parameter(int index)
         {
             dynamic obj = new ExpandoObject();
-            obj.Is = new Action<object>(v => Assert.AreEqual(v, _mockDatabase.Parameters[index]));
-            obj.IsDBNull = new Action(() => Assert.AreEqual(DBNull.Value, _mockDatabase.Parameters[index]));
-            obj.Exists = new Action(()=> Assert.DoesNotThrow(() => _mockDatabase.Parameters[index].ToString()));
+            obj.Is = new Action<object>(v => Assert.That(v, Is.EqualTo(_mockDatabase.Parameters[index])));
+            obj.IsDBNull = new Action(() => Assert.That(DBNull.Value, Is.EqualTo(_mockDatabase.Parameters[index])));
+            obj.Exists = new Action(() => Assert.DoesNotThrow(() => _mockDatabase.Parameters[index].ToString()));
             obj.DoesNotExist = new Action(
                     () => Assert.Throws<IndexOutOfRangeException>(() => _mockDatabase.Parameters[index].ToString()));
             return obj;

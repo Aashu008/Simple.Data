@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Simple.Data.SqlTest.SchemaTests
 {
@@ -11,8 +12,8 @@ namespace Simple.Data.SqlTest.SchemaTests
         {
             var db = DatabaseHelper.Open();
             var value = db.DecimalTest.FindById(1).Value;
-            Assert.AreEqual(typeof(Decimal), value.GetType());
-            Assert.AreEqual(1.234567, value);
+            ClassicAssert.AreEqual(typeof(Decimal), value.GetType());
+            ClassicAssert.AreEqual(1.234567, value);
         }
 
         [Test]
@@ -21,8 +22,8 @@ namespace Simple.Data.SqlTest.SchemaTests
             var db = DatabaseHelper.Open();
             var decimalTest = new { Value = 12.345678 };
             var value = db.DecimalTest.Insert(decimalTest).Value;
-            Assert.AreEqual(typeof(Decimal), value.GetType());
-            Assert.AreEqual(decimalTest.Value, value);
+            ClassicAssert.AreEqual(typeof(Decimal), value.GetType());
+            ClassicAssert.AreEqual(decimalTest.Value, value);
         }
     }
 }

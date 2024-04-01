@@ -10,6 +10,7 @@ using Simple.Data.TestHelper;
 
 namespace Simple.Data.SqlTest
 {
+    using NUnit.Framework.Legacy;
     using System;
 
     /// <summary>
@@ -18,7 +19,7 @@ namespace Simple.Data.SqlTest
     [TestFixture]
     public class FindTests
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             DatabaseHelper.Reset();
@@ -29,7 +30,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var user = db.Users.FindById(1);
-            Assert.AreEqual(1, user.Id);
+            ClassicAssert.AreEqual(1, user.Id);
         }
 
         [Test]
@@ -37,7 +38,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var user = (User)db.Users.FindById(1);
-            Assert.AreEqual(1, user.Id);
+            ClassicAssert.AreEqual(1, user.Id);
         }
 
         [Test]
@@ -45,7 +46,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var user = (User)db.Users.FindByName("Bob");
-            Assert.AreEqual(1, user.Id);
+            ClassicAssert.AreEqual(1, user.Id);
         }
 
         [Test]
@@ -53,7 +54,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             IEnumerable<User> users = db.Users.FindAllByName("Bob").Cast<User>();
-            Assert.AreEqual(1, users.Count());
+            ClassicAssert.AreEqual(1, users.Count());
         }
 
         [Test]
@@ -61,7 +62,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             IEnumerable<User> users = db.Users.FindAllByName(new[] { "Bob", "UnknownUser" }).Cast<User>();
-            Assert.AreEqual(1, users.Count());
+            ClassicAssert.AreEqual(1, users.Count());
         }
 
         [Test]
@@ -69,7 +70,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             IEnumerable<dynamic> users = db.Users.FindAllByName("Bob");
-            Assert.AreEqual(1, users.Count());
+            ClassicAssert.AreEqual(1, users.Count());
         }
 
         [Test]
@@ -77,7 +78,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             IEnumerable<User> users = db.Users.FindAll(db.Users.Name.Like("Bob")).ToList<User>();
-            Assert.AreEqual(1, users.Count());
+            ClassicAssert.AreEqual(1, users.Count());
         }
 
         [Test]
@@ -85,7 +86,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             IEnumerable<User> users = db.UsersWithChar.FindAll(db.UsersWithChar.Name.Like("Bob%")).ToList<User>();
-            Assert.AreEqual(1, users.Count());
+            ClassicAssert.AreEqual(1, users.Count());
         }
 
         [Test]
@@ -93,7 +94,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             IEnumerable<User> users = db.Users.FindAll(db.Users.Name.NotLike("Bob")).ToList<User>();
-            Assert.AreEqual(2, users.Count());
+            ClassicAssert.AreEqual(2, users.Count());
         }
 
         [Test]
@@ -101,7 +102,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var count = db.Users.All().ToList().Count;
-            Assert.AreEqual(3, count);
+            ClassicAssert.AreEqual(3, count);
         }
 
         [Test]
@@ -109,7 +110,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var count = db.Users.All().Skip(1).ToList().Count;
-            Assert.AreEqual(2, count);
+            ClassicAssert.AreEqual(2, count);
         }
 
         [Test]
@@ -117,7 +118,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             User user = db.Users.FindById(1);
-            Assert.AreEqual(1, user.Id);
+            ClassicAssert.AreEqual(1, user.Id);
         }
 
         [Test]
@@ -126,11 +127,11 @@ namespace Simple.Data.SqlTest
             var db = DatabaseHelper.Open();
             foreach (User user in db.Users.All())
             {
-                Assert.IsNotNull(user);
+                ClassicAssert.IsNotNull(user);
             }
         }
 
-        
+
         [Test]
         public void TestFindWithCriteriaAndSchemaQualification()
         {
@@ -138,8 +139,8 @@ namespace Simple.Data.SqlTest
 
             var dboActual = db.dbo.SchemaTable.Find(db.dbo.SchemaTable.Id == 1);
 
-            Assert.IsNotNull(dboActual);
-            Assert.AreEqual("Pass", dboActual.Description);
+            ClassicAssert.IsNotNull(dboActual);
+            ClassicAssert.AreEqual("Pass", dboActual.Description);
         }
 
         [Test]
@@ -147,7 +148,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var u = db.VwCustomers.FindByCustomerId(1);
-            Assert.IsNotNull(u);
+            ClassicAssert.IsNotNull(u);
         }
 
         [Test]
@@ -155,9 +156,9 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var userQuery = db.Users.All().Cast<User>() as IEnumerable<User>;
-            Assert.IsNotNull(userQuery);
+            ClassicAssert.IsNotNull(userQuery);
             var users = userQuery.ToList();
-            Assert.AreNotEqual(0, users.Count);
+            ClassicAssert.AreNotEqual(0, users.Count);
         }
 
         [Test]
@@ -165,7 +166,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var user = db.Users.FindBy(Name: "Bob");
-            Assert.IsNotNull(user);
+            ClassicAssert.IsNotNull(user);
 
         }
 
@@ -174,9 +175,9 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             Customer actual = db.Customers.WithOrders().FindByCustomerId(1);
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(1, actual.Orders.Single().OrderId);
-            Assert.AreEqual(new DateTime(2010, 10, 10), actual.Orders.Single().OrderDate);
+            ClassicAssert.IsNotNull(actual);
+            ClassicAssert.AreEqual(1, actual.Orders.Single().OrderId);
+            ClassicAssert.AreEqual(new DateTime(2010, 10, 10), actual.Orders.Single().OrderDate);
         }
 
         [Test]
@@ -184,9 +185,9 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             Customer actual = db.Customers.WithOrders().FindBy(CustomerId: 1);
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(1, actual.Orders.Single().OrderId);
-            Assert.AreEqual(new DateTime(2010, 10, 10), actual.Orders.Single().OrderDate);
+            ClassicAssert.IsNotNull(actual);
+            ClassicAssert.AreEqual(1, actual.Orders.Single().OrderId);
+            ClassicAssert.AreEqual(new DateTime(2010, 10, 10), actual.Orders.Single().OrderDate);
         }
 
         [Test]
@@ -194,9 +195,9 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             Customer actual = db.Customers.WithOrders().Find(db.Customers.CustomerId == 1);
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(1, actual.Orders.Single().OrderId);
-            Assert.AreEqual(new DateTime(2010, 10, 10), actual.Orders.Single().OrderDate);
+            ClassicAssert.IsNotNull(actual);
+            ClassicAssert.AreEqual(1, actual.Orders.Single().OrderId);
+            ClassicAssert.AreEqual(new DateTime(2010, 10, 10), actual.Orders.Single().OrderDate);
         }
 
         [Test]
@@ -204,7 +205,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var actual = db.Customers.Select(db.Customers.Name).FindByCustomerId(1).ToScalar();
-            Assert.AreEqual("Test", actual);
+            ClassicAssert.AreEqual("Test", actual);
 
         }
     }

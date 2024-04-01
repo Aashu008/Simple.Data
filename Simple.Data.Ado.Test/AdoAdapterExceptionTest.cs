@@ -5,6 +5,7 @@
     using System.Data.SqlClient;
     using System.IO;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class AdoAdapterExceptionTest
@@ -13,15 +14,15 @@
         public void EmptyConstructorShouldSetAdapterType()
         {
             var actual = new AdoAdapterException();
-            Assert.AreEqual(typeof(AdoAdapter), actual.AdapterType);
+            Assert.That(typeof(AdoAdapter), Is.EqualTo(actual.AdapterType));
         }
 
         [Test]
         public void SingleStringConstructorShouldSetMessageAndAdapterType()
         {
             var actual = new AdoAdapterException("Foo");
-            Assert.AreEqual(typeof(AdoAdapter), actual.AdapterType);
-            Assert.AreEqual("Foo", actual.Message);
+            Assert.That(typeof(AdoAdapter), Is.EqualTo(actual.AdapterType));
+            Assert.That("Foo", Is.EqualTo(actual.Message));
         }
 
         [Test]
@@ -29,9 +30,9 @@
         {
             var inner = new Exception();
             var actual = new AdoAdapterException("Foo", inner);
-            Assert.AreEqual(typeof(AdoAdapter), actual.AdapterType);
-            Assert.AreEqual("Foo", actual.Message);
-            Assert.AreSame(inner, actual.InnerException);
+            Assert.That(typeof(AdoAdapter), Is.EqualTo(actual.AdapterType));
+            Assert.That("Foo", Is.EqualTo(actual.Message));
+            ClassicAssert.AreSame(inner, actual.InnerException);
         }
 
         [Test]
@@ -39,9 +40,9 @@
         {
             var command = new SqlCommand("Bar");
             var actual = new AdoAdapterException("Foo", command);
-            Assert.AreEqual(typeof(AdoAdapter), actual.AdapterType);
-            Assert.AreEqual("Foo", actual.Message);
-            Assert.AreEqual(command.CommandText, actual.CommandText);
+            ClassicAssert.AreEqual(typeof(AdoAdapter), actual.AdapterType);
+            ClassicAssert.AreEqual("Foo", actual.Message);
+            ClassicAssert.AreEqual(command.CommandText, actual.CommandText);
         }
 
         [Test]
@@ -49,9 +50,9 @@
         {
             var param = new Dictionary<string, object> { { "P", "quux" } };
             var actual = new AdoAdapterException("Foo", param);
-            Assert.AreEqual(typeof(AdoAdapter), actual.AdapterType);
-            Assert.AreEqual("Foo", actual.CommandText);
-            Assert.AreEqual("quux", actual.Parameters["P"]);
+            ClassicAssert.AreEqual(typeof(AdoAdapter), actual.AdapterType);
+            ClassicAssert.AreEqual("Foo", actual.CommandText);
+            ClassicAssert.AreEqual("quux", actual.Parameters["P"]);
         }
 
         [Test]
@@ -59,10 +60,10 @@
         {
             var param = new Dictionary<string, object> { { "P", "quux" } };
             var actual = new AdoAdapterException("Foo", "Bar", param);
-            Assert.AreEqual(typeof(AdoAdapter), actual.AdapterType);
-            Assert.AreEqual("Foo", actual.Message);
-            Assert.AreEqual("Bar", actual.CommandText);
-            Assert.AreEqual("quux", actual.Parameters["P"]);
+            ClassicAssert.AreEqual(typeof(AdoAdapter), actual.AdapterType);
+            ClassicAssert.AreEqual("Foo", actual.Message);
+            ClassicAssert.AreEqual("Bar", actual.CommandText);
+            ClassicAssert.AreEqual("quux", actual.Parameters["P"]);
         }
 
         [Test]
@@ -79,10 +80,10 @@
 
             var actual = serializer.Deserialize(stream) as AdoAdapterException;
 
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(typeof(AdoAdapter), actual.AdapterType);
-            Assert.AreEqual("Foo", actual.CommandText);
-            Assert.AreEqual("quux", actual.Parameters["P"]);
+            ClassicAssert.IsNotNull(actual);
+            ClassicAssert.AreEqual(typeof(AdoAdapter), actual.AdapterType);
+            ClassicAssert.AreEqual("Foo", actual.CommandText);
+            ClassicAssert.AreEqual("quux", actual.Parameters["P"]);
         }
     }
 }

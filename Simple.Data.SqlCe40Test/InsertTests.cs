@@ -9,6 +9,7 @@ namespace Simple.Data.SqlCe40Test
     using System.IO;
     using System.Reflection;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
     using SqlCeTest;
 
     [TestFixture]
@@ -17,7 +18,7 @@ namespace Simple.Data.SqlCe40Test
         private static readonly string DatabasePath = Path.Combine(
                     Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase.Substring(8)),
                     "TestDatabase.sdf");
-        
+
         [Test]
         public void TestInsertWithNamedArguments()
         {
@@ -25,10 +26,10 @@ namespace Simple.Data.SqlCe40Test
 
             var user = db.Users.Insert(Name: "Ford", Password: "hoopy", Age: 29);
 
-            Assert.IsNotNull(user);
-            Assert.AreEqual("Ford", user.Name);
-            Assert.AreEqual("hoopy", user.Password);
-            Assert.AreEqual(29, user.Age);
+            ClassicAssert.IsNotNull(user);
+            ClassicAssert.AreEqual("Ford", user.Name);
+            ClassicAssert.AreEqual("hoopy", user.Password);
+            ClassicAssert.AreEqual(29, user.Age);
         }
 
         [Test]
@@ -40,10 +41,10 @@ namespace Simple.Data.SqlCe40Test
 
             var actual = db.Users.Insert(user);
 
-            Assert.IsNotNull(user);
-            Assert.AreEqual("Zaphod", actual.Name);
-            Assert.AreEqual("zarquon", actual.Password);
-            Assert.AreEqual(42, actual.Age);
+            ClassicAssert.IsNotNull(user);
+            ClassicAssert.AreEqual("Zaphod", actual.Name);
+            ClassicAssert.AreEqual("zarquon", actual.Password);
+            ClassicAssert.AreEqual(42, actual.Age);
         }
 
         [Test]
@@ -59,16 +60,16 @@ namespace Simple.Data.SqlCe40Test
 
             IList<User> actuals = db.Users.Insert(users).ToList<User>();
 
-            Assert.AreEqual(2, actuals.Count);
-            Assert.AreNotEqual(0, actuals[0].Id);
-            Assert.AreEqual("Slartibartfast", actuals[0].Name);
-            Assert.AreEqual("bistromathics", actuals[0].Password);
-            Assert.AreEqual(777, actuals[0].Age);
+            ClassicAssert.AreEqual(2, actuals.Count);
+            ClassicAssert.AreNotEqual(0, actuals[0].Id);
+            ClassicAssert.AreEqual("Slartibartfast", actuals[0].Name);
+            ClassicAssert.AreEqual("bistromathics", actuals[0].Password);
+            ClassicAssert.AreEqual(777, actuals[0].Age);
 
-            Assert.AreNotEqual(0, actuals[1].Id);
-            Assert.AreEqual("Wowbagger", actuals[1].Name);
-            Assert.AreEqual("teatime", actuals[1].Password);
-            Assert.AreEqual(int.MaxValue, actuals[1].Age);
+            ClassicAssert.AreNotEqual(0, actuals[1].Id);
+            ClassicAssert.AreEqual("Wowbagger", actuals[1].Name);
+            ClassicAssert.AreEqual("teatime", actuals[1].Password);
+            ClassicAssert.AreEqual(int.MaxValue, actuals[1].Age);
         }
 
         [Test]
@@ -83,10 +84,10 @@ namespace Simple.Data.SqlCe40Test
 
             var actual = db.Users.Insert(user);
 
-            Assert.IsNotNull(user);
-            Assert.AreEqual("Marvin", actual.Name);
-            Assert.AreEqual("diodes", actual.Password);
-            Assert.AreEqual(42000000, actual.Age);
+            ClassicAssert.IsNotNull(user);
+            ClassicAssert.AreEqual("Marvin", actual.Name);
+            ClassicAssert.AreEqual("diodes", actual.Password);
+            ClassicAssert.AreEqual(42000000, actual.Age);
         }
 
         [Test]
@@ -108,16 +109,16 @@ namespace Simple.Data.SqlCe40Test
 
             IList<dynamic> actuals = db.Users.Insert(users).ToList();
 
-            Assert.AreEqual(2, actuals.Count);
-            Assert.AreNotEqual(0, actuals[0].Id);
-            Assert.AreEqual("Prak", actuals[0].Name);
-            Assert.AreEqual("truth", actuals[0].Password);
-            Assert.AreEqual(30, actuals[0].Age);
+            ClassicAssert.AreEqual(2, actuals.Count);
+            ClassicAssert.AreNotEqual(0, actuals[0].Id);
+            ClassicAssert.AreEqual("Prak", actuals[0].Name);
+            ClassicAssert.AreEqual("truth", actuals[0].Password);
+            ClassicAssert.AreEqual(30, actuals[0].Age);
 
-            Assert.AreNotEqual(0, actuals[1].Id);
-            Assert.AreEqual("Eddie", actuals[1].Name);
-            Assert.AreEqual("tea", actuals[1].Password);
-            Assert.AreEqual(1, actuals[1].Age);
+            ClassicAssert.AreNotEqual(0, actuals[1].Id);
+            ClassicAssert.AreEqual("Eddie", actuals[1].Name);
+            ClassicAssert.AreEqual("tea", actuals[1].Password);
+            ClassicAssert.AreEqual(1, actuals[1].Age);
         }
 
         [Test]
@@ -126,9 +127,9 @@ namespace Simple.Data.SqlCe40Test
             var bigString = new string('X', 8192);
             var db = Database.Opener.OpenFile(DatabasePath);
             var row = db.TextTest.Insert(Text: bigString);
-            Assert.NotNull(row);
-            Assert.AreNotEqual(0, row.Id);
-            Assert.AreEqual(bigString, row.Text);
+            ClassicAssert.NotNull(row);
+            ClassicAssert.AreNotEqual(0, row.Id);
+            ClassicAssert.AreEqual(bigString, row.Text);
         }
     }
 }

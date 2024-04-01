@@ -6,12 +6,13 @@ using NUnit.Framework;
 
 namespace Simple.Data.SqlTest
 {
+    using NUnit.Framework.Legacy;
     using System.Collections;
 
     [TestFixture]
     public class QueryTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             DatabaseHelper.Reset();
@@ -22,7 +23,8 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var count = db.Users.GetCount();
-            Assert.AreEqual(3, count);
+            Assert.That(count, Is.EqualTo(3));
+
         }
 
         [Test]
@@ -30,49 +32,49 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             int count = db.Users.GetCount(db.Users.Age > 30);
-            Assert.AreEqual(2, count);
+            ClassicAssert.AreEqual(2, count);
         }
 
         [Test]
         public void CountByShouldSelectOne()
         {
             var db = DatabaseHelper.Open();
-            Assert.AreEqual(1, db.Users.GetCountByName("Bob"));
+            ClassicAssert.AreEqual(1, db.Users.GetCountByName("Bob"));
         }
 
-       [Test]
+        [Test]
         public void ExistsWithNoCriteriaShouldReturnTrue()
         {
             var db = DatabaseHelper.Open();
-            Assert.AreEqual(true, db.Users.Exists());
+            ClassicAssert.AreEqual(true, db.Users.Exists());
         }
 
         [Test]
         public void ExistsWithValidCriteriaShouldReturnTrue()
         {
             var db = DatabaseHelper.Open();
-            Assert.AreEqual(true, db.Users.Exists(db.Users.Age > 30));
+            ClassicAssert.AreEqual(true, db.Users.Exists(db.Users.Age > 30));
         }
 
         [Test]
         public void ExistsWithInvalidCriteriaShouldReturnFalse()
         {
             var db = DatabaseHelper.Open();
-            Assert.AreEqual(false, db.Users.Exists(db.Users.Age == -1));
+            ClassicAssert.AreEqual(false, db.Users.Exists(db.Users.Age == -1));
         }
 
         [Test]
         public void ExistsByValidValueShouldReturnTrue()
         {
             var db = DatabaseHelper.Open();
-            Assert.AreEqual(true, db.Users.ExistsByName("Bob"));
+            ClassicAssert.AreEqual(true, db.Users.ExistsByName("Bob"));
         }
 
         [Test]
         public void ExistsByInvalidValueShouldReturnFalse()
         {
             var db = DatabaseHelper.Open();
-            Assert.AreEqual(false, db.Users.ExistsByName("Peter Kay"));
+            ClassicAssert.AreEqual(false, db.Users.ExistsByName("Peter Kay"));
         }
 
         [Test]
@@ -80,7 +82,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var actual = db.Users.QueryById(1).Select(db.Users.Name.As("Alias")).First();
-            Assert.AreEqual("Bob", actual.Alias);
+            ClassicAssert.AreEqual("Bob", actual.Alias);
         }
 
         [Test]
@@ -99,7 +101,7 @@ namespace Simple.Data.SqlTest
             int index = 1;
             foreach (var row in query)
             {
-                Assert.AreEqual(index, row.Id);
+                ClassicAssert.AreEqual(index, row.Id);
                 index++;
             }
         }
@@ -112,7 +114,7 @@ namespace Simple.Data.SqlTest
             int index = 11;
             foreach (var row in query)
             {
-                Assert.AreEqual(index, row.Id);
+                ClassicAssert.AreEqual(index, row.Id);
                 index++;
             }
         }
@@ -125,7 +127,7 @@ namespace Simple.Data.SqlTest
             int index = 100;
             foreach (var row in query)
             {
-                Assert.AreEqual(index, row.Id);
+                ClassicAssert.AreEqual(index, row.Id);
                 index--;
             }
         }
@@ -140,9 +142,9 @@ namespace Simple.Data.SqlTest
                 .WithTotalCount(out count)
                 .ToList();
 
-            Assert.AreEqual(10, list.Count);
-            Assert.IsTrue(count.HasValue);
-            Assert.AreEqual(50, count);
+            ClassicAssert.AreEqual(10, list.Count);
+            ClassicAssert.IsTrue(count.HasValue);
+            ClassicAssert.AreEqual(50, count.Value);
         }
 
         [Test]
@@ -156,12 +158,12 @@ namespace Simple.Data.SqlTest
                 .Take(10)
                 .ToList();
 
-            Assert.IsTrue(count.HasValue);
-            Assert.AreEqual(50, count);
-            Assert.AreEqual(10, list.Count);
-            foreach (var dictionary in list.Cast<IDictionary<string,object>>())
+            ClassicAssert.IsTrue(count.HasValue);
+            ClassicAssert.AreEqual(50, count.Value);
+            ClassicAssert.AreEqual(10, list.Count);
+            foreach (var dictionary in list.Cast<IDictionary<string, object>>())
             {
-                Assert.AreEqual(1, dictionary.Count);
+                ClassicAssert.AreEqual(1, dictionary.Count);
             }
         }
 
@@ -177,19 +179,19 @@ namespace Simple.Data.SqlTest
                 .Take(10)
                 .ToList();
 
-            Assert.IsTrue(count.HasValue);
-            Assert.AreEqual(50, count);
-            Assert.AreEqual(10, list.Count);
+            ClassicAssert.IsTrue(count.HasValue);
+            ClassicAssert.AreEqual(50, count.Value);
+            ClassicAssert.AreEqual(10, list.Count);
             foreach (var dictionary in list.Cast<IDictionary<string, object>>())
             {
-                Assert.AreEqual(1, dictionary.Count);
+                ClassicAssert.AreEqual(1, dictionary.Count);
             }
         }
 
         [Test]
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         public void WithTotalCountShouldGiveCount_ObsoleteFutureVersion()
-// ReSharper restore InconsistentNaming
+        // ReSharper restore InconsistentNaming
         {
             Future<int> count;
             var db = DatabaseHelper.Open();
@@ -198,9 +200,9 @@ namespace Simple.Data.SqlTest
                 .Take(10)
                 .ToList();
 
-            Assert.AreEqual(10, list.Count);
-            Assert.IsTrue(count.HasValue);
-            Assert.AreEqual(50, count);
+            ClassicAssert.AreEqual(10, list.Count);
+            ClassicAssert.IsTrue(count.HasValue);
+            ClassicAssert.AreEqual(50, count.Value);
         }
 
         [Test]
@@ -208,8 +210,8 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var order = db.Customers.QueryByNameAndAddress("Test", "100 Road").Orders.FirstOrDefault();
-            Assert.IsNotNull(order);
-            Assert.AreEqual(1, order.OrderId);
+            ClassicAssert.IsNotNull(order);
+            ClassicAssert.AreEqual(1, order.OrderId);
         }
 
         [Test]
@@ -223,7 +225,7 @@ namespace Simple.Data.SqlTest
                         .OrderByName()
                         .Take(1) // Should return only one record no matter what
                         .ToScalarOrDefault<string>();
-            Assert.IsNull(name);
+            ClassicAssert.IsNull(name);
         }
 
         [Test]
@@ -235,8 +237,8 @@ namespace Simple.Data.SqlTest
                         .Select(db.Customers.Name)
                         .OrderByName()
                         .ToScalarList<string>();
-            Assert.IsNotNull(name);
-            Assert.AreNotEqual(0, name.Count);
+            ClassicAssert.IsNotNull(name);
+            ClassicAssert.AreNotEqual(0, name.Count);
         }
 
         [Test]
@@ -248,8 +250,8 @@ namespace Simple.Data.SqlTest
                         .Select(db.Customers.Name)
                         .OrderByName()
                         .ToScalarArray<string>();
-            Assert.IsNotNull(name);
-            Assert.AreNotEqual(0, name.Length);
+            ClassicAssert.IsNotNull(name);
+            ClassicAssert.AreNotEqual(0, name.Length);
         }
 
         [Test]
@@ -260,8 +262,8 @@ namespace Simple.Data.SqlTest
                 db.GroupTestMaster.Query().Having(db.GroupTestMaster.GroupTestDetail.Date.Min() >=
                                                   new DateTime(2000, 1, 1))
                                                   .FirstOrDefault();
-            Assert.IsNotNull(row);
-            Assert.AreEqual("Two", row.Name);
+            ClassicAssert.IsNotNull(row);
+            ClassicAssert.AreEqual("Two", row.Name);
         }
         [Test]
         public void HavingWithMaxDateShouldReturnCorrectRow()
@@ -271,8 +273,8 @@ namespace Simple.Data.SqlTest
                 db.GroupTestMaster.Query().Having(db.GroupTestMaster.GroupTestDetail.Date.Max() <
                                                   new DateTime(2009, 1, 1))
                                                   .FirstOrDefault();
-            Assert.IsNotNull(row);
-            Assert.AreEqual("One", row.Name);
+            ClassicAssert.IsNotNull(row);
+            ClassicAssert.AreEqual("One", row.Name);
         }
 
         [Test]
@@ -282,8 +284,8 @@ namespace Simple.Data.SqlTest
             var row = db.GroupTestMaster.Query()
                 .Having(db.GroupTestMaster.GroupTestDetail.Id.Count() == 2)
                 .FirstOrDefault();
-            Assert.IsNotNull(row);
-            Assert.AreEqual("Two", row.Name);
+            ClassicAssert.IsNotNull(row);
+            ClassicAssert.AreEqual("Two", row.Name);
         }
 
         [Test]
@@ -293,8 +295,8 @@ namespace Simple.Data.SqlTest
             var row = db.GroupTestMaster.Query()
                 .Having(db.GroupTestMaster.GroupTestDetail.Number.Average() == 2)
                 .FirstOrDefault();
-            Assert.IsNotNull(row);
-            Assert.AreEqual("One", row.Name);
+            ClassicAssert.IsNotNull(row);
+            ClassicAssert.AreEqual("One", row.Name);
         }
 
         [Test]
@@ -302,7 +304,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             int max = db.Users.FindAllByName("ZXCVBNM").Select(db.Users.Age.Max()).ToScalarOrDefault<int>();
-            Assert.AreEqual(0, max);
+            ClassicAssert.AreEqual(0, max);
         }
 
 
@@ -311,11 +313,11 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var result = db.Customers.FindAllByCustomerId(1).WithOrders().FirstOrDefault() as IDictionary<string, object>;
-            Assert.IsNotNull(result);
-            Assert.Contains("Orders", (ICollection)result.Keys);
+            ClassicAssert.IsNotNull(result);
+            ClassicAssert.Contains("Orders", (ICollection)result.Keys);
             var orders = result["Orders"] as IList<IDictionary<string, object>>;
-            Assert.IsNotNull(orders);
-            Assert.AreEqual(1, orders.Count);
+            ClassicAssert.IsNotNull(orders);
+            ClassicAssert.AreEqual(1, orders.Count);
         }
 
         [Test]
@@ -323,15 +325,15 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var result = db.Customers.FindAllByCustomerId(1).WithOrders().WithNotes().FirstOrDefault() as IDictionary<string, object>;
-            Assert.IsNotNull(result);
-            Assert.Contains("Orders", (ICollection)result.Keys);
+            ClassicAssert.IsNotNull(result);
+            ClassicAssert.Contains("Orders", (ICollection)result.Keys);
             var orders = result["Orders"] as IList<IDictionary<string, object>>;
-            Assert.IsNotNull(orders);
-            Assert.AreEqual(1, orders.Count);
-            Assert.Contains("Notes", (ICollection)result.Keys);
+            ClassicAssert.IsNotNull(orders);
+            ClassicAssert.AreEqual(1, orders.Count);
+            ClassicAssert.Contains("Notes", (ICollection)result.Keys);
             var notes = result["Notes"] as IList<IDictionary<string, object>>;
-            Assert.IsNotNull(notes);
-            Assert.AreEqual(2, notes.Count);
+            ClassicAssert.IsNotNull(notes);
+            ClassicAssert.AreEqual(2, notes.Count);
         }
 
         [Test]
@@ -339,25 +341,26 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var result = db.Customers.FindAllByCustomerId(1).With(db.Customers.Orders.OrderItems).FirstOrDefault() as IDictionary<string, object>;
-            Assert.IsNotNull(result);
-            Assert.Contains("OrderItems", (ICollection)result.Keys);
+            ClassicAssert.IsNotNull(result);
+            ClassicAssert.Contains("OrderItems", (ICollection)result.Keys);
             var orderItems = result["OrderItems"] as IList<IDictionary<string, object>>;
-            Assert.IsNotNull(orderItems);
-            Assert.AreEqual(1, orderItems.Count);
+            ClassicAssert.IsNotNull(orderItems);
+            ClassicAssert.AreEqual(1, orderItems.Count);
         }
 
-        [Test, Ignore]
+        [Test]
+        [Ignore("Ignore a test")]
         public void FindAllWithClauseWithNestedDetailTable()
         {
             var db = DatabaseHelper.Open();
             var result = db.Customers.FindAllByCustomerId(1).With(db.Customers.Orders).With(db.Customers.Orders.OrderItems).FirstOrDefault() as IDictionary<string, object>;
-            Assert.IsNotNull(result);
-            Assert.Contains("Orders", result.Keys.ToArray());
+            ClassicAssert.IsNotNull(result);
+            ClassicAssert.Contains("Orders", result.Keys.ToArray());
             var orders = result["Orders"] as IList<IDictionary<string, object>>;
-            Assert.IsNotNull(orders);
-            Assert.AreEqual(1, orders.Count);
+            ClassicAssert.IsNotNull(orders);
+            ClassicAssert.AreEqual(1, orders.Count);
             var order = orders[0];
-            Assert.Contains("OrderItems", order.Keys.ToArray());
+            ClassicAssert.Contains("OrderItems", order.Keys.ToArray());
         }
 
         [Test]
@@ -365,11 +368,11 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var result = db.Customers.With(db.Customers.Orders.OrderItems).Get(1) as IDictionary<string, object>;
-            Assert.IsNotNull(result);
-            Assert.Contains("OrderItems", (ICollection)result.Keys);
+            ClassicAssert.IsNotNull(result);
+            ClassicAssert.Contains("OrderItems", (ICollection)result.Keys);
             var orderItems = result["OrderItems"] as IList<IDictionary<string, object>>;
-            Assert.IsNotNull(orderItems);
-            Assert.AreEqual(1, orderItems.Count);
+            ClassicAssert.IsNotNull(orderItems);
+            ClassicAssert.AreEqual(1, orderItems.Count);
         }
 
         [Test]
@@ -377,22 +380,22 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var result = db.Customers.FindAll(db.Customers.Order.OrderId == 1).WithOrders().FirstOrDefault() as IDictionary<string, object>;
-            Assert.IsNotNull(result);
-            Assert.Contains("Orders", (ICollection)result.Keys);
+            ClassicAssert.IsNotNull(result);
+            ClassicAssert.Contains("Orders", (ICollection)result.Keys);
             var orders = result["Orders"] as IList<IDictionary<string, object>>;
-            Assert.IsNotNull(orders);
-            Assert.AreEqual(1, orders.Count);
+            ClassicAssert.IsNotNull(orders);
+            ClassicAssert.AreEqual(1, orders.Count);
         }
 
         [Test]
         public void WithClauseShouldPreselectMasterTableAsDictionary()
         {
             var db = DatabaseHelper.Open();
-            var result = db.Orders.FindAllByOrderId(1).WithCustomer().FirstOrDefault() as IDictionary<string,object>;
-            Assert.IsNotNull(result);
-            Assert.Contains("Customer", (ICollection)result.Keys);
+            var result = db.Orders.FindAllByOrderId(1).WithCustomer().FirstOrDefault() as IDictionary<string, object>;
+            ClassicAssert.IsNotNull(result);
+            ClassicAssert.Contains("Customer", (ICollection)result.Keys);
             var customer = result["Customer"] as IDictionary<string, object>;
-            Assert.IsNotNull(customer);
+            ClassicAssert.IsNotNull(customer);
         }
 
         [Test]
@@ -400,10 +403,10 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             Order actual = db.Orders.FindAllByOrderId(1).WithCustomer().FirstOrDefault();
-            Assert.IsNotNull(actual);
-            Assert.IsNotNull(actual.Customer);
-            Assert.AreEqual("Test", actual.Customer.Name);
-            Assert.AreEqual("100 Road", actual.Customer.Address);
+            ClassicAssert.IsNotNull(actual);
+            ClassicAssert.IsNotNull(actual.Customer);
+            ClassicAssert.AreEqual("Test", actual.Customer.Name);
+            ClassicAssert.AreEqual("100 Road", actual.Customer.Address);
         }
 
         [Test]
@@ -411,20 +414,20 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             Customer actual = db.Customers.FindAllByCustomerId(1).WithOrders().FirstOrDefault();
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(1, actual.Orders.Single().OrderId);
-            Assert.AreEqual(new DateTime(2010,10,10), actual.Orders.Single().OrderDate);
+            ClassicAssert.IsNotNull(actual);
+            ClassicAssert.AreEqual(1, actual.Orders.Single().OrderId);
+            ClassicAssert.AreEqual(new DateTime(2010, 10, 10), actual.Orders.Single().OrderDate);
         }
-        
+
         [Test]
         public void WithClauseShouldCastToStaticTypeWithEmptyCollection()
         {
             var db = DatabaseHelper.Open();
             var newCustomer = db.Customers.Insert(Name: "No Orders");
             Customer actual = db.Customers.FindAllByCustomerId(newCustomer.CustomerId).WithOrders().FirstOrDefault();
-            Assert.IsNotNull(actual);
-            Assert.IsNotNull(actual.Orders);
-            Assert.AreEqual(0, actual.Orders.Count);
+            ClassicAssert.IsNotNull(actual);
+            ClassicAssert.IsNotNull(actual.Orders);
+            ClassicAssert.AreEqual(0, actual.Orders.Count);
         }
 
         [Test]
@@ -435,11 +438,11 @@ namespace Simple.Data.SqlTest
                            .With(db.Customers.Orders.As("Orders_1"))
                            .With(db.Customers.Orders.As("Orders_2"))
                            .FirstOrDefault();
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(1, actual.Orders_1.Single().OrderId);
-            Assert.AreEqual(1, actual.Orders_2.Single().OrderId);
-            Assert.AreEqual(new DateTime(2010, 10, 10), actual.Orders_1.Single().OrderDate);
-            Assert.AreEqual(new DateTime(2010, 10, 10), actual.Orders_2.Single().OrderDate);
+            ClassicAssert.IsNotNull(actual);
+            ClassicAssert.AreEqual(1, actual.Orders_1.Single().OrderId);
+            ClassicAssert.AreEqual(1, actual.Orders_2.Single().OrderId);
+            ClassicAssert.AreEqual(new DateTime(2010, 10, 10), actual.Orders_1.Single().OrderDate);
+            ClassicAssert.AreEqual(new DateTime(2010, 10, 10), actual.Orders_2.Single().OrderDate);
         }
 
         [Test]
@@ -451,13 +454,13 @@ namespace Simple.Data.SqlTest
             q = q.Select(db.Employees.Name, q.Manager.Name.As("Manager"));
             List<dynamic> employees = q.ToList();
 
-            Assert.AreEqual(3, employees.Count); // The top man is missing
+            ClassicAssert.AreEqual(3, employees.Count); // The top man is missing
 
             var kingsSubordinates = employees.Where(e => e.Manager == "Alice").ToList();
 
-            Assert.AreEqual(1, kingsSubordinates.Count);
+            ClassicAssert.AreEqual(1, kingsSubordinates.Count);
         }
-        
+
         [Test]
         public void OrderByOnJoinedColumnShouldUseJoinedColumn()
         {
@@ -471,7 +474,7 @@ namespace Simple.Data.SqlTest
             q = q.Select(db.Employees.Name, q.Manager.Name.As("Manager"));
             List<dynamic> employees = q.OrderBy(q.Manager.Name).ToList();
             SimpleDataTraceSources.TraceSource.Listeners.Remove(traceListener);
-            Assert.Greater(traceListener.Output.IndexOf("order by [manager].[name]", StringComparison.OrdinalIgnoreCase), 0);
+            ClassicAssert.Greater(traceListener.Output.IndexOf("order by [manager].[name]", StringComparison.OrdinalIgnoreCase), 0);
         }
 
         [Test]
@@ -479,11 +482,11 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
 
-            db.Customers.Insert(Enumerable.Range(0, 200).Select(n => new Customer {Name = "Customer " + n}));
+            db.Customers.Insert(Enumerable.Range(0, 200).Select(n => new Customer { Name = "Customer " + n }));
 
             List<dynamic> customers = db.Customers.All().ToList();
 
-            Assert.GreaterOrEqual(customers.Count, 200);
+            ClassicAssert.GreaterOrEqual(customers.Count, 200);
         }
 
         [Test]
@@ -491,7 +494,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var actual = db.Users.QueryById(1).Select(db.Users.Name).ForUpdate(false).First();
-            Assert.AreEqual("Bob", actual.Name);
+            ClassicAssert.AreEqual("Bob", actual.Name);
         }
 
         [Test]
@@ -499,7 +502,7 @@ namespace Simple.Data.SqlTest
         {
             var db = DatabaseHelper.Open();
             var actual = db.Users.QueryById(1).Select(db.Users.Name).ForUpdate(true).First();
-            Assert.AreEqual("Bob", actual.Name);
+            ClassicAssert.AreEqual("Bob", actual.Name);
         }
     }
 }
