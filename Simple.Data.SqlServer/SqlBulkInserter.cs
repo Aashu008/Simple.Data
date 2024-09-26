@@ -7,8 +7,8 @@ namespace Simple.Data.SqlServer
 {
     using System.ComponentModel.Composition;
     using System.Data;
-    using System.Data.SqlClient;
     using Ado;
+    using Microsoft.Data.SqlClient;
 
     [Export(typeof(IBulkInserter))]
     public class SqlBulkInserter : IBulkInserter

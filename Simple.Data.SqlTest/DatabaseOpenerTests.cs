@@ -9,6 +9,8 @@ namespace Simple.Data.SqlTest
     using Ado;
     using NUnit.Framework.Legacy;
     using SqlServer;
+    using System.IO;
+    using System.Reflection;
 
     [TestFixture]
     public class DatabaseOpenerTests
@@ -16,8 +18,14 @@ namespace Simple.Data.SqlTest
         [OneTimeSetUp]
         public void Setup()
         {
+            var testDllName = Assembly.GetAssembly(GetType())
+                                      .GetName()
+                                      .Name;
+            var configName = testDllName + ".dll.config";
+            AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", configName);
             DatabaseHelper.Reset();
         }
+
 
         [Test]
         public void OpenNamedConnectionTest()

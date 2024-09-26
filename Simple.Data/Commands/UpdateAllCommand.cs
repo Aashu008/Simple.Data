@@ -21,7 +21,7 @@ namespace Simple.Data.Commands
             var data = binder.NamedArgumentsToDictionary(args).Where(kv=>!(kv.Value is SimpleExpression)).ToDictionary();
 
             if (data.Count == 0)
-                data = args.OfType<IDictionary<string, object>>().SingleOrDefault();
+                data = args.OfType<IDictionary<string, object>>().SingleOrDefault().ToDictionary();
 
             if (data == null)
             {

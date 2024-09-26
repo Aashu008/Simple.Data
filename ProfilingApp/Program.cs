@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ProfilingApp
 {
-    using System.Data.SqlClient;
+    using Microsoft.Data.SqlClient;
     using System.Text.RegularExpressions;
 
     class Program

@@ -10,7 +10,7 @@ namespace Simple.Data
 {
     public abstract class Composer
     {
-        protected static readonly Assembly ThisAssembly = typeof (Composer).Assembly;
+        protected static readonly Assembly ThisAssembly = typeof(Composer).Assembly;
         private static Composer _composer = new MefHelper();
 
         public static Composer Default
@@ -29,7 +29,9 @@ namespace Simple.Data
 
         public static string GetSimpleDataAssemblyPath()
         {
+#pragma warning disable SYSLIB0012
             var path = ThisAssembly.CodeBase.Replace("file:///", "").Replace("file://", "//");
+#pragma warning restore SYSLIB0012
             path = Path.GetDirectoryName(path);
             if (path == null) throw new ArgumentException("Unrecognised assemblyFile.");
             if (!Path.IsPathRooted(path))
@@ -41,11 +43,11 @@ namespace Simple.Data
 
         public static bool TryLoadAssembly(string assemblyFile, out Assembly assembly)
         {
-            if (assemblyFile == null) throw new ArgumentNullException("assemblyFile");
-            if (assemblyFile.Length == 0) throw new ArgumentException("Assembly file name is empty.", "assemblyFile");
+            if (assemblyFile == null) throw new ArgumentNullException(nameof(assemblyFile));
+            if (assemblyFile.Length == 0) throw new ArgumentException("Assembly file name is empty.", nameof(assemblyFile));
             try
             {
-                assembly = Assembly.ReflectionOnlyLoadFrom(assemblyFile);
+                assembly = Assembly.LoadFrom(assemblyFile);
                 return true;
             }
             catch (FileNotFoundException)
@@ -53,7 +55,7 @@ namespace Simple.Data
                 assembly = null;
                 return false;
             }
-            catch(FileLoadException)
+            catch (FileLoadException)
             {
                 assembly = null;
                 return false;
@@ -63,7 +65,7 @@ namespace Simple.Data
                 assembly = null;
                 return false;
             }
-            catch(SecurityException)
+            catch (SecurityException)
             {
                 assembly = null;
                 return false;

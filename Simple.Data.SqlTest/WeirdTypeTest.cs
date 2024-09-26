@@ -7,6 +7,7 @@ namespace Simple.Data.SqlTest
 {
     using NUnit.Framework;
     using NUnit.Framework.Legacy;
+    using System.Reflection;
 
     [TestFixture]
     public class WeirdTypeTest
@@ -15,6 +16,11 @@ namespace Simple.Data.SqlTest
         public void Setup()
         {
             DatabaseHelper.Reset();
+            var testDllName = Assembly.GetAssembly(GetType())
+                                 .GetName()
+                                 .Name;
+            var configName = testDllName + ".dll.config";
+            AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", configName);
         }
 
         [Test]

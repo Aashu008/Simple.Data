@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -18,7 +18,7 @@ namespace Simple.Data.SqlTest
 #if(MONO)
 			return "Data Source=10.37.129.4;Initial Catalog=SimpleTest;User ID=SimpleUser;Password=SimplePassword";
 #else
-            return Environment.GetEnvironmentVariable("SIMPLETESTDB") ?? Properties.Settings.Default.ConnectionString;
+            return Environment.GetEnvironmentVariable("SIMPLETESTDB") ?? Properties.Settings.Default.hello;
 #endif
         }
 		

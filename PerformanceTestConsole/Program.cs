@@ -32,7 +32,7 @@ namespace PerformanceTestConsole
     class Program
     {
 
-        public static readonly string ConnectionString = "Data Source=.;Initial Catalog=tempdb;Integrated Security=true";
+        public static readonly string ConnectionString = "Data Source=INT5KZJHX3;Initial Catalog=tempdb;Integrated Security=true";
 
         public static SqlConnection GetOpenConnection()
         {

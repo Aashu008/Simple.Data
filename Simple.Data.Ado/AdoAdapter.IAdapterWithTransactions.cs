@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Data;
-    using System.Data.SqlClient;
     using System.Linq;
     using Extensions;
+    using Microsoft.Data.SqlClient;
 
     public partial class AdoAdapter : IAdapterWithTransactions
     {
@@ -91,9 +91,9 @@
         //    return new AdoAdapterTransaction(transaction, name, _sharedConnection != null);
         //}
 
-        public IDictionary<string,object> Get(string tableName, IAdapterTransaction transaction, params object[] parameterValues)
+        public IDictionary<string, object> Get(string tableName, IAdapterTransaction transaction, params object[] parameterValues)
         {
-            return new AdoAdapterGetter(this, ((AdoAdapterTransaction) transaction).DbTransaction).Get(tableName,
+            return new AdoAdapterGetter(this, ((AdoAdapterTransaction)transaction).DbTransaction).Get(tableName,
                                                                                                      parameterValues);
         }
 
@@ -131,19 +131,19 @@
 
         public override IDictionary<string, object> Upsert(string tableName, IDictionary<string, object> data, SimpleExpression criteria, bool resultRequired, IAdapterTransaction adapterTransaction)
         {
-            var transaction = ((AdoAdapterTransaction) adapterTransaction).DbTransaction;
+            var transaction = ((AdoAdapterTransaction)adapterTransaction).DbTransaction;
             return new AdoAdapterUpserter(this, transaction).Upsert(tableName, data, criteria, resultRequired);
         }
 
         public override IEnumerable<IDictionary<string, object>> UpsertMany(string tableName, IList<IDictionary<string, object>> list, IAdapterTransaction adapterTransaction, bool isResultRequired, Func<IDictionary<string, object>, Exception, bool> errorCallback)
         {
-            var transaction = ((AdoAdapterTransaction) adapterTransaction).DbTransaction;
+            var transaction = ((AdoAdapterTransaction)adapterTransaction).DbTransaction;
             return new AdoAdapterUpserter(this, transaction).UpsertMany(tableName, list, isResultRequired, errorCallback);
         }
 
         public override IEnumerable<IDictionary<string, object>> UpsertMany(string tableName, IList<IDictionary<string, object>> list, IEnumerable<string> keyFieldNames, IAdapterTransaction adapterTransaction, bool isResultRequired, Func<IDictionary<string, object>, Exception, bool> errorCallback)
         {
-            var transaction = ((AdoAdapterTransaction) adapterTransaction).DbTransaction;
+            var transaction = ((AdoAdapterTransaction)adapterTransaction).DbTransaction;
             return new AdoAdapterUpserter(this, transaction).UpsertMany(tableName, list, keyFieldNames.ToArray(), isResultRequired, errorCallback);
         }
     }

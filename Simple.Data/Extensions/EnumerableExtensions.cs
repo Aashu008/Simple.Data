@@ -6,19 +6,19 @@ namespace Simple.Data.Extensions
 {
     public static class EnumerableExtensions
     {
-        public static IDictionary<TKey,TValue> ToDictionary<TKey,TValue>(this IEnumerable<KeyValuePair<TKey,TValue>> source)
-        {
-            var dict = source as IDictionary<TKey, TValue>;
-            if (dict != null) return new Dictionary<TKey, TValue>(dict);
-            return source.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-        }
+        //public static IDictionary<TKey,TValue> ToDictionary<TKey,TValue>(this IEnumerable<KeyValuePair<TKey,TValue>> source)
+        //{
+        //    var dict = source as IDictionary<TKey, TValue>;
+        //    if (dict != null) return new Dictionary<TKey, TValue>(dict);
+        //    return source.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        //}
 
-        public static IDictionary<TKey,TValue> ToDictionary<TKey,TValue>(this IEnumerable<KeyValuePair<TKey,TValue>> source, IEqualityComparer<TKey> equalityComparer)
-        {
-            var dict = source as IDictionary<TKey, TValue>;
-            if (dict != null) return new Dictionary<TKey, TValue>(dict);
-            return source.ToDictionary(kvp => kvp.Key, kvp => kvp.Value, equalityComparer);
-        }
+        //public static IDictionary<TKey,TValue> ToDictionary<TKey,TValue>(this IEnumerable<KeyValuePair<TKey,TValue>> source, IEqualityComparer<TKey> equalityComparer)
+        //{
+        //    var dict = source as IDictionary<TKey, TValue>;
+        //    if (dict != null) return new Dictionary<TKey, TValue>(dict);
+        //    return source.ToDictionary(kvp => kvp.Key, kvp => kvp.Value, equalityComparer);
+        //}
 
         public static IEnumerable<T> SkipLast<T>(this IEnumerable<T> source)
         {

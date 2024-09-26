@@ -7,7 +7,7 @@ namespace Simple.Data.SqlServer
 {
     using System.ComponentModel.Composition;
     using System.Data;
-    using System.Data.SqlClient;
+    using Microsoft.Data.SqlClient;
     using Ado;
 
     [Export(typeof(IObservableQueryRunner))]
@@ -18,13 +18,13 @@ namespace Simple.Data.SqlServer
             return new SqlObservable(connection as SqlConnection, command as SqlCommand, index);
         }
 
-        class SqlObservable : IObservable<IDictionary<string,object>>
+        class SqlObservable : IObservable<IDictionary<string, object>>
         {
             private readonly SqlConnection _connection;
             private readonly SqlCommand _command;
             private IDictionary<string, int> _index;
 
-            public SqlObservable(SqlConnection connection, SqlCommand command, IDictionary<string,int> index)
+            public SqlObservable(SqlConnection connection, SqlCommand command, IDictionary<string, int> index)
             {
                 if (connection == null) throw new ArgumentNullException("connection");
                 if (command == null) throw new ArgumentNullException("command");

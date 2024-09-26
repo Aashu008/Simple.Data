@@ -12,7 +12,7 @@ namespace Simple.Data.SqlTest.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.9.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -26,10 +26,11 @@ namespace Simple.Data.SqlTest.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLSERVER2008;Initial Catalog=SimpleTest;Integrated Security=True")]
-        public string ConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=INT5KZJHX3;Initial Catalog=SimpleTest;Integrated Security=True;TrustS" +
+            "erverCertificate=True")]
+        public string hello {
             get {
-                return ((string)(this["ConnectionString"]));
+                return ((string)(this["hello"]));
             }
         }
     }

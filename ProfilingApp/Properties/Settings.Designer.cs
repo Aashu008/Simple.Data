@@ -26,7 +26,7 @@ namespace ProfilingApp.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=SimpleDataProfiling;Integrated Security=true")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=INT5KZJHX3;Initial Catalog=SimpleDataProfiling;Integrated Security=true")]
         public string ConnectionString {
             get {
                 return ((string)(this["ConnectionString"]));

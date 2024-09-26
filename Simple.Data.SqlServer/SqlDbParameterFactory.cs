@@ -2,7 +2,7 @@
 ﻿{
 ﻿    using System.ComponentModel.Composition;
 ﻿    using System.Data;
-﻿    using System.Data.SqlClient;
+﻿    using Microsoft.Data.SqlClient;
 ﻿    using Ado;
 ﻿    using Ado.Schema;
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Entity.Design.PluralizationServices;
 using NUnit.Framework;
 using Simple.Data.Ado;
 using Simple.Data.Mocking.Ado;
@@ -8,6 +7,7 @@ namespace Simple.Data.IntegrationTest
 {
     using System.Globalization;
     using Extensions;
+    using PluralizeService.Core;
 
 
     public class SingularNamesResolutionTests : DatabaseIntegrationContext
@@ -29,7 +29,7 @@ namespace Simple.Data.IntegrationTest
         {
             var orderDate = new DateTime(2010, 1, 1);
             _db["Customer"].Find(_db["Customers"]["Orders"]["OrderDate"] == orderDate);
-            
+
             GeneratedSqlIs("select [dbo].[Customer].[CustomerId] from [dbo].[Customer] join [dbo].[Orders] on ([dbo].[Customer].[CustomerId] = [dbo].[Orders].[CustomerId]) where [dbo].[Orders].[OrderDate] = @p1");
             Parameter(0).Is(orderDate);
         }
@@ -42,12 +42,12 @@ namespace Simple.Data.IntegrationTest
         {
             schemaProvider.SetTables(new[] { "dbo", "Customers", "BASE TABLE" },
                                          new[] { "dbo", "Orders", "BASE TABLE" },
-                                         new[] { "dbo", "Company", "BASE TABLE"});
+                                         new[] { "dbo", "Company", "BASE TABLE" });
             schemaProvider.SetColumns(new[] { "dbo", "Customers", "CustomerId" },
                                           new[] { "dbo", "Orders", "OrderId" },
                                           new[] { "dbo", "Orders", "CustomerId" },
                                           new[] { "dbo", "Orders", "OrderDate" },
-                                          new[] { "dbo", "Company", "Id"});
+                                          new[] { "dbo", "Company", "Id" });
             schemaProvider.SetPrimaryKeys(new object[] { "dbo", "Customers", "CustomerId", 0 });
             schemaProvider.SetForeignKeys(new object[] { "FK_Orders_Customers", "dbo", "Orders", "CustomerId", "dbo", "Customers", "CustomerId", 0 });
         }
@@ -77,29 +77,27 @@ namespace Simple.Data.IntegrationTest
 
         class EntityPluralizer : IPluralizer
         {
-            private readonly PluralizationService _pluralizationService =
-                PluralizationService.CreateService(CultureInfo.GetCultureInfo("en-us")); // only English is supported
 
             public bool IsPlural(string word)
             {
-                return _pluralizationService.IsPlural(word);
+                return PluralizationProvider.IsPlural(word);
             }
 
             public bool IsSingular(string word)
             {
-                return _pluralizationService.IsSingular(word);
+                return PluralizationProvider.IsSingular(word);
             }
 
             public string Pluralize(string word)
             {
                 bool upper = (word.IsAllUpperCase());
-                word = _pluralizationService.Pluralize(word);
-                return upper ? word.ToUpper(_pluralizationService.Culture) : word;
+                word = PluralizationProvider.Pluralize(word);
+                return upper ? word.ToUpper() : word;
             }
 
             public string Singularize(string word)
             {
-                return _pluralizationService.Singularize(word);
+                return PluralizationProvider.Singularize(word);
             }
         }
 #endif
@@ -140,7 +138,7 @@ namespace Simple.Data.IntegrationTest
         {
             var orderDate = new DateTime(2010, 1, 1);
             _db.Customer.Find(_db.Customers.Orders.OrderDate == orderDate);
-            const string expectedSql = "select [dbo].[CUSTOMER].[CUSTOMER_ID] from [dbo].[CUSTOMER] join [dbo].[ORDER] on " + 
+            const string expectedSql = "select [dbo].[CUSTOMER].[CUSTOMER_ID] from [dbo].[CUSTOMER] join [dbo].[ORDER] on " +
                                        "([dbo].[CUSTOMER].[CUSTOMER_ID] = [dbo].[ORDER].[CUSTOMER_ID])"
                                      + " where [dbo].[ORDER].[ORDER_DATE] = @p1";
 
